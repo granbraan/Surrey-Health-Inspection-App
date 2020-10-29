@@ -1,7 +1,12 @@
 package com.example.poject_01.model;
 
 
+import android.util.Log;
 
+/**
+ * This class stores all related restaurant data
+ * Holds all related inspection data in inspection list - implemented with arraylist
+ */
 
 public class Restaurant implements Comparable<Restaurant> {
     private String trackingNum;
@@ -24,8 +29,20 @@ public class Restaurant implements Comparable<Restaurant> {
         this.type = type;
     }
 
-    public void setInspections(InspectionList inspections) {
-        this.inspections = inspections;
+    public void addInspection(Inspection inspection) {
+
+        inspections.addInspection(inspection);
+    }
+
+    public void printInspections(){
+        for(Inspection i : inspections) {
+
+            Log.d("Restaurant Inspections: ", " " + i.toString());
+        }
+    }
+
+    public String getTrackingNum() {
+        return trackingNum;
     }
 
     public String getName() {

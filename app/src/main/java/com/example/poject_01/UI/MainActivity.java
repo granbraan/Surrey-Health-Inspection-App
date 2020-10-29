@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.poject_01.R;
+import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
@@ -14,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     private RestaurantList restaurantList= RestaurantList.getInstance();
@@ -25,10 +25,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         readRestaurantData();
         readInspectionData();
-        for (Restaurant r : restaurantList){
-            Log.d("MainActivity", "(sorted) Restaurant: " + r);
-        }
-
+        Restaurant r  = restaurantList.getRestaurantIndex(2);
+        r.printInspections();
     }
 
 
@@ -78,8 +76,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setInspectionData(String[] tokens) {
-
-
+        String trackNum = tokens[0];
+        Inspection i = new Inspection(Integer.parseInt(tokens[1]),tokens[2],Integer.parseInt(tokens[3]),Integer.parseInt(tokens[4]),tokens[5], tokens[6]);
+        for (Restaurant r : restaurantList){
+            if( r.getTrackingNum() == trackNum){
+                r.addInspection(i);
+            }
+        }
     }
 
 }

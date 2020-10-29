@@ -17,7 +17,9 @@ public class RestaurantList implements Iterable<Restaurant>{
         restaurants.add(r) ;
     }
 
-
+    public Restaurant getRestaurantIndex(int i){
+        return restaurants.get(i);
+    }
 
     public void sort() {
         Collections.sort(restaurants);
