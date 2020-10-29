@@ -25,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         readRestaurantData();
         readInspectionData();
-        sortRestaurantData(restaurantList);
+        for (Restaurant r : restaurantList){
+            Log.d("MainActivity", "(sorted) Restaurant: " + r);
+        }
+
     }
 
 
@@ -65,14 +68,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void sortRestaurantData(RestaurantList restaurantList) {
-        //Collections.sort(restaurantList);
 
-    }
 
     private void setRestaurantData(String[] tokens) {
         Restaurant r = new Restaurant(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
         restaurantList.addRestaurant(r);
+        restaurantList.sort();
         Log.d("MainActivity", "Restaurant: " + r);
     }
 

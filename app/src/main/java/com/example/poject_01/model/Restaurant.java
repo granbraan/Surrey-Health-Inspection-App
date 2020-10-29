@@ -2,7 +2,8 @@ package com.example.poject_01.model;
 
 
 
-public class Restaurant {
+
+public class Restaurant implements Comparable<Restaurant> {
     private String trackingNum;
     private String name;
     private String address;
@@ -27,6 +28,15 @@ public class Restaurant {
         this.inspections = inspections;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int compareTo(Restaurant r) {
+        return this.name.compareTo(r.name);
+    }
+
 
 
     @Override
@@ -41,4 +51,6 @@ public class Restaurant {
                 ", longitude=" + longitude +
                 '}';
     }
+
+
 }

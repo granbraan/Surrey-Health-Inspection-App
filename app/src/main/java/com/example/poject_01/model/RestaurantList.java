@@ -2,11 +2,12 @@
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public class RestaurantList implements Iterable<Restaurant> //, Comparable<Restaurant>
-         {
+public class RestaurantList implements Iterable<Restaurant>{
+
     private List<Restaurant> restaurants = new ArrayList<>();
     private static RestaurantList instance;
 
@@ -18,8 +19,8 @@ public class RestaurantList implements Iterable<Restaurant> //, Comparable<Resta
 
 
 
-    private void sortRestaurants(Restaurant r) {
-
+    public void sort() {
+        Collections.sort(restaurants);
     }
 
 
@@ -30,21 +31,13 @@ public class RestaurantList implements Iterable<Restaurant> //, Comparable<Resta
         return instance;
     }
 
+
     @Override
     public Iterator<Restaurant> iterator() {
         return restaurants.iterator();
     }
-/*
-    public int compareTo(Restaurant compareFruit) {
 
-        String compareName = compareFruit.get;
 
-        //ascending order
-        return this.quantity - compareQuantity;
 
-        //descending order
-        //return compareQuantity - this.quantity;
-
-    }*/
 
 }
