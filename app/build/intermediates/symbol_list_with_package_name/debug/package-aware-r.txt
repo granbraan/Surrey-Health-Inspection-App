@@ -1511,6 +1511,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable restaurant
 drawable test_custom_background
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
@@ -1685,6 +1686,9 @@ id home
 id homeAsUp
 id honorRequest
 id icon
+id iconHazardColour
+id iconHazardLevel
+id iconRestaurantName
 id icon_group
 id ifRoom
 id ignore
@@ -1767,6 +1771,7 @@ id progress_horizontal
 id radio
 id ratio
 id rectangles
+id restaurantListView
 id reverseSawtooth
 id right
 id right_icon
@@ -1836,9 +1841,12 @@ id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id test_checkbox_android_button_tint
 id test_checkbox_app_button_tint
+id texRestaurantName
 id text
 id text2
 id textEnd
+id textInspectionDate
+id textNumIssues
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
@@ -1984,6 +1992,7 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout restaurant_list_view
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material

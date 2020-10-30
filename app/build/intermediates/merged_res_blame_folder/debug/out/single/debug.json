@@ -4,6 +4,10 @@
         "source": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
     },
     {
+        "merged": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\build\\intermediates\\res\\merged\\debug\\layout_restaurant_list_view.xml.flat",
+        "source": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\src\\main\\res\\layout\\restaurant_list_view.xml"
+    },
+    {
         "merged": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
         "source": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     },
@@ -34,6 +38,10 @@
     {
         "merged": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher.xml.flat",
         "source": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\build\\intermediates\\res\\merged\\debug\\drawable_restaurant.png.flat",
+        "source": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\src\\main\\res\\drawable\\restaurant.png"
     },
     {
         "merged": "C:\\Users\\Nickh\\Desktop\\CMPT_276\\cmpt276-group-project\\app\\build\\intermediates\\res\\merged\\debug\\raw_data_restaurants.csv.flat",

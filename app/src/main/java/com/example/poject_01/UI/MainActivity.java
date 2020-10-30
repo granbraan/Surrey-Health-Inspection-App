@@ -4,6 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
@@ -15,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,9 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         readRestaurantData();
         readInspectionData();
-        Restaurant r = restaurantList.getRestaurantIndex(7);
-        r.printAllInspections();
-        r.printViolations(1);
+        populateListView();
     }
 
 
@@ -71,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void populateListView() {
+        ArrayAdapter<Restaurant> restaurantAdapter = new RestaurantListAdapter();
+        ListView list = findViewById(R.id.restaurantListView);
+        list.setAdapter(restaurantAdapter);
+    }
 
 
     private void setRestaurantData(String[] tokens) {
@@ -99,4 +108,28 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
+        public RestaurantListAdapter() {
+            super(MainActivity.this, R.layout.restaurant_list_view, restaurantList.getList());
+        }
+
+
+        @Override
+        public View getView(int position,  View convertView, ViewGroup parent) {
+            View restaurantView = convertView;
+            if (restaurantView == null){
+                restaurantView = getLayoutInflater().inflate(R.layout.restaurant_list_view, parent, false);
+            }
+            Restaurant currentRestaurant = restaurantList.getRestaurantIndex(position);
+
+            ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+            imageView.setImageResource(R.drawable.restaurant);
+
+            return restaurantView;
+        }
+
+
+    }
+
 }

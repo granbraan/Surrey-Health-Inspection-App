@@ -1,5 +1,3 @@
-com/example/poject_01/BuildConfig.java
- com.example.poject_01.BuildConfig
 com/example/poject_01/model/Inspection.java
  com.example.poject_01.model.Inspection
 com/example/poject_01/model/RestaurantList.java
@@ -8,5 +6,8 @@ com/example/poject_01/model/Restaurant.java
  com.example.poject_01.model.Restaurant
 com/example/poject_01/UI/MainActivity.java
  com.example.poject_01.UI.MainActivity
+ com.example.poject_01.UI.MainActivity$RestaurantListAdapter
+com/example/poject_01/BuildConfig.java
+ com.example.poject_01.BuildConfig
 com/example/poject_01/model/InspectionList.java
  com.example.poject_01.model.InspectionList
