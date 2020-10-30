@@ -21,7 +21,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
@@ -135,18 +142,39 @@ public class MainActivity extends AppCompatActivity {
             Inspection latestInspection = currentRestaurant.getLatestInspection();
 
             // inspection date
+            String date = "" +latestInspection.getInspectionDate();
             TextView textDate = restaurantView.findViewById(R.id.textInspectionDate);
-            textDate.setText("" +latestInspection.getInspectionDate());
+            textDate.setText("" + refactorDate(date));
 
             // number of violations
             TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
-            textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations");
+            textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations" );
             }
 
 
             return restaurantView;
         }
 
+
+    }
+
+    private String refactorDate(String d) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate currentDate = LocalDate.now();
+        LocalDate inspectionDate = LocalDate.parse(d, formatter);
+        Log.d("MainActivity", "current date - "+ currentDate);
+        Log.d("MainActivity", "inspection date - "+ inspectionDate);
+        long difference = DAYS.between(inspectionDate, currentDate);;
+        Log.d("MainActivity", "difference = "+ difference);
+        if (difference <= 30){
+            return( difference + " days ago");
+        }
+        else if(difference <= 365){
+            return("" + inspectionDate.getMonth() + " " + inspectionDate.getDayOfMonth() );
+        }
+        else {
+            return("" + inspectionDate.getYear() + " "+ inspectionDate.getMonth() );
+        }
 
     }
 

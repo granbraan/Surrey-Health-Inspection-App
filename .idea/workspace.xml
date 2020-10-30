@@ -17,34 +17,21 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/dex/debug/mergeProjectDexDebug/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/dex/debug/mergeProjectDexDebug/classes.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/dex_archive_input_jar_hashes/debug/out" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/dex_archive_input_jar_hashes/debug/out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/example/poject_01/model/Inspection.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/example/poject_01/model/Inspection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/example/poject_01/model/InspectionList.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/example/poject_01/model/InspectionList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/example/poject_01/model/Restaurant.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/example/poject_01/model/Restaurant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/example/poject_01/UI/MainActivity.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/example/poject_01/UI/MainActivity.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/out/resources-debug.ap_" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/example/poject_01/model/Inspection.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/example/poject_01/model/Inspection.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/example/poject_01/model/InspectionList.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/example/poject_01/model/InspectionList.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/example/poject_01/model/Restaurant.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/example/poject_01/model/Restaurant.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/runtime_symbol_list/debug/R.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/runtime_symbol_list/debug/R.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/example/poject_01/UI/MainActivity.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/example/poject_01/UI/MainActivity.dex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/tmp/compileDebugJavaWithJavac/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/tmp/compileDebugJavaWithJavac/source-classes-mapping.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/poject_01/UI/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/poject_01/UI/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/poject_01/model/Inspection.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/poject_01/model/Inspection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/poject_01/model/InspectionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/poject_01/model/InspectionList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/poject_01/model/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/poject_01/model/Restaurant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/restaurant_list_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/restaurant_list_view.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -274,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604038976178</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="added most recent inspection: date, #issues, name">
+      <created>1604041935739</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1604041935739</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -293,7 +287,8 @@
     <MESSAGE value="initial commit 2.0" />
     <MESSAGE value="created listview layout" />
     <MESSAGE value="populated listview - added mock icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="populated listview - added mock icon" />
+    <MESSAGE value="added most recent inspection: date, #issues, name" />
+    <option name="LAST_COMMIT_MESSAGE" value="added most recent inspection: date, #issues, name" />
   </component>
   <component name="WindowStateProjectService">
     <state x="946" y="266" key="#com.intellij.ide.util.MemberChooser" timestamp="1604035189742">
@@ -316,26 +311,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="160" y="278" key="AndroidCreateResourceFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1603911508631" />
-    <state x="445" y="163" width="803" height="862" key="CommitChangelistDialog2" timestamp="1604038970197">
+    <state x="445" y="163" width="803" height="862" key="CommitChangelistDialog2" timestamp="1604041930199">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="445" y="163" width="803" height="862" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1604038970197" />
-    <state width="1058" height="0" key="GridCell.Tab.0.bottom" timestamp="1604040521089">
+    <state x="445" y="163" width="803" height="862" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1604041930199" />
+    <state width="1876" height="196" key="GridCell.Tab.0.bottom" timestamp="1604089103896">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1058" height="0" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604040521089" />
-    <state width="1058" height="0" key="GridCell.Tab.0.center" timestamp="1604040521089">
+    <state width="1876" height="196" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604089103896" />
+    <state width="1876" height="196" key="GridCell.Tab.0.center" timestamp="1604089103895">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1058" height="0" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604040521089" />
-    <state width="1058" height="0" key="GridCell.Tab.0.left" timestamp="1604040521089">
+    <state width="1876" height="196" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604089103895" />
+    <state width="1876" height="196" key="GridCell.Tab.0.left" timestamp="1604089103895">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1058" height="0" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604040521089" />
-    <state width="1058" height="0" key="GridCell.Tab.0.right" timestamp="1604040521089">
+    <state width="1876" height="196" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604089103895" />
+    <state width="1876" height="196" key="GridCell.Tab.0.right" timestamp="1604089103895">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1058" height="0" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604040521089" />
+    <state width="1876" height="196" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604089103895" />
     <state x="598" y="281" key="MultipleFileMergeDialog" timestamp="1604030871524">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -344,25 +339,29 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1603953806777" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1604031059797">
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1604041951443">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604031059797" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604041951443" />
     <state x="753" y="174" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1604023056611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="753" y="174" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1604023056611" />
-    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604039003587">
+    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604089516941">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604039003587" />
+    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604089516941" />
     <state x="55" y="367" width="1626" height="664" key="dock-window-1" timestamp="1603956552350">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="55" y="367" width="1626" height="664" key="dock-window-1/0.0.1920.1040@0.0.1920.1040" timestamp="1603956552350" />
-    <state x="616" y="172" width="672" height="676" key="search.everywhere.popup" timestamp="1604040328049">
+    <state x="704" y="421" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1604089513595">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="172" width="672" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1604040328049" />
+    <state x="704" y="421" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1604089513595" />
+    <state x="616" y="172" width="672" height="676" key="search.everywhere.popup" timestamp="1604046405224">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="172" width="672" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1604046405224" />
   </component>
 </project>
