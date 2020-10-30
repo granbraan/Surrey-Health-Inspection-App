@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             // jump over headers
             restaurantReader.readLine();
             while (((line = restaurantReader.readLine()) != null)) {
-                String[] tokens = line.split(",");
+                String[] tokens = line.split("\\*");
                 setRestaurantData(tokens);
             }
         }
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             inspectionReader.readLine();
             while (((line = inspectionReader.readLine()) != null)) {
-                String[] tokens = line.split(",");
+                String[] tokens = line.split("\\*");
                 setInspectionData(tokens);
             }
         }
@@ -78,27 +78,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setInspectionData(String[] tokens) {
+        String violations;
+        Log.d("MainActivity", "length of tokens should be 6 or 7:" + tokens.length);
         String trackNum = tokens[0];
-        if (tokens.length >= 7 ){
-            Inspection i = new Inspection(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), tokens[5], tokens[6]);
-            for (Restaurant r : restaurantList) {
-                if (Objects.equals(r.getTrackingNum(), trackNum))  {
-                    r.addInspection(i);
-                    Log.d("MainActivity", "Added: " + i + " to " + r.toString());
-                }
-
-            }
+        if (tokens.length < 7 ) {
+            violations = "";
         }
         else{
-            Inspection i = new Inspection(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), tokens[5], " ");
-            for (Restaurant r : restaurantList) {
-                if (Objects.equals(r.getTrackingNum(), trackNum)) {
-                    r.addInspection(i);
-
-                }
+            violations = tokens[6];
+        }
+        Inspection i = new Inspection(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), tokens[5], violations);
+        for (Restaurant r : restaurantList) {
+            if (Objects.equals(r.getTrackingNum(), trackNum)) {
+                r.addInspection(i);
+                Log.d("MainActivity", "Added: " + i + " to " + r.getName());
             }
+
         }
     }
-
-
 }
