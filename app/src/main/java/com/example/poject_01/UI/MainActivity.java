@@ -33,7 +33,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 // TODO: separate UI and Model more
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
-    private RestaurantList restaurantList= RestaurantList.getInstance();
+    private RestaurantList restaurantList = RestaurantList.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         else{
             violations = tokens[6];
         }
+        // store inspection into restaurant with matching tracking number
         Inspection i = new Inspection(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), tokens[5], violations);
         for (Restaurant r : restaurantList) {
             if (Objects.equals(r.getTrackingNum(), trackNum)) {
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    // TODO: seperate RestaurantListAdapter class
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
         public RestaurantListAdapter() {
             super(MainActivity.this, R.layout.restaurant_list_view, restaurantList.getList());
@@ -158,16 +159,17 @@ public class MainActivity extends AppCompatActivity {
             return restaurantView;
         }
 
-
     }
 
+    // outputs date according to specifications set in user stories
     private String refactorDate(String d) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate currentDate = LocalDate.now();
         LocalDate inspectionDate = LocalDate.parse(d, formatter);
+        long difference = DAYS.between(inspectionDate, currentDate);
+
         Log.d("MainActivity", "current date - "+ currentDate);
         Log.d("MainActivity", "inspection date - "+ inspectionDate);
-        long difference = DAYS.between(inspectionDate, currentDate);;
         Log.d("MainActivity", "difference = "+ difference);
         if (difference <= 30){
             return( difference + " days ago");
