@@ -12,7 +12,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f74d72ac-81f2-4524-a3f9-7907f9d051cb" name="Default Changelist" comment="" />
+    <list default="true" id="f74d72ac-81f2-4524-a3f9-7907f9d051cb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/restaurant_list_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -219,7 +224,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604030696778</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="initial commit 2.0">
+      <created>1604031033461</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1604031033461</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -235,7 +247,8 @@
     <MESSAGE value="violation lump parsed and added to corresponding inspection" />
     <MESSAGE value="completed issue" />
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="initial commit 2.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial commit 2.0" />
   </component>
   <component name="WindowStateProjectService">
     <state x="946" y="266" key="#com.intellij.ide.util.MemberChooser" timestamp="1604022747051">
@@ -258,26 +271,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="160" y="278" key="AndroidCreateResourceFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1603911508631" />
-    <state x="587" y="89" width="803" height="862" key="CommitChangelistDialog2" timestamp="1604030692103">
+    <state x="587" y="89" width="803" height="862" key="CommitChangelistDialog2" timestamp="1604031031853">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="587" y="89" width="803" height="862" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1604030692103" />
-    <state width="1876" height="426" key="GridCell.Tab.0.bottom" timestamp="1604029233679">
+    <state x="587" y="89" width="803" height="862" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1604031031853" />
+    <state width="1876" height="839" key="GridCell.Tab.0.bottom" timestamp="1604031207554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1876" height="426" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604029233679" />
-    <state width="1876" height="426" key="GridCell.Tab.0.center" timestamp="1604029233679">
+    <state width="1876" height="839" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604031207554" />
+    <state width="1876" height="839" key="GridCell.Tab.0.center" timestamp="1604031207554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1876" height="426" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604029233679" />
-    <state width="1876" height="426" key="GridCell.Tab.0.left" timestamp="1604029233678">
+    <state width="1876" height="839" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604031207554" />
+    <state width="1876" height="839" key="GridCell.Tab.0.left" timestamp="1604031207554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1876" height="426" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604029233678" />
-    <state width="1876" height="426" key="GridCell.Tab.0.right" timestamp="1604029233679">
+    <state width="1876" height="839" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604031207554" />
+    <state width="1876" height="839" key="GridCell.Tab.0.right" timestamp="1604031207554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1876" height="426" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604029233679" />
+    <state width="1876" height="839" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604031207554" />
     <state x="598" y="281" key="MultipleFileMergeDialog" timestamp="1604030871524">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -286,10 +299,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1603953806777" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1604030723557">
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1604031059797">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604030723557" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604031059797" />
     <state x="753" y="174" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1604023056611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
