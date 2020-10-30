@@ -18,6 +18,7 @@ import java.nio.charset.Charset;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    // all restaurants added to this list, sorted by name - alphabetical order.
     private RestaurantList restaurantList= RestaurantList.getInstance();
 
     @Override
@@ -26,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         readRestaurantData();
         readInspectionData();
-        Restaurant r  = restaurantList.getRestaurantIndex(5);
-        r.printInspections();
     }
 
 
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private void setRestaurantData(String[] tokens) {
         Restaurant r = new Restaurant(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
         restaurantList.addRestaurant(r);
-        Log.d("MainActivity", "Restaurant: " + r);
+        Log.d("MainActivity", "Added : " + r + " to restaurantList");
     }
 
 
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             for (Restaurant r : restaurantList) {
                 if (Objects.equals(r.getTrackingNum(), trackNum))  {
                     r.addInspection(i);
-
+                    Log.d("MainActivity", "Added: " + i + " to " + r.toString());
                 }
 
             }

@@ -4,7 +4,6 @@ import android.util.Log;
 
 /**
  * This class holds all data relating to one inspection
- *
  */
 public class Inspection implements Comparable<Inspection> {
     private int inspectionDate;
