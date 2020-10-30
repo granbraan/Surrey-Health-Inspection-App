@@ -14,10 +14,11 @@ public class InspectionList implements Iterable<Inspection> {
     private static InspectionList instance;
 
 
-
     public void addInspection(Inspection i) {
-
         inspections.add(i) ;
+    }
+    public Inspection getInspectionIndex(int i){
+        return inspections.get(i);
     }
 
     @Override

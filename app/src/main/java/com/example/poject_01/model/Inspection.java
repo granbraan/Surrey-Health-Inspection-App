@@ -24,7 +24,7 @@ public class Inspection implements Comparable<Inspection> {
         this.hazardRating = hazardRating;
         // parsing violation lump - storing each violation as element in array list "vioLump"
         String[] tokens = vioLump.split("\\|");
-        Log.d("Inspection Class", "vioLump size:  " + tokens.length);
+        Log.d("Inspection Class", "vioLump size:  " + tokens.length  +"\n");
         for (int i=0; i<tokens.length; i++){
             this.vioLump.add(tokens[i]);
         }
@@ -51,7 +51,11 @@ public class Inspection implements Comparable<Inspection> {
                 '}';
     }
 
-
+    public void printViolations(){
+        for (int i=0; i<vioLump.size(); i++){
+            Log.d("Violation", vioLump.get(i)  +"\n");
+        }
+    }
 
     public int compareTo(Inspection compareInspection) {
         int compareDate = (compareInspection.getInspectionDate());

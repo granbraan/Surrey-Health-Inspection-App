@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         readRestaurantData();
         readInspectionData();
+        Restaurant r = restaurantList.getRestaurantIndex(7);
+        r.printAllInspections();
+        r.printViolations(1);
     }
 
 
@@ -73,13 +76,13 @@ public class MainActivity extends AppCompatActivity {
     private void setRestaurantData(String[] tokens) {
         Restaurant r = new Restaurant(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
         restaurantList.addRestaurant(r);
-        Log.d("MainActivity", "Added : " + r + " to restaurantList");
+        Log.d("MainActivity", "Added : " + r + " to restaurantList"  +"\n");
     }
 
 
     private void setInspectionData(String[] tokens) {
         String violations;
-        Log.d("MainActivity", "length of tokens should be 6 or 7:" + tokens.length);
+        Log.d("MainActivity", "length of tokens should be 6 or 7: " + tokens.length +"\n");
         String trackNum = tokens[0];
         if (tokens.length < 7 ) {
             violations = "";
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         for (Restaurant r : restaurantList) {
             if (Objects.equals(r.getTrackingNum(), trackNum)) {
                 r.addInspection(i);
-                Log.d("MainActivity", "Added: " + i + " to " + r.getName());
+                Log.d("MainActivity", "Added: " + i + " to " + r.getName() +"\n");
             }
 
         }

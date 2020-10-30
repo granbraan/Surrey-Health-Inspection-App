@@ -26,10 +26,6 @@ import java.util.List;
     }
 
 
-    public void sort() {
-        Collections.sort(restaurants);
-    }
-
 
     public static RestaurantList getInstance(){
         if (instance == null){

@@ -35,10 +35,16 @@ public class Restaurant implements Comparable<Restaurant> {
         inspections.sort();
     }
 
-    public void printInspections(){
+    public void printAllInspections(){
         for(Inspection i : inspections) {
-            Log.d("Restaurant Inspections: ", " " + i.toString());
+            Log.d("Restaurant", name + " " +  i.toString()  +"\n");
         }
+    }
+
+
+    public void printViolations(int index){
+        Inspection i = inspections.getInspectionIndex(index);
+        i.printViolations();
     }
 
     public String getTrackingNum() {
