@@ -205,7 +205,21 @@
       <option name="project" value="LOCAL" />
       <updated>1604027910829</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="initial commit">
+      <created>1604030673768</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1604030673768</updated>
+    </task>
+    <task id="LOCAL-00010" summary="initial commit">
+      <created>1604030696778</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1604030696778</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -220,7 +234,8 @@
     <MESSAGE value="working on parsing violation lump for each inspection" />
     <MESSAGE value="violation lump parsed and added to corresponding inspection" />
     <MESSAGE value="completed issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="completed issue" />
+    <MESSAGE value="initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
   </component>
   <component name="WindowStateProjectService">
     <state x="946" y="266" key="#com.intellij.ide.util.MemberChooser" timestamp="1604022747051">
@@ -243,10 +258,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="160" y="278" key="AndroidCreateResourceFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1603911508631" />
-    <state x="587" y="89" width="803" height="862" key="CommitChangelistDialog2" timestamp="1604027909599">
+    <state x="587" y="89" width="803" height="862" key="CommitChangelistDialog2" timestamp="1604030692103">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="587" y="89" width="803" height="862" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1604027909599" />
+    <state x="587" y="89" width="803" height="862" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1604030692103" />
     <state width="1876" height="426" key="GridCell.Tab.0.bottom" timestamp="1604029233679">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -263,14 +278,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1876" height="426" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604029233679" />
+    <state x="598" y="281" key="MultipleFileMergeDialog" timestamp="1604030871524">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="598" y="281" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1604030871524" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1603953806777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1603953806777" />
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1604027913324">
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1604030723557">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604027913324" />
+    <state x="552" y="240" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1604030723557" />
     <state x="753" y="174" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1604023056611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
