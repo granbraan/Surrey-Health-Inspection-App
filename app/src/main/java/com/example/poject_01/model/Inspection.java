@@ -1,31 +1,54 @@
 package com.example.poject_01.model;
 
-public class Inspection {
+import android.util.Log;
+
+/**
+ * This class holds all data relating to one inspection
+ *
+ */
+public class Inspection implements Comparable<Inspection> {
     private int inspectionDate;
-    private String inspType;
+    private String inspectionType;
     private int numCritical;
     private int  numNonCritical;
     private String  hazardRating;
     private String violLump;
 
-    public Inspection(int inspectionDate, String inspType, int numCritical, int numNonCritical, String hazardRating, String violLump) {
+    public Inspection(int inspectionDate, String inspectionType, int numCritical, int numNonCritical, String hazardRating, String violLump) {
         this.inspectionDate = inspectionDate;
-        this.inspType = inspType;
+        this.inspectionType = inspectionType;
         this.numCritical = numCritical;
         this.numNonCritical = numNonCritical;
         this.hazardRating = hazardRating;
         this.violLump = violLump;
     }
 
+    public int getInspectionDate() {
+        return inspectionDate;
+    }
+
+    public void printDate(){
+        Log.d("date", "" + this.inspectionDate);
+    }
+
     @Override
     public String toString() {
         return "Inspection{" +
                 "inspectionDate=" + inspectionDate +
-                ", inspType='" + inspType + '\'' +
+                ", inspType='" + inspectionType + '\'' +
                 ", numCritical=" + numCritical +
                 ", numNonCritical=" + numNonCritical +
                 ", hazardRating=" + hazardRating +
                 ", violLump='" + violLump + '\'' +
                 '}';
     }
+    public int compareTo(Inspection compareInspection) {
+        int compareDate = (compareInspection.getInspectionDate());
+
+        //descending order
+        return compareDate - this.inspectionDate;
+
+    }
+
+
 }

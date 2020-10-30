@@ -6,20 +6,25 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public class RestaurantList implements Iterable<Restaurant>{
-
+ /**
+  * This class holds each restaurant, sorted by (#-a-z)
+  *
+  */
+ public class RestaurantList implements Iterable<Restaurant>{
     private List<Restaurant> restaurants = new ArrayList<>();
     private static RestaurantList instance;
 
 
-
     public void addRestaurant(Restaurant r) {
         restaurants.add(r) ;
+        Collections.sort(restaurants);
     }
+
 
     public Restaurant getRestaurantIndex(int i){
         return restaurants.get(i);
     }
+
 
     public void sort() {
         Collections.sort(restaurants);
@@ -39,7 +44,4 @@ public class RestaurantList implements Iterable<Restaurant>{
         return restaurants.iterator();
     }
 
-
-
-
-}
+ }

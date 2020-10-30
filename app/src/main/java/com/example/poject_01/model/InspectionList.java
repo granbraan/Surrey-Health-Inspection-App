@@ -1,9 +1,14 @@
 package com.example.poject_01.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This class holds all the inspections related to one restaurant,
+ * sorted in descending order.
+ */
 public class InspectionList implements Iterable<Inspection> {
     private List<Inspection> inspections = new ArrayList<>();
     private static InspectionList instance;
@@ -11,6 +16,7 @@ public class InspectionList implements Iterable<Inspection> {
 
 
     public void addInspection(Inspection i) {
+
         inspections.add(i) ;
     }
 
@@ -19,6 +25,9 @@ public class InspectionList implements Iterable<Inspection> {
         return inspections.iterator();
     }
 
+    public void sort() {
+        Collections.sort(inspections);
+    }
 
     public static InspectionList getInstance(){
         if (instance == null){

@@ -27,16 +27,16 @@ public class Restaurant implements Comparable<Restaurant> {
         this.latitude = latitude;
         this.longitude = longitude;
         this.type = type;
+        this.inspections = new InspectionList();
     }
 
     public void addInspection(Inspection inspection) {
-
         inspections.addInspection(inspection);
+        inspections.sort();
     }
 
     public void printInspections(){
         for(Inspection i : inspections) {
-
             Log.d("Restaurant Inspections: ", " " + i.toString());
         }
     }
