@@ -30,6 +30,7 @@ import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
+// TODO: separate UI and Model more
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
     private RestaurantList restaurantList= RestaurantList.getInstance();
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         readInspectionData();
         populateListView();
     }
-
 
 
     private void readRestaurantData() {
@@ -65,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void setRestaurantData(String[] tokens) {
+        Restaurant r = new Restaurant(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
+        restaurantList.addRestaurant(r);
+        Log.d("MainActivity", "Added : " + r + " to restaurantList"  +"\n");
+    }
+
+
     private void readInspectionData() {
         InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
         BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, Charset.forName("UTF-8")));
@@ -80,19 +87,6 @@ public class MainActivity extends AppCompatActivity {
             Log.wtf("MainActivity", "error reading file on line: " + e);
             e.printStackTrace();
         }
-    }
-
-    private void populateListView() {
-        ArrayAdapter<Restaurant> restaurantAdapter = new RestaurantListAdapter();
-        ListView list = findViewById(R.id.restaurantListView);
-        list.setAdapter(restaurantAdapter);
-    }
-
-
-    private void setRestaurantData(String[] tokens) {
-        Restaurant r = new Restaurant(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
-        restaurantList.addRestaurant(r);
-        Log.d("MainActivity", "Added : " + r + " to restaurantList"  +"\n");
     }
 
 
@@ -116,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private void populateListView() {
+        ArrayAdapter<Restaurant> restaurantAdapter = new RestaurantListAdapter();
+        ListView list = findViewById(R.id.restaurantListView);
+        list.setAdapter(restaurantAdapter);
+    }
+
+
+
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
         public RestaurantListAdapter() {
             super(MainActivity.this, R.layout.restaurant_list_view, restaurantList.getList());
@@ -138,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
             TextView textName = restaurantView.findViewById(R.id.textRestaurantName);
             textName.setText(currentRestaurant.getName());
 
+            // checking for recent inspections
             if (currentRestaurant.numInspections() > 0){
             Inspection latestInspection = currentRestaurant.getLatestInspection();
 
@@ -150,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
             textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations" );
             }
-
 
             return restaurantView;
         }
