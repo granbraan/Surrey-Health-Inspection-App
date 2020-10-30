@@ -35,10 +35,12 @@ public class Restaurant implements Comparable<Restaurant> {
         inspections.sort();
     }
 
-    public void printAllInspections(){
+    public int numInspections(){
+        int count = 0;
         for(Inspection i : inspections) {
-            Log.d("Restaurant", name + " " +  i.toString()  +"\n");
+            count += 1;
         }
+        return(count);
     }
 
 
@@ -53,6 +55,11 @@ public class Restaurant implements Comparable<Restaurant> {
 
     public String getName() {
         return name;
+    }
+
+    public Inspection getLatestInspection(){
+        return (inspections.getInspectionIndex(0));
+
     }
 
     @Override

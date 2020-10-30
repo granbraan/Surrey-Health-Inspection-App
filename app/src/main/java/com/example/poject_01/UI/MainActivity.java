@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
@@ -20,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -123,8 +123,26 @@ public class MainActivity extends AppCompatActivity {
             }
             Restaurant currentRestaurant = restaurantList.getRestaurantIndex(position);
 
+            // restaurant icon
             ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
             imageView.setImageResource(R.drawable.restaurant);
+
+            // name
+            TextView textName = restaurantView.findViewById(R.id.textRestaurantName);
+            textName.setText(currentRestaurant.getName());
+
+            if (currentRestaurant.numInspections() > 0){
+            Inspection latestInspection = currentRestaurant.getLatestInspection();
+
+            // inspection date
+            TextView textDate = restaurantView.findViewById(R.id.textInspectionDate);
+            textDate.setText("" +latestInspection.getInspectionDate());
+
+            // number of violations
+            TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
+            textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations");
+            }
+
 
             return restaurantView;
         }

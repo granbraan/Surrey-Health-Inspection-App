@@ -1841,12 +1841,12 @@ id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id test_checkbox_android_button_tint
 id test_checkbox_app_button_tint
-id texRestaurantName
 id text
 id text2
 id textEnd
 id textInspectionDate
 id textNumIssues
+id textRestaurantName
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart

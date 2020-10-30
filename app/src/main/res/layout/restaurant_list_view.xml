@@ -7,7 +7,7 @@
     android:paddingBottom="25dp">
 
     <TextView
-        android:id="@+id/texRestaurantName"
+        android:id="@+id/textRestaurantName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -22,7 +22,7 @@
         android:layout_height="18dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/texRestaurantName"
+        app:layout_constraintStart_toEndOf="@+id/textRestaurantName"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -30,19 +30,20 @@
         android:id="@+id/textNumIssues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="20dp"
-        android:text="# issues"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="16dp"
+        android:text="No Recent Inspections"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/texRestaurantName" />
+        app:layout_constraintTop_toBottomOf="@+id/textRestaurantName" />
 
     <TextView
         android:id="@+id/textInspectionDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Date"
+        android:layout_marginTop="52dp"
+        android:text="No Recent Inspections"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textNumIssues" />
 
@@ -53,7 +54,7 @@
         android:layout_marginStart="112dp"
         android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/texRestaurantName"
+        app:layout_constraintTop_toBottomOf="@+id/textRestaurantName"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <ImageView
@@ -63,7 +64,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="112dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/texRestaurantName"
+        app:layout_constraintTop_toBottomOf="@+id/textRestaurantName"
         app:srcCompat="@android:drawable/btn_dialog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

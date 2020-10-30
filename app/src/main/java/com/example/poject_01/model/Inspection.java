@@ -35,6 +35,9 @@ public class Inspection implements Comparable<Inspection> {
         return inspectionDate;
     }
 
+    public int getNumViolations(){
+        return (numCritical + numCritical);
+    }
     public void printDate(){
         Log.d("date", "" + this.inspectionDate);
     }
