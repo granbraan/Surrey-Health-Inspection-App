@@ -44,10 +44,7 @@ public class Restaurant implements Comparable<Restaurant> {
     }
 
 
-    public void printViolations(int index){
-        Inspection i = inspections.getInspectionIndex(index);
-        i.printViolations();
-    }
+
 
     public String getTrackingNum() {
         return trackingNum;
