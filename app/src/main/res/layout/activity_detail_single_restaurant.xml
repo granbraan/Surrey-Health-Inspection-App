@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.detail_single_restaurant">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:translationX="150sp"
+        android:translationY="80sp">
+
+        <TextView
+            android:id="@+id/restaurant_name_dsp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="restaurant_name_dsp" />
+
+        <TextView
+            android:id="@+id/address_dsp"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:text="address_dsp" />
+
+        <TextView
+            android:id="@+id/gps_cords_dsp"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:text="gps_cords_dsp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.Poject_01.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.Poject_01.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/content_detail_single_restaurant" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:translationX="20sp"
+        android:translationY="80sp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="Restaurant name - "
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:text="Address - "
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:text="GPs cords - "
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
