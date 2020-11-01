@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
     tools:context=".UI.detail_single_restaurant">
 
     <LinearLayout
@@ -11,25 +12,31 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:translationX="150sp"
-        android:translationY="80sp">
+        android:translationY="250sp">
 
         <TextView
             android:id="@+id/restaurant_name_dsp"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:text="restaurant_name_dsp" />
+            android:layout_height="34dp"
+            android:text="restaurant_name_dsp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/address_dsp"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:text="address_dsp" />
+            android:text="address_dsp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/gps_cords_dsp"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:text="gps_cords_dsp" />
+            android:text="gps_cords_dsp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -42,7 +49,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/cardview_dark_background"
             app:popupTheme="@style/Theme.Poject_01.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -55,29 +62,74 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:translationX="20sp"
-        android:translationY="80sp">
+        android:translationY="250sp">
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:text="Restaurant name - "
-            android:textAlignment="textEnd" />
+            android:textAlignment="textEnd"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="33dp"
             android:text="Address - "
-            android:textAlignment="textEnd" />
+            android:textAlignment="textEnd"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:text="GPs cords - "
-            android:textAlignment="textEnd" />
+            android:text="GPS cords - "
+            android:textAlignment="textEnd"
+            android:textColor="@color/black" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="304dp"
+        android:layout_height="169dp"
+        android:translationX="50sp"
+        android:translationY="70sp"
+        app:srcCompat="@drawable/restaurant_image" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inspection List:"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:translationX="20sp"
+        android:translationY="380sp" />
+
+    <LinearLayout
+        android:id="@+id/lottie_animation"
+        android:layout_width="64dp"
+        android:layout_height="69dp"
+        android:orientation="horizontal"
+        android:translationX="150sp"
+        android:translationY="360sp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/welcome_gift"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/inspection_lottie" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="361dp"
+        android:layout_height="232dp"
+        android:translationX="20sp"
+        android:translationY="430sp" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

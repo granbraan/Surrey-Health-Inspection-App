@@ -28,6 +28,7 @@ public class detail_single_restaurant extends AppCompatActivity {
         Display_name_and_location();
 
 
+
     }
 
     private void Display_name_and_location() {
