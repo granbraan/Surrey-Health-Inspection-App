@@ -41,6 +41,9 @@ public class Restaurant implements Comparable<Restaurant> {
         }
     }
 
+    public InspectionList getInspections() {
+        return inspections;
+    }
 
     public void printViolations(int index){
         Inspection i = inspections.getInspectionIndex(index);

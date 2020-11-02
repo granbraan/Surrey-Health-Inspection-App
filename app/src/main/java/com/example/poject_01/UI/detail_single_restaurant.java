@@ -2,12 +2,15 @@ package com.example.poject_01.UI;
 
 import android.os.Bundle;
 
+import com.example.poject_01.model.MyAdapter;
 import com.example.poject_01.model.RestaurantList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +20,7 @@ import com.example.poject_01.R;
 public class detail_single_restaurant extends AppCompatActivity {
 
     private int index =0;
+    private RecyclerView recycler_view;
     private RestaurantList restaurant_list = RestaurantList.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +30,10 @@ public class detail_single_restaurant extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Display_name_and_location();
-
-
+        recycler_view=findViewById(R.id.recycler_view);
+        MyAdapter myAdapter = new MyAdapter(this,restaurant_list.getRestaurantIndex(index).getInspections());
+        recycler_view.setAdapter(myAdapter);
+        recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
     }
 

@@ -57,6 +57,22 @@ public class Inspection implements Comparable<Inspection> {
         }
     }
 
+    public String getInspectionType() {
+        return inspectionType;
+    }
+
+    public int getNumCritical() {
+        return numCritical;
+    }
+
+    public int getNumNonCritical() {
+        return numNonCritical;
+    }
+
+    public String getHazardRating() {
+        return hazardRating;
+    }
+
     public int compareTo(Inspection compareInspection) {
         int compareDate = (compareInspection.getInspectionDate());
 

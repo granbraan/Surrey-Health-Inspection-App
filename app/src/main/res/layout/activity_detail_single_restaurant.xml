@@ -18,7 +18,7 @@
             android:id="@+id/restaurant_name_dsp"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:text="restaurant_name_dsp"
+            android:text="@string/restaurant_name_dsp"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -26,7 +26,7 @@
             android:id="@+id/address_dsp"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:text="address_dsp"
+            android:text="@string/address_dsp"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -34,7 +34,7 @@
             android:id="@+id/gps_cords_dsp"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:text="gps_cords_dsp"
+            android:text="@string/gps_cords_dsp"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -126,6 +126,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="361dp"
         android:layout_height="232dp"
         android:translationX="20sp"
