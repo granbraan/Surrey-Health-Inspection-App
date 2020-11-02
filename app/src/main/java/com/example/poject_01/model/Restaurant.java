@@ -43,6 +43,9 @@ public class Restaurant implements Comparable<Restaurant> {
         return(count);
     }
 
+    public InspectionList getInspections() {
+        return inspections;
+    }
 
 
 
@@ -64,7 +67,17 @@ public class Restaurant implements Comparable<Restaurant> {
         return this.name.compareTo(r.name);
     }
 
+    public String getAddress() {
+        return address;
+    }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
 
     @Override
     public String toString() {

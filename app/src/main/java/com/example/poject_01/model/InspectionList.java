@@ -12,28 +12,27 @@ import java.util.List;
 public class InspectionList implements Iterable<Inspection> {
     private List<Inspection> inspections = new ArrayList<>();
     private static InspectionList instance;
+    private int num_inspection =0 ;
 
 
     public void addInspection(Inspection i) {
-        inspections.add(i) ;
+        inspections.add(i) ;num_inspection++;
     }
-
     public Inspection getInspectionIndex(int i){
         return inspections.get(i);
     }
 
-    public int size(){
-        return(inspections.size());
+    public int getNum_inspection() {
+        return num_inspection;
     }
-
-    public void sort() {
-        Collections.sort(inspections);
-    }
-
 
     @Override
     public Iterator<Inspection> iterator() {
         return inspections.iterator();
+    }
+
+    public void sort() {
+        Collections.sort(inspections);
     }
 
     public static InspectionList getInstance(){
