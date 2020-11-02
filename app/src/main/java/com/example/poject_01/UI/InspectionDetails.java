@@ -21,19 +21,16 @@ public class InspectionDetails extends AppCompatActivity {
     private static final String EXTRA_INDEX = "inspectionIndex";
     private Inspection curInspection;
     private int index;
+    private int restaurant_index;
     private static InspectionList instance = InspectionList.getInstance();
 
-    public static Intent makeLaunchIntent(Context c, int index) {
-        Intent intent = new Intent(c, InspectionDetails.class);
-        intent.putExtra(EXTRA_INDEX, index);
-        return intent;
-    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspection_details);
+        extractDataFromIntent();
 
         populateListView();
 
@@ -41,7 +38,7 @@ public class InspectionDetails extends AppCompatActivity {
 
     private void populateListView() {
         //get list
-        curInspection = instance.getInspectionIndex(index);
+        //curInspection = instance.getInspectionIndex(index);
 
 
         //build adapter
@@ -55,8 +52,18 @@ public class InspectionDetails extends AppCompatActivity {
     }
 
     private void extractDataFromIntent() {
-        Intent intent = new Intent();
-        index = intent.getIntExtra("EXTRA_INDEX", 0);
+       // Intent intent = getIntent();
+        //int data = intent.getIntExtra("EXTRA_INDEX",0);
+        int data = getIntent().getIntExtra("EXTRA_INDEX",0);
+        index = data;
+        restaurant_index = getIntent().getIntExtra("REST_INDEX",0);
+    }
+
+
+    public static Intent makeLaunchIntent(Context c, int index) {
+        Intent intent =  new Intent(c,InspectionDetails.class);
+        intent.putExtra("EXTRA_INDEX",index);
+        return intent;
     }
 
 }
