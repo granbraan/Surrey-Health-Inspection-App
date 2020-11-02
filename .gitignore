@@ -14,3 +14,11 @@
 .cxx
 local.properties
 
+/.idea/compiler.xml
+/.idea/.name
+/.idea/jarRepositories.xml
+/.idea/gradle.xml
+/.idea/misc.xml
+/.idea/vcs.xml
+
+/.idea/.gitignore
