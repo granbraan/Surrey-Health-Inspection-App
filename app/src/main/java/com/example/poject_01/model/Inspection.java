@@ -41,6 +41,11 @@ public class Inspection implements Comparable<Inspection> {
         return (numCritical + numCritical);
     }
 
+    public String getHazardRating() {
+        return hazardRating;
+    }
+
+
 
     public List <String> getViolationList(){
         return vioList;

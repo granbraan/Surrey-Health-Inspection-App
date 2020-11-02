@@ -55,7 +55,7 @@
         android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textRestaurantName"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@color/design_default_color_background" />
 
     <ImageView
         android:id="@+id/iconHazardLevel"

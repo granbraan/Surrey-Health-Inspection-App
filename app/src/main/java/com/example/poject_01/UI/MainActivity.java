@@ -2,14 +2,17 @@ package com.example.poject_01.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
@@ -21,11 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
         readRestaurantData();
         readInspectionData();
         populateListView();
+        registerClick();
     }
+
 
 
     private void readRestaurantData() {
@@ -118,6 +120,17 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(restaurantAdapter);
     }
 
+    private void registerClick() {
+        ListView listView = findViewById(R.id.restaurantListView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "YOu clicked: " + position, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
 
     // TODO: seperate RestaurantListAdapter class
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
@@ -154,11 +167,27 @@ public class MainActivity extends AppCompatActivity {
             // number of violations
             TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
             textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations" );
+
+            // setting hazard colour
+            setHazardColour(restaurantView, latestInspection);
             }
 
             return restaurantView;
         }
 
+    }
+
+    private void setHazardColour(View v, Inspection i) {
+        String hazardRating = i.getHazardRating();
+        if (Objects.equals(hazardRating.toUpperCase(), "LOW") ){
+            v.setBackgroundColor(Color.GREEN);
+        }
+        else if (Objects.equals(hazardRating.toUpperCase(), "MODERATE")){
+            v.setBackgroundColor(Color.YELLOW);
+        }
+        else if (Objects.equals(hazardRating.toUpperCase(), "HIGH")){
+            v.setBackgroundColor(Color.RED);
+        }
     }
 
     // outputs date according to specifications set in user stories
@@ -182,7 +211,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    //latest
 
 }
