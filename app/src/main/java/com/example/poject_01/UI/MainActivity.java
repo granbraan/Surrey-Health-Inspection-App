@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
@@ -34,6 +35,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
     private RestaurantList restaurantList = RestaurantList.getInstance();
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +128,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, "YOu clicked: " + position, Toast.LENGTH_SHORT).show();
-
+                intent = detail_single_restaurant.makeIntent(MainActivity.this,position);
+                startActivity(intent);
             }
         });
 

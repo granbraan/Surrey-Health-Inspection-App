@@ -1,5 +1,7 @@
 package com.example.poject_01.UI;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.poject_01.model.MyAdapter;
@@ -29,11 +31,20 @@ public class detail_single_restaurant extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        extract_data_from_intent();
+
         Display_name_and_location();
         recycler_view=findViewById(R.id.recycler_view);
         MyAdapter myAdapter = new MyAdapter(this,restaurant_list.getRestaurantIndex(index).getInspections());
         recycler_view.setAdapter(myAdapter);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+    private void extract_data_from_intent() {
+        Intent intent = getIntent();
+        int data = intent.getIntExtra("index=",0);
+        index = data;
 
     }
 
@@ -46,6 +57,13 @@ public class detail_single_restaurant extends AppCompatActivity {
         String Longitude = String.valueOf(restaurant_list.getRestaurantIndex(index).getLongitude());
         set_address.setText(Latitude+" (Latitude)\n"+Longitude+" (Longitude)");
 
+    }
+
+    public  static Intent makeIntent(Context context, int ind)
+    {
+        Intent intent =  new Intent(context,detail_single_restaurant.class);
+        intent.putExtra("index=",ind);
+        return intent;
     }
 }
 
