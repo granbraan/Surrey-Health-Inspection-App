@@ -23,13 +23,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="hzrd_lvl"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.355"
+                app:layout_constraintHorizontal_bias="0.342"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.9" />
+                app:layout_constraintVertical_bias="0.923" />
 
             <TextView
                 android:id="@+id/date"
@@ -37,7 +37,7 @@
                 android:layout_height="19dp"
                 android:text="date"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.344"
@@ -50,24 +50,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Number of Critical issues = 3"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.558"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.36" />
+                app:layout_constraintVertical_bias="0.369" />
 
             <TextView
                 android:id="@+id/num_non_crit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Number of non-critical issues = 3"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.626"
+                app:layout_constraintHorizontal_bias="0.547"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.63" />
+                app:layout_constraintVertical_bias="0.652" />
 
             <ImageView
                 android:id="@+id/imageView2"

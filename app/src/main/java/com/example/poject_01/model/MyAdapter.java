@@ -40,18 +40,18 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
         holder.non_crit_t.setText("Number of non critical issues = "+ inspection_list.getInspectionIndex(position).getNumNonCritical());
         holder.hazard_t.setText("Hazard level = "+inspection_list.getInspectionIndex(position).getHazardRating());
 
-        if(inspection_list.getInspectionIndex(position).getHazardRating()=="Low")
-        {
-            holder.image_t.setImageResource(R.drawable.low_risk);
-        }
-        else if(inspection_list.getInspectionIndex(position).getHazardRating()=="Moderate")
-        {
-            holder.image_t.setImageResource(R.drawable.medium_risk);
-        }
-        else
-        {
-            holder.image_t.setImageResource(R.drawable.high_risk);
-        }
+//        if(inspection_list.getInspectionIndex(position).getHazardRating()=="Low")
+//        {
+//            holder.image_t.setImageResource(R.drawable.low_risk);
+//        }
+//        else if(inspection_list.getInspectionIndex(position).getHazardRating()=="Moderate")
+//        {
+//            holder.image_t.setImageResource(R.drawable.medium_risk);
+//        }
+//        else
+//        {
+//            holder.image_t.setImageResource(R.drawable.high_risk);
+//        }
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

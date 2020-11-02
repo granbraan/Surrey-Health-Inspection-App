@@ -53,9 +53,12 @@ public class detail_single_restaurant extends AppCompatActivity {
         set_name.setText(restaurant_list.getRestaurantIndex(index).getName());
 
         TextView set_address = findViewById(R.id.address_dsp);
+        set_address.setText(restaurant_list.getRestaurantIndex(index).getAddress());
+
+        TextView set_gps = findViewById(R.id.gps_cords_dsp);
         String Latitude = String.valueOf(restaurant_list.getRestaurantIndex(index).getLatitude());
         String Longitude = String.valueOf(restaurant_list.getRestaurantIndex(index).getLongitude());
-        set_address.setText(Latitude+" (Latitude)\n"+Longitude+" (Longitude)");
+        set_gps.setText(Latitude+" (Latitude)\n"+Longitude+" (Longitude)");
 
     }
 

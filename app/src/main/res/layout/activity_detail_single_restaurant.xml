@@ -20,7 +20,7 @@
             android:layout_height="34dp"
             android:text="@string/restaurant_name_dsp"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/address_dsp"
@@ -28,15 +28,15 @@
             android:layout_height="32dp"
             android:text="@string/address_dsp"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/gps_cords_dsp"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="41dp"
             android:text="@string/gps_cords_dsp"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
