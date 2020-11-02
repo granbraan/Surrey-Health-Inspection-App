@@ -17,17 +17,23 @@ public class InspectionList implements Iterable<Inspection> {
     public void addInspection(Inspection i) {
         inspections.add(i) ;
     }
+
     public Inspection getInspectionIndex(int i){
         return inspections.get(i);
     }
 
-    @Override
-    public Iterator<Inspection> iterator() {
-        return inspections.iterator();
+    public int size(){
+        return(inspections.size());
     }
 
     public void sort() {
         Collections.sort(inspections);
+    }
+
+
+    @Override
+    public Iterator<Inspection> iterator() {
+        return inspections.iterator();
     }
 
     public static InspectionList getInstance(){

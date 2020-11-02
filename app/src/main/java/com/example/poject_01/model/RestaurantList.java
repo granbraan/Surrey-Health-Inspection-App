@@ -19,6 +19,9 @@ import java.util.List;
         restaurants.add(r) ;
         Collections.sort(restaurants);
     }
+    public List<Restaurant> getList(){
+        return(this.restaurants);
+    }
 
 
     public Restaurant getRestaurantIndex(int i){
