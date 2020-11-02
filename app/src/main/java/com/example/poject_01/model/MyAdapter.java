@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poject_01.R;
@@ -51,6 +52,12 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
         {
             holder.image_t.setImageResource(R.drawable.high_risk);
         }
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
 
     @Override
@@ -61,6 +68,7 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView date_t, crit_t,non_crit_t,hazard_t;
         ImageView image_t;
+        ConstraintLayout mainLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             date_t= itemView.findViewById(R.id.date);
@@ -68,6 +76,7 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
             non_crit_t = itemView.findViewById(R.id.num_non_crit);
             hazard_t = itemView.findViewById(R.id.hzrd_lvl);
             image_t = itemView.findViewById(R.id.imageView2);
+            mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }
 }
