@@ -3,6 +3,7 @@ package com.example.poject_01.model;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poject_01.R;
+import com.example.poject_01.UI.InspectionDetails;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,13 +27,14 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
 
     InspectionList inspection_list; //stores the inspection list of particular restaurant
     Context context;
-
+    int restaurantIndex;
     //Constructor of the class
-    public MyAdapter(Context ct, InspectionList list_of_inspection) {
+    public MyAdapter(Context ct, InspectionList list_of_inspection, int restIndex) {
         context = ct;
         inspection_list = list_of_inspection;
-
+        restaurantIndex = restIndex;
     }
+
 
     @NonNull
     @Override
@@ -75,8 +78,15 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
         {
             holder.image_t.setImageResource(R.drawable.high_risk);
         }
-        holder.mainLayout.setOnClickListener(v -> {
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, InspectionDetails.class);
+                intent.putExtra("EXTRA_INDEX",position);
+                intent.putExtra("REST_INDEX",restaurantIndex);
+                context.startActivity(intent);
 
+            }
         });
     }
 
@@ -99,6 +109,11 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
             image_t = itemView.findViewById(R.id.imageView2);
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
+    }
+
+    public static Intent makeLaunchIntent(Context c, int index) {
+        Intent intent = new Intent(c, InspectionDetails.class);
+        return intent;
     }
 
     //reorganise the date in expected output

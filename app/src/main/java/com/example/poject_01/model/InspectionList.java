@@ -12,7 +12,7 @@ import java.util.List;
 public class InspectionList implements Iterable<Inspection> {
     private List<Inspection> inspections = new ArrayList<>();
     private static InspectionList instance;
-    private int num_inspection =0 ;
+    private int num_inspection = 0 ;
 
 
     public void addInspection(Inspection i) {
@@ -24,6 +24,10 @@ public class InspectionList implements Iterable<Inspection> {
 
     public int getNum_inspection() {
         return num_inspection;
+    }
+
+    public List<Inspection> getInspections() {
+        return inspections;
     }
 
     @Override
