@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poject_01.R;
 import com.example.poject_01.UI.InspectionDetails;
-import com.example.poject_01.UI.detail_single_restaurant;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -28,12 +27,12 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
 
     InspectionList inspection_list; //stores the inspection list of particular restaurant
     Context context;
-    int index_restaurant;
+    int restaurantIndex;
     //Constructor of the class
-    public MyAdapter(Context ct, InspectionList list_of_inspection) {
+    public MyAdapter(Context ct, InspectionList list_of_inspection, int restIndex) {
         context = ct;
         inspection_list = list_of_inspection;
-        index_restaurant = Index_of_rest;
+        restaurantIndex = restIndex;
     }
 
 
@@ -84,7 +83,7 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
             public void onClick(View v) {
                 Intent intent = new Intent(context, InspectionDetails.class);
                 intent.putExtra("EXTRA_INDEX",position);
-                intent.putExtra("REST_INDEX",index_restaurant);
+                intent.putExtra("REST_INDEX",restaurantIndex);
                 context.startActivity(intent);
 
             }

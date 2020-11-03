@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.poject_01.R;
 
-public class detailSingleRestaurant extends AppCompatActivity {
+public class DetailSingleRestaurant extends AppCompatActivity {
 
     private int index =0;
     private final RestaurantList restaurant_list = RestaurantList.getInstance();
@@ -32,7 +32,7 @@ public class detailSingleRestaurant extends AppCompatActivity {
 
         //use of recycler view to show list of inspections
         RecyclerView recycler_view = findViewById(R.id.recycler_view);
-        MyAdapter myAdapter = new MyAdapter(this,restaurant_list.getRestaurantIndex(index).getInspections());
+        MyAdapter myAdapter = new MyAdapter(this,restaurant_list.getRestaurantIndex(index).getInspections(), index);
         recycler_view.setAdapter(myAdapter);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
@@ -57,13 +57,13 @@ public class detailSingleRestaurant extends AppCompatActivity {
         TextView set_gps = findViewById(R.id.gps_cords_dsp);
         String Latitude = String.valueOf(restaurant_list.getRestaurantIndex(index).getLatitude());
         String Longitude = String.valueOf(restaurant_list.getRestaurantIndex(index).getLongitude());
-        set_gps.setText(Latitude+" (Latitude)\n"+Longitude+" (Longitude)");
+        set_gps.setText(Latitude+" (Latitude)\n"+ Longitude +" (Longitude)");
 
     }
 
     public  static Intent makeIntent(Context context, int ind)
     {
-        Intent intent =  new Intent(context, detailSingleRestaurant.class);
+        Intent intent =  new Intent(context, DetailSingleRestaurant.class);
         intent.putExtra("index=",ind);
         return intent;
     }
