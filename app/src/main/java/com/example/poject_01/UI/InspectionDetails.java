@@ -148,8 +148,8 @@ public class InspectionDetails extends AppCompatActivity {
     private void setText() {
         curInspection = restaurantList.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(index);
         String date = refactorDate(String.valueOf(curInspection.getInspectionDate()));
-        String numCritical = "Critical " +  curInspection.getNumCritical();
-        String numNonCritical = "Non Critical " + curInspection.getNumNonCritical();
+        String numCritical = "Critical: " +  curInspection.getNumCritical();
+        String numNonCritical = "Non Critical: " + curInspection.getNumNonCritical();
         String inspectionType = curInspection.getInspectionType();
 
         TextView textDate = (TextView)findViewById(R.id.inspectionDate);
