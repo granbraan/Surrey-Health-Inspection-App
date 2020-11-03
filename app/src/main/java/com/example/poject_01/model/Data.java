@@ -10,7 +10,7 @@ import java.util.Objects;
 
 /**
  * This class Reads data specified by "reader"
- * setters are private, only the read() functions may be called from outside this class
+ * setters are private, only the read() functions may be called from outside this class.
  */
 public class Data {
     private RestaurantList restaurantList;

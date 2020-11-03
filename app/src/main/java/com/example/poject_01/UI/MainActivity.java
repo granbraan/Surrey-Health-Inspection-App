@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private final RestaurantList restaurantList = RestaurantList.getInstance();
 
     private Intent intent;
-    private Data restaurantData;
-    private Data inspectionData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void readWriteData() {
+        // reads data from data_restaurants.csv
         InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
         BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
-
+        // reads data from data_inspections.csv
         InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
         BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
-
-        restaurantData = new Data(restaurantList , restaurantReader );
-        inspectionData = new Data(restaurantList, inspectionReader);
+        // the data is set using private setters in the Data class
+        Data restaurantData = new Data(restaurantList , restaurantReader );
+        Data inspectionData = new Data(restaurantList, inspectionReader);
         restaurantData.readRestaurantData();
         inspectionData.readInspectionData();
     }
@@ -107,19 +107,19 @@ public class MainActivity extends AppCompatActivity {
 
             // checking for recent inspections
             if (currentRestaurant.numInspections() > 0){
-            Inspection latestInspection = currentRestaurant.getLatestInspection();
+                Inspection latestInspection = currentRestaurant.getLatestInspection();
 
-            // inspection date
-            String date = "" +latestInspection.getInspectionDate();
-            TextView textDate = restaurantView.findViewById(R.id.textInspectionDate);
-            textDate.setText("" + refactorDate(date));
+                // inspection date
+                String date = "" +latestInspection.getInspectionDate();
+                TextView textDate = restaurantView.findViewById(R.id.textInspectionDate);
+                textDate.setText("" + refactorDate(date));
 
-            // number of violations
-            TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
-            textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations" );
+                // number of violations
+                TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
+                textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations" );
 
-            // setting hazard colour
-            setHazardIcon(restaurantView, latestInspection);
+                // setting hazard icon
+                setHazardIcon(restaurantView, latestInspection);
             }
 
             return restaurantView;
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // outputs date according to specifications set in user stories
+    // outputs date according to specifications described in the user story
     private String refactorDate(String d) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate currentDate = LocalDate.now();
