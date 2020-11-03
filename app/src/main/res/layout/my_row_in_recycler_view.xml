@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/mainLayout">
@@ -22,22 +21,26 @@
                 android:id="@+id/hzrd_lvl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="hzrd_lvl"
-                android:textSize="14sp"
+                android:text="@string/hzrd_lvl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:translationX="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.355"
+                app:layout_constraintHorizontal_bias="0.442"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.9" />
+                app:layout_constraintVertical_bias="0.923" />
 
             <TextView
-                android:id="@+id/date"
-                android:layout_width="36dp"
-                android:layout_height="19dp"
-                android:text="date"
+                android:id="@+id/date_inspection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="12sp"
+                android:translationX="40sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.344"
@@ -49,37 +52,51 @@
                 android:id="@+id/num_crit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Number of Critical issues = 3"
+                android:text="@string/number_of_critical_issues_3"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:translationX="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.558"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.36" />
+                app:layout_constraintVertical_bias="0.369" />
 
             <TextView
                 android:id="@+id/num_non_crit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Number of non-critical issues = 3"
+                android:text="@string/number_of_non_critical_issues_3"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:translationX="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.626"
+                app:layout_constraintHorizontal_bias="0.547"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.63" />
+                app:layout_constraintVertical_bias="0.652" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="110dp"
+                android:layout_height="94dp"
+                android:orientation="horizontal"
+                android:translationX="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/date"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.053"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_launcher_background"
+                    android:contentDescription="@string/todo" />
+            </LinearLayout>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
