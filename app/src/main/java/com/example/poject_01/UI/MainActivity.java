@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, "YOu clicked: " + position, Toast.LENGTH_SHORT).show();
-                intent = detail_single_restaurant.makeIntent(MainActivity.this,position);
+                intent = detailSingleRestaurant.makeIntent(MainActivity.this,position);
                 startActivity(intent);
             }
         });
@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
             // setting hazard colour
             setHazardColour(restaurantView, latestInspection);
             }
-
             return restaurantView;
         }
 
