@@ -2,17 +2,17 @@ package com.example.poject_01.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import android.content.Intent;
 
 import com.example.poject_01.R;
@@ -24,17 +24,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-// TODO: separate UI and Model more
+
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
-    private RestaurantList restaurantList = RestaurantList.getInstance();
+    private final RestaurantList restaurantList = RestaurantList.getInstance();
     private Intent intent;
 
     @Override
@@ -52,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
     private void readRestaurantData() {
         // setting up reader
         InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
-        BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, Charset.forName("UTF-8")));
-        String line = "";
+        BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
+        String line;
         try {
             // jump over headers
             restaurantReader.readLine();
-            while (((line = restaurantReader.readLine()) != null)) {
+            while ((line = restaurantReader.readLine()) != null) {
                 String[] tokens = line.split("\\*");
                 setRestaurantData(tokens);
             }
@@ -72,14 +73,15 @@ public class MainActivity extends AppCompatActivity {
     private void setRestaurantData(String[] tokens) {
         Restaurant r = new Restaurant(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
         restaurantList.addRestaurant(r);
+
         Log.d("MainActivity", "Added : " + r + " to restaurantList"  +"\n");
     }
 
 
     private void readInspectionData() {
         InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
-        BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, Charset.forName("UTF-8")));
-        String line = "";
+        BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
+        String line;
         try {
             inspectionReader.readLine();
             while (((line = inspectionReader.readLine()) != null)) {
@@ -124,18 +126,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void registerClick() {
         ListView listView = findViewById(R.id.restaurantListView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("MainActivity", "User clicked restaurant at position: " + position);
-                intent = detail_single_restaurant.makeIntent(MainActivity.this,position);
-                startActivity(intent);
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Log.d("MainActivity", "User clicked restaurant at position: " + position);
+            intent = detail_single_restaurant.makeIntent(MainActivity.this,position);
+            startActivity(intent);
         });
 
     }
 
-    // TODO: seperate RestaurantListAdapter class
+
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
         public RestaurantListAdapter() {
             super(MainActivity.this, R.layout.restaurant_list_view, restaurantList.getList());
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
             // restaurant icon
             ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
-            imageView.setImageResource(R.drawable.restaurant);
+            imageView.setImageResource(R.drawable.restaurant_image);
 
             // name
             TextView textName = restaurantView.findViewById(R.id.textRestaurantName);

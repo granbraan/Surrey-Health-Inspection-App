@@ -47,8 +47,6 @@ public class Restaurant implements Comparable<Restaurant> {
         return inspections;
     }
 
-
-
     public String getTrackingNum() {
         return trackingNum;
     }
@@ -91,6 +89,7 @@ public class Restaurant implements Comparable<Restaurant> {
                 ", longitude=" + longitude +
                 '}';
     }
+
 
 
 }
