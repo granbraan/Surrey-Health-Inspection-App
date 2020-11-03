@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poject_01.R;
 import com.example.poject_01.UI.InspectionDetails;
+import com.example.poject_01.UI.detail_single_restaurant;
 
 import java.util.List;
 
@@ -21,11 +22,13 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
 
     InspectionList inspection_list;
     Context context;
-    public MyAdapter(Context ct, InspectionList list_of_inspection) {
+    int index_restaurant;
+    public MyAdapter(Context ct, InspectionList list_of_inspection,int Index_of_rest) {
         context = ct;
         inspection_list = list_of_inspection;
-
+        index_restaurant = Index_of_rest;
     }
+
 
     @NonNull
     @Override
@@ -57,8 +60,10 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = InspectionDetails.makeLaunchIntent(MyAdapter.this, position);
-                //startActivity(intent);
+                Intent intent = new Intent(context, InspectionDetails.class);
+                intent.putExtra("EXTRA_INDEX",position);
+                intent.putExtra("REST_INDEX",index_restaurant);
+                context.startActivity(intent);
 
             }
         });
@@ -82,5 +87,10 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
             image_t = itemView.findViewById(R.id.imageView2);
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
+    }
+
+    public static Intent makeLaunchIntent(Context c, int index) {
+        Intent intent = new Intent(c, InspectionDetails.class);
+        return intent;
     }
 }

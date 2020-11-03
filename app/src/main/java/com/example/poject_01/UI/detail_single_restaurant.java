@@ -35,7 +35,7 @@ public class detail_single_restaurant extends AppCompatActivity {
 
         Display_name_and_location();
         recycler_view = findViewById(R.id.recycler_view);
-        MyAdapter myAdapter = new MyAdapter(this,restaurant_list.getRestaurantIndex(index).getInspections());
+        MyAdapter myAdapter = new MyAdapter(this,restaurant_list.getRestaurantIndex(index).getInspections(),index);
         recycler_view.setAdapter(myAdapter);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
