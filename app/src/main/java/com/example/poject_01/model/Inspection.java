@@ -52,6 +52,10 @@ public class Inspection implements Comparable<Inspection> {
         return vioList;
     }
 
+    public String getSpecificViolation(int i) {
+        return vioList.get(i);
+    }
+
     @Override
     public String toString() {
         return "Inspection{" +

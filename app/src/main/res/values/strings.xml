@@ -12,4 +12,13 @@
     <string name="restaurant_name_dsp">restaurant_name_dsp</string>
     <string name="address_dsp">address_dsp</string>
     <string name="gps_cords_dsp">gps_cords_dsp</string>
+    <string name="restaurant_name">Restaurant name -</string>
+    <string name="gps_cords">GPS cords -</string>
+    <string name="address">Address -</string>
+    <string name="inspection_list">Inspection List:</string>
+    <string name="number_of_non_critical_issues_3">Number of non-critical issues = 3</string>
+    <string name="number_of_critical_issues_3">Number of Critical issues = 3</string>
+    <string name="date">date</string>
+    <string name="hzrd_lvl">hzrd_lvl</string>
+    <string name="todo">TODO</string>
 </resources>
