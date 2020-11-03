@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(restaurantAdapter);
     }
 
+
     private void registerClick() {
         ListView listView = findViewById(R.id.restaurantListView);
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void setHazardIcon(View v, Inspection i) {
         ImageView hazardIcon = v.findViewById(R.id.iconHazardLevel);
         String hazardRating = i.getHazardRating();
@@ -140,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
             hazardIcon.setImageResource(R.drawable.high_risk);
         }
     }
+
 
     // outputs date according to specifications described in the user story
     private String refactorDate(String d) {
