@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.restaurantListView);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Log.d("MainActivity", "User clicked restaurant at position: " + position);
-            intent = detail_single_restaurant.makeIntent(MainActivity.this,position);
+            intent = DetailSingleRestaurant.makeIntent(MainActivity.this,position);
             startActivity(intent);
         });
 
