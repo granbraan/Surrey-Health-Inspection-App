@@ -116,8 +116,7 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
     }
 
     public static Intent makeLaunchIntent(Context c, int index) {
-        Intent intent = new Intent(c, InspectionDetails.class);
-        return intent;
+        return new Intent(c, InspectionDetails.class);
     }
 
     //reorganise the date in expected output
