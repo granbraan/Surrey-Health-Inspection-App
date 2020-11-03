@@ -2,6 +2,7 @@ package com.example.poject_01.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -69,14 +70,17 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
         if(inspection_list.getInspectionIndex(position).getHazardRating().equals("Low"))
         {
             holder.image_t.setImageResource(R.drawable.low_risk);
+            holder.hazard_t.setTextColor(Color.GREEN);
         }
         else if(inspection_list.getInspectionIndex(position).getHazardRating().equals("Moderate"))
         {
             holder.image_t.setImageResource(R.drawable.medium_risk);
+            holder.hazard_t.setTextColor(Color.parseColor("#FF8800"));
         }
         else
         {
             holder.image_t.setImageResource(R.drawable.high_risk);
+            holder.hazard_t.setTextColor(Color.RED);
         }
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,8 +116,7 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
     }
 
     public static Intent makeLaunchIntent(Context c, int index) {
-        Intent intent = new Intent(c, InspectionDetails.class);
-        return intent;
+        return new Intent(c, InspectionDetails.class);
     }
 
     //reorganise the date in expected output
