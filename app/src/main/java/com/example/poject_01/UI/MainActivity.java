@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "YOu clicked: " + position, Toast.LENGTH_SHORT).show();
+                Log.d("MainActivity", "User clicked restaurant at position: " + position);
                 intent = detail_single_restaurant.makeIntent(MainActivity.this,position);
                 startActivity(intent);
             }
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations" );
 
             // setting hazard colour
-            setHazardColour(restaurantView, latestInspection);
+            setHazardIcon(restaurantView, latestInspection);
             }
 
             return restaurantView;
@@ -180,16 +180,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setHazardColour(View v, Inspection i) {
+    private void setHazardIcon(View v, Inspection i) {
+        ImageView hazardIcon = v.findViewById(R.id.iconHazardLevel);
         String hazardRating = i.getHazardRating();
         if (Objects.equals(hazardRating.toUpperCase(), "LOW") ){
-            v.setBackgroundColor(Color.GREEN);
+            hazardIcon.setImageResource(R.drawable.low_risk);
         }
         else if (Objects.equals(hazardRating.toUpperCase(), "MODERATE")){
-            v.setBackgroundColor(Color.YELLOW);
+            hazardIcon.setImageResource(R.drawable.medium_risk);
         }
         else if (Objects.equals(hazardRating.toUpperCase(), "HIGH")){
-            v.setBackgroundColor(Color.RED);
+            hazardIcon.setImageResource(R.drawable.high_risk);
         }
     }
 
