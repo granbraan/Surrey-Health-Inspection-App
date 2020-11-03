@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * This class Reads data specified by "reader"
+ * This class Reads data specified by "reader" and populates an instantiated restaurant list "restaurantList"
  * setters are private, only the read() functions may be called from outside this class.
  */
 public class Data {
