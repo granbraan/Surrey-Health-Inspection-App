@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Poject_01">
         <activity
-            android:name=".UI.detail_single_restaurant"
+            android:name=".UI.detailSingleRestaurant"
             android:label="@string/title_activity_detail_single_restaurant"
             android:theme="@style/Theme.Poject_01.NoActionBar" />
         <activity android:name=".UI.MainActivity">
