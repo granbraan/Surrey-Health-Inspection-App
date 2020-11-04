@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.poject_01.R;
@@ -29,6 +31,7 @@ public class DetailSingleRestaurant extends AppCompatActivity {
         setSupportActionBar(toolbar);
         extractDataFromIntent();
         displayNameAndLocation();
+        BackToMainButton();
 
         //use of recycler view to show list of inspections
         RecyclerView recycler_view = findViewById(R.id.recycler_view);
@@ -60,6 +63,18 @@ public class DetailSingleRestaurant extends AppCompatActivity {
         set_gps.setText(Latitude+" (Latitude)\n"+ Longitude +" (Longitude)");
 
     }
+
+   private void BackToMainButton(){
+        Button btn = findViewById(R.id.button7);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+   }
+
+
 
     public  static Intent makeIntent(Context context, int ind)
     {

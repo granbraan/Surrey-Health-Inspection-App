@@ -46,4 +46,5 @@
         android:maxWidth="80dp"
         android:maxHeight="80dp"
         app:srcCompat="@android:drawable/ic_lock_idle_low_battery" />
+
 </RelativeLayout>

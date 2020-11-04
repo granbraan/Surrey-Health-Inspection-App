@@ -8,6 +8,7 @@
     tools:context=".UI.DetailSingleRestaurant">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -41,16 +42,10 @@
     </LinearLayout>
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.Poject_01.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/cardview_dark_background"
-            app:popupTheme="@style/Theme.Poject_01.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -132,6 +127,24 @@
         android:layout_height="232dp"
         android:translationX="20sp"
         android:translationY="430sp" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_dark_background"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="top|center"
+        app:popupTheme="@style/Theme.Poject_01.PopupOverlay" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Back"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="end|center" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
