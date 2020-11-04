@@ -29,6 +29,7 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
     InspectionList inspection_list; //stores the inspection list of particular restaurant
     Context context;
     int restaurantIndex;
+    RestaurantList instance = RestaurantList.getInstance();
     //Constructor of the class
     public MyAdapter(Context ct, InspectionList list_of_inspection, int restIndex) {
         context = ct;
@@ -85,11 +86,15 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, InspectionDetails.class);
-                intent.putExtra("EXTRA_INDEX",position);
-                intent.putExtra("REST_INDEX",restaurantIndex);
-                context.startActivity(intent);
-
+                if(instance.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumNonCritical()
+                        + instance.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumCritical()
+                        > 0)
+                {
+                    Intent intent = new Intent(context, InspectionDetails.class);
+                    intent.putExtra("EXTRA_INDEX",position);
+                    intent.putExtra("REST_INDEX",restaurantIndex);
+                    context.startActivity(intent);
+                }
             }
         });
     }
