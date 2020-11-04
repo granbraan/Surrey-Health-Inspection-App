@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:translationX="150sp"
-        android:translationY="250sp">
+        android:translationY="190sp">
 
         <TextView
             android:id="@+id/restaurant_name_dsp"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:translationX="20sp"
-        android:translationY="250sp">
+        android:translationY="190sp">
 
         <TextView
             android:id="@+id/textView3"
@@ -90,7 +90,7 @@
         android:layout_height="169dp"
         android:contentDescription="@string/todo"
         android:translationX="50sp"
-        android:translationY="70sp"
+        android:translationY="10sp"
         app:srcCompat="@drawable/restaurant_image" />
 
     <TextView
@@ -101,7 +101,7 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:translationX="20sp"
-        android:translationY="380sp" />
+        android:translationY="320sp" />
 
     <LinearLayout
         android:id="@+id/lottie_animation"
@@ -109,7 +109,7 @@
         android:layout_height="69dp"
         android:orientation="horizontal"
         android:translationX="150sp"
-        android:translationY="360sp">
+        android:translationY="300sp">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/welcome_gift"
@@ -123,11 +123,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="361dp"
-        android:layout_height="232dp"
+        android:layout_width="375dp"
+        android:layout_height="352dp"
+        android:paddingBottom="70dp"
         android:translationX="20sp"
-        android:translationY="430sp"
-        android:paddingBottom="70dp"/>
+        android:translationY="370sp" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
