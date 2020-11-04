@@ -31,9 +31,9 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
     int restaurantIndex;
     RestaurantList instance = RestaurantList.getInstance();
     //Constructor of the class
-    public InspectionListAdapter(Context ct, InspectionList list_of_inspection, int restIndex) {
+    public InspectionListAdapter(Context ct, InspectionList listOfInspection, int restIndex) {
         context = ct;
-        inspectionList = list_of_inspection;
+        inspectionList = listOfInspection;
         restaurantIndex = restIndex;
     }
 
