@@ -18,8 +18,11 @@ public class Restaurant implements Comparable<Restaurant> {
     private double longitude;
     private InspectionList inspections;
 
+    public String getCity() {
+        return city;
+    }
 
-    public Restaurant(String trackingNum, String name, String address, String city,String type, double latitude, double longitude) {
+    public Restaurant(String trackingNum, String name, String address, String city, String type, double latitude, double longitude) {
         this.trackingNum = trackingNum;
         this.name = name;
         this.address = address;

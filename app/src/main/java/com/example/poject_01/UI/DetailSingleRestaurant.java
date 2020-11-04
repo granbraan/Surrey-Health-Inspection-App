@@ -9,6 +9,7 @@ import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.RestaurantList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +37,8 @@ public class DetailSingleRestaurant extends AppCompatActivity {
         InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(divider);
     }
 
     //extract index from main activity
@@ -53,12 +55,22 @@ public class DetailSingleRestaurant extends AppCompatActivity {
         setName.setText(restaurantList.getRestaurantIndex(index).getName());
 
         TextView setAddress = findViewById(R.id.address_dsp);
-        setAddress.setText(restaurantList.getRestaurantIndex(index).getAddress());
+        setAddress.setText(restaurantList.getRestaurantIndex(index).getAddress()+", "+restaurantList.getRestaurantIndex(index).getCity());
 
         TextView setGps = findViewById(R.id.gps_cords_dsp);
         String Latitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLatitude());
         String Longitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLongitude());
         setGps.setText(Latitude+" (Latitude)\n"+ Longitude +" (Longitude)");
+
+        TextView noInspection = findViewById((R.id.no_inspection));
+        if(restaurantList.getRestaurantIndex(index).getInspections().getNum_inspection()==0)
+        {
+            noInspection.setText(R.string.no_recent_inspections_main);
+        }
+        else
+        {
+            noInspection.setText("");
+        }
 
     }
 

@@ -3,6 +3,7 @@ package com.example.poject_01.UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
@@ -51,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
         registerClick();
     }
 
-
-
     private void readWriteData() {
         // reads data from data_restaurants.csv
         InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
@@ -92,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        @SuppressLint("SetTextI18n")
         @Override
         public View getView(int position,  View convertView, ViewGroup parent) {
             View restaurantView = convertView;
@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void setNumViolations(View restaurantView, Inspection latestInspection) {
         TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
         int violations = latestInspection.getNumViolations();
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             hazardColour.setBackgroundColor(Color.GREEN);
         }
         else if (Objects.equals(hazardRating.toUpperCase(), "MODERATE")){
-            hazardColour.setBackgroundColor(Color.parseColor("#FF8800"));;
+            hazardColour.setBackgroundColor(Color.parseColor("#FF8800"));
         }
         else if (Objects.equals(hazardRating.toUpperCase(), "HIGH")){
             hazardColour.setBackgroundColor(Color.RED);
