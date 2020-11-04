@@ -88,10 +88,10 @@
         android:id="@+id/imageView"
         android:layout_width="304dp"
         android:layout_height="169dp"
+        android:contentDescription="@string/todo"
         android:translationX="50sp"
         android:translationY="70sp"
-        app:srcCompat="@drawable/restaurant_image"
-        android:contentDescription="@string/todo" />
+        app:srcCompat="@drawable/restaurant_image" />
 
     <TextView
         android:id="@+id/textView10"
@@ -126,7 +126,8 @@
         android:layout_width="361dp"
         android:layout_height="232dp"
         android:translationX="20sp"
-        android:translationY="430sp" />
+        android:translationY="430sp"
+        android:paddingBottom="70dp"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
