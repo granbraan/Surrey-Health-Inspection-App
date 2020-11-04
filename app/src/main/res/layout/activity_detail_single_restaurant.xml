@@ -125,7 +125,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="375dp"
         android:layout_height="352dp"
-        android:paddingBottom="70dp"
+        android:paddingBottom="140dp"
         android:translationX="20sp"
         android:translationY="370sp" />
 

@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             hazardColour.setBackgroundColor(Color.GREEN);
         }
         else if (Objects.equals(hazardRating.toUpperCase(), "MODERATE")){
-            hazardColour.setBackgroundColor(Color.YELLOW);
+            hazardColour.setBackgroundColor(Color.parseColor("#FF8800"));;
         }
         else if (Objects.equals(hazardRating.toUpperCase(), "HIGH")){
             hazardColour.setBackgroundColor(Color.RED);
