@@ -9,12 +9,9 @@ import com.example.poject_01.model.MyAdapter;
 import com.example.poject_01.model.RestaurantList;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.poject_01.R;
@@ -22,7 +19,7 @@ import com.example.poject_01.R;
 public class DetailSingleRestaurant extends AppCompatActivity {
 
     private int index =0;
-    private final RestaurantList restaurant_list = RestaurantList.getInstance();
+    private final RestaurantList restaurantList = RestaurantList.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +30,7 @@ public class DetailSingleRestaurant extends AppCompatActivity {
 
         //use of recycler view to show list of inspections
         RecyclerView recycler_view = findViewById(R.id.recycler_view);
-        MyAdapter myAdapter = new MyAdapter(this,restaurant_list.getRestaurantIndex(index).getInspections(), index);
+        MyAdapter myAdapter = new MyAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
         recycler_view.setAdapter(myAdapter);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
@@ -50,14 +47,14 @@ public class DetailSingleRestaurant extends AppCompatActivity {
     private void displayNameAndLocation() {
         //displays the contents of restaurant whose inspection list is shown
         TextView set_name = findViewById(R.id.restaurant_name_dsp);
-        set_name.setText(restaurant_list.getRestaurantIndex(index).getName());
+        set_name.setText(restaurantList.getRestaurantIndex(index).getName());
 
         TextView set_address = findViewById(R.id.address_dsp);
-        set_address.setText(restaurant_list.getRestaurantIndex(index).getAddress());
+        set_address.setText(restaurantList.getRestaurantIndex(index).getAddress());
 
         TextView set_gps = findViewById(R.id.gps_cords_dsp);
-        String Latitude = String.valueOf(restaurant_list.getRestaurantIndex(index).getLatitude());
-        String Longitude = String.valueOf(restaurant_list.getRestaurantIndex(index).getLongitude());
+        String Latitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLatitude());
+        String Longitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLongitude());
         set_gps.setText(Latitude+" (Latitude)\n"+ Longitude +" (Longitude)");
 
     }

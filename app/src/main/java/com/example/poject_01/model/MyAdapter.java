@@ -26,14 +26,14 @@ import static java.time.temporal.ChronoUnit.DAYS;
 //Adapter class to set the contents of recycler view to display each inspection of restaurant
 public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
 
-    InspectionList inspection_list; //stores the inspection list of particular restaurant
+    InspectionList inspectionList; //stores the inspection list of particular restaurant
     Context context;
     int restaurantIndex;
     RestaurantList instance = RestaurantList.getInstance();
     //Constructor of the class
     public MyAdapter(Context ct, InspectionList list_of_inspection, int restIndex) {
         context = ct;
-        inspection_list = list_of_inspection;
+        inspectionList = list_of_inspection;
         restaurantIndex = restIndex;
     }
 
@@ -53,35 +53,35 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
 //instantiate the contents od recycler view to be displayed on UI
 
         //date
-        String   d = "" + inspection_list.getInspectionIndex(position).getInspectionDate();
+        String   d = "" + inspectionList.getInspectionIndex(position).getInspectionDate();
         String date = refactorDate(d);
-        holder.date_t.setText(String.format("Date - %s", date));
+        holder.dateT.setText(String.format("Date - %s", date));
 
         //critical issues
-        holder.crit_t.setText("Number of critical issues = "+ inspection_list.getInspectionIndex(position).getNumCritical());
+        holder.critT.setText("Number of critical issues = "+ inspectionList.getInspectionIndex(position).getNumCritical());
 
         //non critical issues
-        holder.non_crit_t.setText("Number of non critical issues = "+ inspection_list.getInspectionIndex(position).getNumNonCritical());
+        holder.nonCritT.setText("Number of non critical issues = "+ inspectionList.getInspectionIndex(position).getNumNonCritical());
 
         //hazard level
-        holder.hazard_t.setText("Hazard level = "+inspection_list.getInspectionIndex(position).getHazardRating());
+        holder.hazardT.setText("Hazard level = "+ inspectionList.getInspectionIndex(position).getHazardRating());
 
 
         //image
-        if(inspection_list.getInspectionIndex(position).getHazardRating().equals("Low"))
+        if(inspectionList.getInspectionIndex(position).getHazardRating().equals("Low"))
         {
-            holder.image_t.setImageResource(R.drawable.low_risk);
-            holder.hazard_t.setTextColor(Color.GREEN);
+            holder.imageT.setImageResource(R.drawable.low_risk);
+            holder.hazardT.setTextColor(Color.GREEN);
         }
-        else if(inspection_list.getInspectionIndex(position).getHazardRating().equals("Moderate"))
+        else if(inspectionList.getInspectionIndex(position).getHazardRating().equals("Moderate"))
         {
-            holder.image_t.setImageResource(R.drawable.medium_risk);
-            holder.hazard_t.setTextColor(Color.parseColor("#FF8800"));
+            holder.imageT.setImageResource(R.drawable.medium_risk);
+            holder.hazardT.setTextColor(Color.parseColor("#FF8800"));
         }
         else
         {
-            holder.image_t.setImageResource(R.drawable.high_risk);
-            holder.hazard_t.setTextColor(Color.RED);
+            holder.imageT.setImageResource(R.drawable.high_risk);
+            holder.hazardT.setTextColor(Color.RED);
         }
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,20 +102,20 @@ public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
     //returns the total number of inspections
     @Override
     public int getItemCount() {
-        return inspection_list.getNum_inspection();
+        return inspectionList.getNum_inspection();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView date_t, crit_t,non_crit_t,hazard_t;
-        ImageView image_t;
+        TextView dateT, critT, nonCritT, hazardT;
+        ImageView imageT;
         ConstraintLayout mainLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            date_t= itemView.findViewById(R.id.date_inspection);
-            crit_t = itemView.findViewById(R.id.num_crit);
-            non_crit_t = itemView.findViewById(R.id.num_non_crit);
-            hazard_t = itemView.findViewById(R.id.hzrd_lvl);
-            image_t = itemView.findViewById(R.id.imageView2);
+            dateT = itemView.findViewById(R.id.date_inspection);
+            critT = itemView.findViewById(R.id.num_crit);
+            nonCritT = itemView.findViewById(R.id.num_non_crit);
+            hazardT = itemView.findViewById(R.id.hzrd_lvl);
+            imageT = itemView.findViewById(R.id.imageView2);
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }
