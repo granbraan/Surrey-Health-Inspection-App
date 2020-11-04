@@ -11,26 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.animation.content.Content;
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.InspectionList;
-import com.example.poject_01.model.MyAdapter;
-import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class InspectionDetails extends AppCompatActivity {
     private Inspection curInspection;
