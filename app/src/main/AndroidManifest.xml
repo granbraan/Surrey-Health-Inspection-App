@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Poject_01">
         <activity
-            android:name=".UI.InspectionDetails"
+            android:name=".UI.InspectionDetailsActivity"
             android:label="Inspection Details"
-            android:parentActivityName=".UI.DetailSingleRestaurant"/>
+            android:parentActivityName=".UI.RestaurantDetailsActivity"/>
         <activity
-            android:name=".UI.DetailSingleRestaurant"
+            android:name=".UI.RestaurantDetailsActivity"
             android:label="Restaurant Details"
             android:parentActivityName=".UI.MainActivity"
             />

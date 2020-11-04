@@ -16,7 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poject_01.R;
-import com.example.poject_01.UI.InspectionDetails;
+import com.example.poject_01.UI.InspectionDetailsActivity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -91,7 +91,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
                         + instance.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumCritical()
                         > 0)
                 {
-                    Intent intent = new Intent(context, InspectionDetails.class);
+                    Intent intent = new Intent(context, InspectionDetailsActivity.class);
                     intent.putExtra("EXTRA_INDEX",position);
                     intent.putExtra("REST_INDEX",restaurantIndex);
                     context.startActivity(intent);
@@ -122,7 +122,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
     }
 
     public static Intent makeLaunchIntent(Context c, int index) {
-        return new Intent(c, InspectionDetails.class);
+        return new Intent(c, InspectionDetailsActivity.class);
     }
 
     //reorganise the date in expected output

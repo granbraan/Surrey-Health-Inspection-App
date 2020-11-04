@@ -35,7 +35,7 @@ import java.time.format.DateTimeFormatter;
  *  Shows details of the inspection clicked by user.
  *  Data such as Number of critical/non-critical violations, inspection type, inspection date, and violation type
  */
-public class InspectionDetails extends AppCompatActivity {
+public class InspectionDetailsActivity extends AppCompatActivity {
     private Inspection curInspection;
     private int index;
     private RestaurantList restaurantList = RestaurantList.getInstance();
@@ -43,7 +43,7 @@ public class InspectionDetails extends AppCompatActivity {
     private static InspectionList instance = InspectionList.getInstance();
 
     public static Intent makeLaunchIntent(Context c, int index) {
-        Intent intent =  new Intent(c,InspectionDetails.class);
+        Intent intent =  new Intent(c, InspectionDetailsActivity.class);
         intent.putExtra("EXTRA_INDEX",index);
         return intent;
     }
@@ -78,7 +78,7 @@ public class InspectionDetails extends AppCompatActivity {
     private class myListAdapter extends ArrayAdapter<String> {
         //get list
         public myListAdapter() {
-            super(InspectionDetails.this, R.layout.inspection_content, curInspection.getViolationList());
+            super(InspectionDetailsActivity.this, R.layout.inspection_content, curInspection.getViolationList());
         }
 
         @NonNull
@@ -137,7 +137,7 @@ public class InspectionDetails extends AppCompatActivity {
                 String curViolation = curInspection.getViolationList().get(position);
                 String[] violations = curViolation.split(",");
                 String message = violations[2];
-                Toast.makeText(InspectionDetails.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(InspectionDetailsActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }

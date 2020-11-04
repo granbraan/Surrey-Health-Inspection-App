@@ -23,7 +23,7 @@ import com.example.poject_01.R;
 /**
  * Displays information of the restaurant clicked by the user
  */
-public class DetailSingleRestaurant extends AppCompatActivity {
+public class RestaurantDetailsActivity extends AppCompatActivity {
 
     private int index = 0;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -95,7 +95,7 @@ public class DetailSingleRestaurant extends AppCompatActivity {
 
     public  static Intent makeIntent(Context context, int ind)
     {
-        Intent intent =  new Intent(context, DetailSingleRestaurant.class);
+        Intent intent =  new Intent(context, RestaurantDetailsActivity.class);
         intent.putExtra("index=",ind);
         return intent;
     }
