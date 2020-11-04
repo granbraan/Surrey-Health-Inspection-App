@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.media.Image;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import android.content.Intent;
+
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
@@ -35,7 +36,10 @@ import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-
+/**
+ * Displays a scrollable list of restaurants, sorted alphabetically by name.
+ * The list of restaurants and the data relating to each restaurant is read from "data_restaurants.csv" and "data_inspection.csv"
+ */
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -144,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MainActivity", "current date - "+ currentDate);
         Log.d("MainActivity", "inspection date - "+ inspectionDate);
-        Log.d("MainActivity", "difference = "+ difference);
+
         if (difference <= 30){
             return( difference + " " + getString(R.string.days_ago_main_date));
         }

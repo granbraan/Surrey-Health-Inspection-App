@@ -64,6 +64,7 @@ public class InspectionDetails extends AppCompatActivity {
 
     }
 
+
     private void populateListView() {
         curInspection = restaurantList.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(index);
         //build adapter
@@ -72,6 +73,8 @@ public class InspectionDetails extends AppCompatActivity {
         list.setAdapter(adapter);
 
     }
+
+
     private class myListAdapter extends ArrayAdapter<String> {
         //get list
         public myListAdapter() {
@@ -158,16 +161,16 @@ public class InspectionDetails extends AppCompatActivity {
         String numNonCritical = "Non Critical: " + curInspection.getNumNonCritical();
         String inspectionType = curInspection.getInspectionType();
 
-        TextView textDate = (TextView)findViewById(R.id.inspectionDate);
+        TextView textDate = findViewById(R.id.inspectionDate);
         textDate.setText(date);
 
-        TextView textCritical =(TextView) findViewById(R.id.inspectionCritical);
+        TextView textCritical = findViewById(R.id.inspectionCritical);
         textCritical.setText(numCritical);
 
-        TextView textNonCritical =(TextView)findViewById(R.id.inspectionNonCritical);
+        TextView textNonCritical =findViewById(R.id.inspectionNonCritical);
         textNonCritical.setText(numNonCritical);
 
-        TextView textInspectionType = (TextView) findViewById(R.id.inspectionType);
+        TextView textInspectionType =  findViewById(R.id.inspectionType);
         textInspectionType.setText(inspectionType);
 
     }

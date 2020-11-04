@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class holds all data relating to one inspection
- *
+ * This class holds all data relating to one inspection.
+ * violations are held the Array list "vioList"
  */
 public class Inspection implements Comparable<Inspection> {
     private int inspectionDate;
@@ -46,28 +46,9 @@ public class Inspection implements Comparable<Inspection> {
         return hazardRating;
     }
 
-
-
     public List <String> getViolationList(){
         return vioList;
     }
-
-    public String getSpecificViolation(int i) {
-        return vioList.get(i);
-    }
-
-    @Override
-    public String toString() {
-        return "Inspection{" +
-                "inspectionDate=" + inspectionDate +
-                ", inspectionType='" + inspectionType + '\'' +
-                ", numCritical=" + numCritical +
-                ", numNonCritical=" + numNonCritical +
-                ", hazardRating='" + hazardRating + '\'' +
-                ", vioLump=" + vioList +
-                '}';
-    }
-
 
     public String getInspectionType() {
         return inspectionType;
@@ -79,6 +60,19 @@ public class Inspection implements Comparable<Inspection> {
 
     public int getNumNonCritical() {
         return numNonCritical;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Inspection{" +
+                "inspectionDate=" + inspectionDate +
+                ", inspectionType='" + inspectionType + '\'' +
+                ", numCritical=" + numCritical +
+                ", numNonCritical=" + numNonCritical +
+                ", hazardRating='" + hazardRating + '\'' +
+                ", vioLump=" + vioList +
+                '}';
     }
 
 
