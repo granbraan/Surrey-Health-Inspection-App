@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.example.poject_01.R;
 
+/**
+ * Displays information of the restaurant clicked by the user
+ */
 public class DetailSingleRestaurant extends AppCompatActivity {
 
     private int index = 0;

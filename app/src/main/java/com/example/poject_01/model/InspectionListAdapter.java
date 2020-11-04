@@ -22,8 +22,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.temporal.ChronoUnit.DAYS;
-
-//Adapter class to set the contents of recycler view to display each inspection of restaurant
+/**
+ * Adapter class to set the contents of recycler view to display each inspection of restaurant
+ */
 public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListAdapter.MyViewHolder>{
 
     InspectionList inspectionList; //stores the inspection list of particular restaurant
@@ -53,7 +54,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
 //instantiate the contents od recycler view to be displayed on UI
 
         //date
-        String   d = "" + inspectionList.getInspectionIndex(position).getInspectionDate();
+        String d = "" + inspectionList.getInspectionIndex(position).getInspectionDate();
         String date = refactorDate(d);
         holder.dateT.setText(String.format("Date - %s", date));
 
