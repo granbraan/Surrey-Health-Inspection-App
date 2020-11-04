@@ -24,14 +24,14 @@ import java.time.format.DateTimeFormatter;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 //Adapter class to set the contents of recycler view to display each inspection of restaurant
-public class MyAdapter  extends RecyclerView.Adapter <MyAdapter.MyViewHolder>{
+public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListAdapter.MyViewHolder>{
 
     InspectionList inspectionList; //stores the inspection list of particular restaurant
     Context context;
     int restaurantIndex;
     RestaurantList instance = RestaurantList.getInstance();
     //Constructor of the class
-    public MyAdapter(Context ct, InspectionList list_of_inspection, int restIndex) {
+    public InspectionListAdapter(Context ct, InspectionList list_of_inspection, int restIndex) {
         context = ct;
         inspectionList = list_of_inspection;
         restaurantIndex = restIndex;

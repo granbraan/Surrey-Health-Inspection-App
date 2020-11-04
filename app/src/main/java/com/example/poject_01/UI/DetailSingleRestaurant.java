@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.poject_01.model.MyAdapter;
+import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.RestaurantList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +30,7 @@ public class DetailSingleRestaurant extends AppCompatActivity {
 
         //use of recycler view to show list of inspections
         RecyclerView recycler_view = findViewById(R.id.recycler_view);
-        MyAdapter myAdapter = new MyAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
+        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
         recycler_view.setAdapter(myAdapter);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
