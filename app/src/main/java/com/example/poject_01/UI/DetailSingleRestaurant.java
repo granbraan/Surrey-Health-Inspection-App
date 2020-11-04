@@ -8,10 +8,13 @@ import android.os.Bundle;
 import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.RestaurantList;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.poject_01.R;
@@ -36,6 +39,10 @@ public class DetailSingleRestaurant extends AppCompatActivity {
         InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //enable up button
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -62,15 +69,21 @@ public class DetailSingleRestaurant extends AppCompatActivity {
 
     }
 
-
-
-
-
     public  static Intent makeIntent(Context context, int ind)
     {
         Intent intent =  new Intent(context, DetailSingleRestaurant.class);
         intent.putExtra("index=",ind);
         return intent;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
