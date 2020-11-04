@@ -118,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
                 textDate.setText("" + refactorDate(date));
 
                 // number of violations
-                TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
-                textViolations.setText(getString(R.string.violations_text_main_1) + " " +  latestInspection.getNumViolations() + " " + getString(R.string.violations_text_main_2) );
+                setNumViolations(restaurantView, latestInspection);
+
 
                 // setting hazard icon
                 setHazardIcon(restaurantView, latestInspection);
@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
 
     // outputs date according to specifications described in the user story
@@ -154,6 +155,18 @@ public class MainActivity extends AppCompatActivity {
             return("" + inspectionDate.getYear() + " "+ inspectionDate.getMonth() );
         }
 
+    }
+
+
+    private void setNumViolations(View restaurantView, Inspection latestInspection) {
+        TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
+        int violations = latestInspection.getNumViolations();
+        if (violations == 1){
+            textViolations.setText(getString(R.string.violations_text_main_single_1)+ " " +  latestInspection.getNumViolations() + " " + getString(R.string.violations_text_single));
+        }
+        else{
+            textViolations.setText(getString(R.string.violations_text_main_1) + " " +  latestInspection.getNumViolations() + " " + getString(R.string.violations_text_main_2) );
+        }
     }
 
 

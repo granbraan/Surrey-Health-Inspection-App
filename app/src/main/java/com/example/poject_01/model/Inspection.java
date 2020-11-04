@@ -39,7 +39,7 @@ public class Inspection implements Comparable<Inspection> {
     }
 
     public int getNumViolations(){
-        return (numCritical + numCritical);
+        return (numCritical + numNonCritical);
     }
 
     public String getHazardRating() {

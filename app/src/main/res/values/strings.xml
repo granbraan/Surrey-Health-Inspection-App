@@ -25,4 +25,6 @@
     <string name="violations_text_main_2">violations</string>
     <string name="days_ago_main_date">days ago</string>
     <string name="no_recent_inspections_main">No Recent Inspections</string>
+    <string name="violations_text_main_single_1">There was:</string>
+    <string name="violations_text_single">violation</string>
 </resources>
