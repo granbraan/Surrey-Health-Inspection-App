@@ -2,11 +2,13 @@ package com.example.poject_01.UI;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -56,6 +58,9 @@ public class InspectionDetails extends AppCompatActivity {
         populateListView();
         registerClickCallBack();
 
+        //back button
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -165,6 +170,16 @@ public class InspectionDetails extends AppCompatActivity {
         TextView textInspectionType = (TextView) findViewById(R.id.inspectionType);
         textInspectionType.setText(inspectionType);
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

@@ -8,11 +8,14 @@ import android.os.Bundle;
 import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.RestaurantList;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.poject_01.R;
@@ -39,6 +42,11 @@ public class DetailSingleRestaurant extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(divider);
+
+        //back button
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
     }
 
     //extract index from main activity
@@ -55,7 +63,7 @@ public class DetailSingleRestaurant extends AppCompatActivity {
         setName.setText(restaurantList.getRestaurantIndex(index).getName());
 
         TextView setAddress = findViewById(R.id.address_dsp);
-        setAddress.setText(restaurantList.getRestaurantIndex(index).getAddress()+", "+restaurantList.getRestaurantIndex(index).getCity());
+        setAddress.setText(restaurantList.getRestaurantIndex(index).getAddress());
 
         TextView setGps = findViewById(R.id.gps_cords_dsp);
         String Latitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLatitude());
@@ -74,9 +82,16 @@ public class DetailSingleRestaurant extends AppCompatActivity {
 
     }
 
-
-
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public  static Intent makeIntent(Context context, int ind)
     {
