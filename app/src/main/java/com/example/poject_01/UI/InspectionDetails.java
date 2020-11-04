@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -53,6 +54,7 @@ public class InspectionDetails extends AppCompatActivity {
         //List Violations
         populateListView();
         registerClickCallBack();
+
 
     }
 
@@ -130,8 +132,6 @@ public class InspectionDetails extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void extractDataFromIntent() {
         Intent intent = getIntent();
