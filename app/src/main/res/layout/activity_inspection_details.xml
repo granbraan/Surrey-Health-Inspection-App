@@ -25,6 +25,8 @@
         android:layout_marginTop="36dp"
         android:layout_marginBottom="79dp"
         android:text="TextView"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/inspectionListView"
         app:layout_constraintEnd_toEndOf="@+id/inspectionCritical"
         app:layout_constraintHorizontal_bias="0.0"
@@ -38,6 +40,7 @@
         android:layout_marginStart="96dp"
         android:layout_marginTop="44dp"
         android:text="TextView"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inspectionDate" />
 
@@ -48,6 +51,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="116dp"
         android:text="TextView"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,6 +62,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="44dp"
         android:text="TextView"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/inspectionType"
         app:layout_constraintTop_toBottomOf="@+id/inspectionType" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,16 @@ import com.example.poject_01.model.RestaurantList;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+//image references
+//https://thenounproject.com/term/food-tray/695390/
+//https://thenounproject.com/term/silverfish/1975976/
+//https://thenounproject.com/term/cleaning/1932669/
+//https://thenounproject.com/term/clipboard/122200/
+//https://thenounproject.com/term/kitchen/554415/
+/**
+ *  Shows details of the inspection clicked by user.
+ *  Data such as Number of critical/non-critical violations, inspection type, inspection date, and violation type
+ */
 public class InspectionDetails extends AppCompatActivity {
     private Inspection curInspection;
     private int index;
@@ -81,7 +90,7 @@ public class InspectionDetails extends AppCompatActivity {
                 imageView.setImageResource(R.drawable.sanitary);
             }
             else if(violations[2].toLowerCase().contains("equipment")) {
-                imageView.setImageResource(R.drawable.equipment);
+                imageView.setImageResource(R.drawable.kitchen);
             }
             else if(violations[2].toLowerCase().contains("food")) {
                 imageView.setImageResource(R.drawable.food);
