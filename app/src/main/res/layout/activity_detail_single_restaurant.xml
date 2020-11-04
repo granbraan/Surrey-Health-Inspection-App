@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+
     tools:context=".UI.DetailSingleRestaurant">
 
     <LinearLayout
@@ -88,10 +88,10 @@
         android:id="@+id/imageView"
         android:layout_width="304dp"
         android:layout_height="169dp"
+        android:contentDescription="@string/todo"
         android:translationX="50sp"
         android:translationY="70sp"
-        app:srcCompat="@drawable/restaurant_image"
-        android:contentDescription="@string/todo" />
+        app:srcCompat="@drawable/restaurant_image" />
 
     <TextView
         android:id="@+id/textView10"
@@ -126,25 +126,8 @@
         android:layout_width="361dp"
         android:layout_height="232dp"
         android:translationX="20sp"
-        android:translationY="430sp" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/cardview_dark_background"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="top|center"
-        app:popupTheme="@style/Theme.Poject_01.PopupOverlay" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Back"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="end|center" />
+        android:translationY="430sp"
+        android:paddingBottom="70dp"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

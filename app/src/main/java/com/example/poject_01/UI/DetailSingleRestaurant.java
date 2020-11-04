@@ -27,11 +27,9 @@ public class DetailSingleRestaurant extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_single_restaurant);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         extractDataFromIntent();
         displayNameAndLocation();
-        BackToMainButton();
+
 
         //use of recycler view to show list of inspections
         RecyclerView recycler_view = findViewById(R.id.recycler_view);
@@ -64,15 +62,7 @@ public class DetailSingleRestaurant extends AppCompatActivity {
 
     }
 
-   private void BackToMainButton(){
-        Button btn = findViewById(R.id.button7);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-   }
+
 
 
 
