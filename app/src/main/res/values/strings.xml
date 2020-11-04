@@ -21,4 +21,8 @@
     <string name="date">date</string>
     <string name="hzrd_lvl">hzrd_lvl</string>
     <string name="todo">TODO</string>
+    <string name="violations_text_main_1">There were:</string>
+    <string name="violations_text_main_2">violations</string>
+    <string name="days_ago_main_date">days ago</string>
+    <string name="no_recent_inspections_main">No Recent Inspections</string>
 </resources>

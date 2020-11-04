@@ -3,6 +3,8 @@ package com.example.poject_01.UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(restaurantAdapter);
     }
 
+
     private void registerClick() {
         ListView listView = findViewById(R.id.restaurantListView);
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -116,16 +119,43 @@ public class MainActivity extends AppCompatActivity {
 
                 // number of violations
                 TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
-                textViolations.setText("There were: " + latestInspection.getNumViolations() + " violations" );
+                textViolations.setText(getString(R.string.violations_text_main_1) + " " +  latestInspection.getNumViolations() + " " + getString(R.string.violations_text_main_2) );
 
                 // setting hazard icon
                 setHazardIcon(restaurantView, latestInspection);
+
+                // setting hazard colour
+                setHazardColour(restaurantView, latestInspection);
             }
 
             return restaurantView;
         }
 
     }
+
+
+    // outputs date according to specifications described in the user story
+    private String refactorDate(String d) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate currentDate = LocalDate.now();
+        LocalDate inspectionDate = LocalDate.parse(d, formatter);
+        long difference = DAYS.between(inspectionDate, currentDate);
+
+        Log.d("MainActivity", "current date - "+ currentDate);
+        Log.d("MainActivity", "inspection date - "+ inspectionDate);
+        Log.d("MainActivity", "difference = "+ difference);
+        if (difference <= 30){
+            return( difference + " " + getString(R.string.days_ago_main_date));
+        }
+        else if(difference <= 365){
+            return("" + inspectionDate.getMonth() + " " + inspectionDate.getDayOfMonth() );
+        }
+        else {
+            return("" + inspectionDate.getYear() + " "+ inspectionDate.getMonth() );
+        }
+
+    }
+
 
     private void setHazardIcon(View v, Inspection i) {
         ImageView hazardIcon = v.findViewById(R.id.iconHazardLevel);
@@ -141,26 +171,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // outputs date according to specifications described in the user story
-    private String refactorDate(String d) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        LocalDate currentDate = LocalDate.now();
-        LocalDate inspectionDate = LocalDate.parse(d, formatter);
-        long difference = DAYS.between(inspectionDate, currentDate);
 
-        Log.d("MainActivity", "current date - "+ currentDate);
-        Log.d("MainActivity", "inspection date - "+ inspectionDate);
-        Log.d("MainActivity", "difference = "+ difference);
-        if (difference <= 30){
-            return( difference + " days ago");
+    private void setHazardColour(View v, Inspection i) {
+        ImageView hazardColour = v.findViewById(R.id.hazardColour);
+        String hazardRating = i.getHazardRating();
+        if (Objects.equals(hazardRating.toUpperCase(), "LOW") ){
+            hazardColour.setBackgroundColor(Color.GREEN);
         }
-        else if(difference <= 365){
-            return("" + inspectionDate.getMonth() + " " + inspectionDate.getDayOfMonth() );
+        else if (Objects.equals(hazardRating.toUpperCase(), "MODERATE")){
+            hazardColour.setBackgroundColor(Color.YELLOW);
         }
-        else {
-            return("" + inspectionDate.getYear() + " "+ inspectionDate.getMonth() );
+        else if (Objects.equals(hazardRating.toUpperCase(), "HIGH")){
+            hazardColour.setBackgroundColor(Color.RED);
         }
-
     }
+
+
 
 }
