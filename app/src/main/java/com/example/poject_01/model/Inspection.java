@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * This class holds all data relating to one inspection.
- * violations are held the Array list "vioList"
+ * violations are held in the Array list "vioList"
  */
 public class Inspection implements Comparable<Inspection> {
     private int inspectionDate;

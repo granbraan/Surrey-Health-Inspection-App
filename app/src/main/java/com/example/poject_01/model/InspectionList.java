@@ -18,6 +18,7 @@ public class InspectionList implements Iterable<Inspection> {
     public void addInspection(Inspection i) {
         inspections.add(i) ;num_inspection++;
     }
+
     public Inspection getInspectionIndex(int i){
         return inspections.get(i);
     }

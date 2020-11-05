@@ -63,7 +63,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setName.setText(restaurantList.getRestaurantIndex(index).getName());
 
         TextView setAddress = findViewById(R.id.address_dsp);
-        setAddress.setText(restaurantList.getRestaurantIndex(index).getAddress());
+        setAddress.setText(restaurantList.getRestaurantIndex(index).getAddress() + ", " + restaurantList.getRestaurantIndex(index).getCity());
 
         TextView setGps = findViewById(R.id.gps_cords_dsp);
         String Latitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLatitude());

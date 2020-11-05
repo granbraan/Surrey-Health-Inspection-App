@@ -18,9 +18,6 @@ public class Restaurant implements Comparable<Restaurant> {
     private double longitude;
     private InspectionList inspections;
 
-    public String getCity() {
-        return city;
-    }
 
     public Restaurant(String trackingNum, String name, String address, String city, String type, double latitude, double longitude) {
         this.trackingNum = trackingNum;
@@ -31,6 +28,10 @@ public class Restaurant implements Comparable<Restaurant> {
         this.longitude = longitude;
         this.type = type;
         this.inspections = new InspectionList();
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public void addInspection(Inspection inspection) {
@@ -63,11 +64,6 @@ public class Restaurant implements Comparable<Restaurant> {
 
     }
 
-    @Override
-    public int compareTo(Restaurant r) {
-        return this.name.compareTo(r.name);
-    }
-
     public String getAddress() {
         return address;
     }
@@ -79,6 +75,12 @@ public class Restaurant implements Comparable<Restaurant> {
     public double getLongitude() {
         return longitude;
     }
+
+    @Override
+    public int compareTo(Restaurant r) {
+        return this.name.compareTo(r.name);
+    }
+
 
     @Override
     public String toString() {

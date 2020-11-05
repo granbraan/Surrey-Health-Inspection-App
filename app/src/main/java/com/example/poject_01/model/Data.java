@@ -46,7 +46,6 @@ public class Data {
     }
 
     public void readInspectionData() {
-
         String line;
         try {
             reader.readLine();
