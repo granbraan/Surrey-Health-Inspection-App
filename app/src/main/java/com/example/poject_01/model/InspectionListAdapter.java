@@ -59,13 +59,13 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         holder.dateT.setText(String.format("Date - %s", date));
 
         //critical issues
-        holder.critT.setText("Number of critical issues = "+ inspectionList.getInspectionIndex(position).getNumCritical());
+        holder.critT.setText(context.getString(R.string.num_critical_restaurant)+ " " +inspectionList.getInspectionIndex(position).getNumCritical());
 
         //non critical issues
-        holder.nonCritT.setText("Number of non critical issues = "+ inspectionList.getInspectionIndex(position).getNumNonCritical());
+        holder.nonCritT.setText(context.getString(R.string.num_non_critical_restaurant)+" " + inspectionList.getInspectionIndex(position).getNumNonCritical());
 
         //hazard level
-        holder.hazardT.setText("Hazard level = "+ inspectionList.getInspectionIndex(position).getHazardRating());
+        holder.hazardT.setText(context.getString(R.string.hazard_lvl_restaurant)+ " " +inspectionList.getInspectionIndex(position).getHazardRating());
 
 
         //image
