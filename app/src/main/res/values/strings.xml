@@ -31,4 +31,5 @@
     <string name="num_critical_restaurant">Number of critical issues =</string>
     <string name="num_non_critical_restaurant">Number of non critical issues =</string>
     <string name="hazard_lvl_restaurant">Hazard level =</string>
+    <string name="textview">TextView</string>
 </resources>
