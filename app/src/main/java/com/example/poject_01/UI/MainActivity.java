@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        readWriteData();
+       // readWriteData();
         populateListView();
         registerClick();
     }
@@ -204,6 +205,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public  static Intent makeIntent(Context context)
+    {
+        Intent intent =  new Intent(context, MainActivity.class);
+        return intent;
+    }
 
 
 }
