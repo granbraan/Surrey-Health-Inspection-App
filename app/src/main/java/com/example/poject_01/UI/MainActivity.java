@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.graphics.Color;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,11 +22,21 @@ import android.widget.TextView;
 import android.content.Intent;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -43,7 +56,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
     private final RestaurantList restaurantList = RestaurantList.getInstance();
-
+    private RequestQueue mQueue;
     private Intent intent;
 
 
@@ -54,6 +67,48 @@ public class MainActivity extends AppCompatActivity {
         readWriteData();
         populateListView();
         registerClick();
+        GetURL();
+    }
+
+    private void GetURL() {
+        mQueue = Volley.newRequestQueue(this);
+        String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
+        String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+        JsonObjectRequest restaurantsRequest = new JsonObjectRequest(Request.Method.GET, restaurantsURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject object1 = response.getJSONObject("result");
+                    JSONArray array1 = object1.getJSONArray("resources");
+                    JSONObject data = array1.getJSONObject(0);
+                    String testURL  =  data.getString("url");
+                    TextView text1 = findViewById(R.id.textJSON);
+                    downloadData(testURL);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(restaurantsRequest);
+        
+    }
+
+    private void downloadData(String testURL) {
+        String url = testURL;
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setDescription("downloading restaurant data");
+        request.setTitle("Restaurants");
+
+// get download service and enqueue file
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        request.setDestinationUri(Uri.parse("data_restaurants.csv"));
+        manager.enqueue(request);
     }
 
     private void readWriteData() {
