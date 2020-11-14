@@ -1,30 +1,43 @@
 package com.example.poject_01.UI;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.RestaurantList;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
+    Switch aSwitch;
+    private FusedLocationProviderClient currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +47,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        // aSwitch.setChecked(false);
         mapFragment.getMapAsync(this);
+        aSwitch = findViewById(R.id.switch1);
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked == true) {
+                    Intent intent = MainActivity.makeIntent(MapsActivity.this);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     /**
@@ -50,15 +74,27 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for(int i =0; i<restaurantList.getRestaurantListSize();i++)
-        {
+        for (int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
             double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
-            double longitude= restaurantList.getRestaurantIndex(i).getLongitude();
-            LatLng location = new LatLng(latitude , longitude);
-
-            mMap.addMarker(new MarkerOptions().position(location));
+            double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
+            LatLng location = new LatLng(latitude, longitude);
+            mMap.addMarker(new MarkerOptions().position(location).title("Restaurant"));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(21.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_activity:
+                Intent i = MainActivity.makeIntent(MapsActivity.this);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void readWriteData() {
@@ -69,9 +105,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
         BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
         // the data is set using private setters in the Data class
-        Data restaurantData = new Data(restaurantList , restaurantReader );
+        Data restaurantData = new Data(restaurantList, restaurantReader);
         Data inspectionData = new Data(restaurantList, inspectionReader);
         restaurantData.readRestaurantData();
         inspectionData.readInspectionData();
+    }
+
+    private void getDeviceLocation() {
+        currentLocation = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Task location = currentLocation.getLastLocation();
+        location.addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if(task.isSuccessful())
+                {
+                    Location myCurrentLocation = (Location) task.getResult();
+
+                }
+
+            }
+        });
+    }
+
+    private void moveCamera (LatLng latLng,float zoom)
+    {
+
     }
 }

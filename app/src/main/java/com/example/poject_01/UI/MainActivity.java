@@ -1,5 +1,7 @@
 package com.example.poject_01.UI;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -9,10 +11,12 @@ import android.graphics.Color;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
        // readWriteData();
         populateListView();
         registerClick();
+        //back button
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void readWriteData() {
@@ -209,6 +217,16 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent intent =  new Intent(context, MainActivity.class);
         return intent;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
