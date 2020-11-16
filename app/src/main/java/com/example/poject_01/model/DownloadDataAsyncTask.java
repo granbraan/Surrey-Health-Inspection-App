@@ -42,8 +42,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             URL url = new URL(f_url[0]);
             URLConnection connection = url.openConnection();
             connection.connect();
-            // getting file length
-            int lenghtOfFile = connection.getContentLength();
+
 
             // input stream to read file - with 8k buffer
             InputStream input = new BufferedInputStream(url.openStream(), 8192);

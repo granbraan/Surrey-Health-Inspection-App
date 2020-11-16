@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -79,6 +80,30 @@ public class MainActivity extends AppCompatActivity {
         registerClick();
         GetURL();
 
+        updateListView();
+
+    }
+
+    private void updateListView() {
+
+        int ch;
+        StringBuffer fileContent = new StringBuffer("");
+
+        try {
+            String fileName = this.getFilesDir() + "/" + "restaurant_data" + "/" +"restaurants.csv";
+            InputStream fis = new FileInputStream(new File(fileName));
+            try {
+                while( (ch = fis.read()) != -1)
+                    fileContent.append((char)ch);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String data = new String(fileContent);
+        Log.d("!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*", data);
     }
 
     private void UpdateData(String url) {
