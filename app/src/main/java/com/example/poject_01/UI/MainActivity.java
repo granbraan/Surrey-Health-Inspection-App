@@ -79,31 +79,21 @@ public class MainActivity extends AppCompatActivity {
         populateListView();
         registerClick();
         GetURL();
-
         updateListView();
 
     }
 
     private void updateListView() {
-
-        int ch;
-        StringBuffer fileContent = new StringBuffer("");
-
         try {
             String fileName = this.getFilesDir() + "/" + "restaurant_data" + "/" +"restaurants.csv";
             InputStream fis = new FileInputStream(new File(fileName));
-            try {
-                while( (ch = fis.read()) != -1)
-                    fileContent.append((char)ch);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            Data restaurantDataUpdate = new Data(restaurantList, restaurantReader);
+            restaurantDataUpdate.readRestaurantData2();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        String data = new String(fileContent);
-        Log.d("!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*", data);
     }
 
     private void UpdateData(String url) {

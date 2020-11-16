@@ -16,6 +16,7 @@ public class Data {
     private RestaurantList restaurantList;
     private BufferedReader reader;
 
+
     public Data(RestaurantList restaurantList, BufferedReader reader) {
         this.restaurantList = restaurantList;
         this.reader = reader;
@@ -38,11 +39,34 @@ public class Data {
         }
     }
 
+    public void readRestaurantData2(){
+        restaurantList.clear();
+        // setting up reader
+
+        String line;
+        try {
+            // jump over headers
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                //Log.d("readRestaurantData2", line);
+                String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                setRestaurantData(tokens);
+            }
+        }
+        catch (IOException e) {
+            Log.wtf("MainActivity - ReadWriteData", "error reading file on line: " + e);
+            e.printStackTrace();
+        }
+    }
+
     private void setRestaurantData(String[] tokens) {
-        Restaurant r = new Restaurant(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
+        String str = tokens[1].replace("\"", "");
+
+        Log.d("------------------------------------------", str);
+        Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
         restaurantList.addRestaurant(r);
 
-        Log.d("MainActivity - ReadWriteData", "Added : " + r + " to restaurantList"  +"\n");
+        //Log.d("MainActivity - ReadWriteData", "Added : " + r + " to restaurantList"  +"\n");
     }
 
     public void readInspectionData() {
