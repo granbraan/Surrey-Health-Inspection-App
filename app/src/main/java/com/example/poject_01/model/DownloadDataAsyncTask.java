@@ -12,6 +12,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * This class downloads
+ */
 public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
     private Context mContext;

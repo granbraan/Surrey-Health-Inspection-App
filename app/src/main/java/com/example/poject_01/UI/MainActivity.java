@@ -73,74 +73,10 @@ public class MainActivity extends AppCompatActivity {
         registerClick();
         getURL(restaurantsURL, "restaurants.csv");
         getURL(inspectionsURL, "inspections.csv");
+        updateRestaurants();
         updateInspections();
-        //updateListView();
 
     }
-
-    private void updateInspections() {
-        try {
-            String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data inspectionDataUpdate = new Data(restaurantList, inspectionReader);
-            inspectionDataUpdate.readInspectionData2();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateListView() {
-        try {
-            String fileName = this.getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data restaurantDataUpdate = new Data(restaurantList, restaurantReader);
-            restaurantDataUpdate.readRestaurantData2();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void UpdateData(String url, String fileName) {
-        DownloadDataAsyncTask task = new DownloadDataAsyncTask(MainActivity.this, fileName);
-        task.execute(url);
-
-    }
-
-    private void getURL(String url, String fileName) {
-        mQueue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest restaurantsRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONObject object1 = response.getJSONObject("result");
-                    JSONArray array1 = object1.getJSONArray("resources");
-                    JSONObject data = array1.getJSONObject(0);
-                    String testURL  =  data.getString("url");
-
-                    Log.d("Main Activity","URL:" + testURL);
-
-                    UpdateData(testURL , fileName);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        mQueue.add(restaurantsRequest);
-        
-    }
-
-
 
     private void readWriteData() {
         // reads data from data_restaurants.csv
@@ -150,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
         BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
         // the data is set using private setters in the Data class
-        Data restaurantData = new Data(restaurantList , restaurantReader );
-        Data inspectionData = new Data(restaurantList, inspectionReader);
+        Data restaurantData = new Data( restaurantReader );
+        Data inspectionData = new Data( inspectionReader);
         restaurantData.readRestaurantData();
         inspectionData.readInspectionData();
     }
@@ -173,6 +109,72 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private void updateInspections() {
+        try {
+            String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
+            InputStream fis = new FileInputStream(new File(fileName));
+            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            Data inspectionDataUpdate = new Data( inspectionReader);
+            inspectionDataUpdate.readUpdatedInspectionData();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateRestaurants() {
+        try {
+            String fileName = this.getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
+            InputStream fis = new FileInputStream(new File(fileName));
+            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            Data restaurantDataUpdate = new Data(restaurantReader);
+            restaurantDataUpdate.readUpdatedRestaurantData();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void downloadData(String url, String fileName) {
+        DownloadDataAsyncTask task = new DownloadDataAsyncTask(MainActivity.this, fileName);
+        task.execute(url);
+
+    }
+
+    private void getURL(String url, String fileName) {
+        mQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest restaurantsRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject object1 = response.getJSONObject("result");
+                    JSONArray array1 = object1.getJSONArray("resources");
+                    JSONObject data = array1.getJSONObject(0);
+                    String testURL  =  data.getString("url");
+
+                    Log.d("Main Activity","URL:" + testURL);
+
+                    downloadData(testURL , fileName);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(restaurantsRequest);
+
+    }
+
+
+
 
 
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
