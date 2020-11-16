@@ -35,7 +35,8 @@
 
         <activity
             android:name=".UI.MapsActivity"
-            android:label="@string/title_activity_maps">
+            android:label="@string/title_activity_maps"
+            android:theme="@style/Theme.Poject_01.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +51,8 @@
             android:name=".UI.RestaurantDetailsActivity"
             android:label="Restaurant Details"
             android:parentActivityName=".UI.MainActivity" />
-        <activity android:name=".UI.MainActivity">
+        <activity android:name=".UI.MainActivity"
+            android:theme="@style/Theme.Poject_01.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

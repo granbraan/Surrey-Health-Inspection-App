@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -58,30 +60,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient currentLocation;
     boolean permissionGranted = false;
     LocationRequest locationRequest;
+    private Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_map);
+        toolbar.inflateMenu(R.menu.toggle_button);
+        toolbar.setTitle("Maps");
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = MainActivity.makeIntent(MapsActivity.this);
+                if(item.getItemId()==R.id.switch_list) {
+                    startActivity(intent);
+                    return  true;
+                }
+                else
+                    return false;
+            }
+        });
+        if(getIntent().getBooleanExtra("EXIT",false))
+            finish();
         readWriteData();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        aSwitch = findViewById(R.id.switch1);
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true) {
-                    Intent intent = MainActivity.makeIntent(MapsActivity.this);
-                    startActivity(intent);
-                }
-            }
-        });
-        //back button
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+
         currentLocation = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -153,19 +161,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.main_activity:
-                Intent i = MainActivity.makeIntent(MapsActivity.this);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void readWriteData() {
         // reads data from data_restaurants.csv
         InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
@@ -192,7 +187,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             // for ActivityCompat#requestPermissions for more details.
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(this,permissions,12345);
-
             return;
         }
         Task location = LocationServices.getFusedLocationProviderClient(this).getLastLocation();
@@ -208,7 +202,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     return;
                 }
                 mMap.setMyLocationEnabled(true);
-
             }
         });
     }
@@ -232,11 +225,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-
-
     private void moveCamera (LatLng latLng, float zoom)
     {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

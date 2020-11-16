@@ -3,6 +3,7 @@ package com.example.poject_01.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 
 import android.annotation.SuppressLint;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 
 import com.example.poject_01.R;
@@ -50,18 +52,32 @@ public class MainActivity extends AppCompatActivity {
     private final RestaurantList restaurantList = RestaurantList.getInstance();
 
     private Intent intent;
-
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        toolbar.inflateMenu(R.menu.toggle_button_list);
+        toolbar.setTitle("List of Rastaurants");
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId()==R.id.switch_map) {
+                    finish();
+                    return  true;
+                }
+                else
+                    return false;
+            }
+        });
        // readWriteData();
         populateListView();
         registerClick();
         //back button
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+//        ActionBar ab = getSupportActionBar();
+//        ab.setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -228,6 +244,15 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        Toast.makeText(this,"Back PRessed",Toast.LENGTH_SHORT).show();
+//        finish();
+        Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT",true);
+        startActivity(intent);
+    }
 
 }
