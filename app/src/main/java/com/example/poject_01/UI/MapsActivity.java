@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -61,6 +62,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+        //back button
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     /**
@@ -81,7 +85,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
             LatLng location = new LatLng(latitude, longitude);
             mMap.addMarker(new MarkerOptions().position(location).title("Restaurant"));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(21.0f));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         }
         getDeviceLocation();
@@ -151,4 +155,5 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
     }
+
 }
