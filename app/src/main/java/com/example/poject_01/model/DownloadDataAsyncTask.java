@@ -3,29 +3,23 @@ package com.example.poject_01.model;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.example.poject_01.UI.MainActivity;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
     private Context mContext;
+    private String fileName;
 
-    public DownloadDataAsyncTask(Context context) {
+    public DownloadDataAsyncTask(Context context, String fileName) {
         mContext = context;
+        this.fileName = fileName;
     }
 
     @Override
@@ -47,11 +41,11 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             // input stream to read file - with 8k buffer
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-            File dir = new File(mContext.getFilesDir(), "restaurant_data");
+            File dir = new File(mContext.getFilesDir(), fileName);
             if(!dir.exists()){
                 dir.mkdir();
             }
-            File gpxfile = new File(dir, "restaurants.csv");
+            File gpxfile = new File(dir, fileName);
             // Output stream to write file
             OutputStream output = new FileOutputStream(gpxfile);
             Log.d( "The file path = ", gpxfile.getAbsolutePath());

@@ -62,11 +62,11 @@ public class Data {
     private void setRestaurantData(String[] tokens) {
         String str = tokens[1].replace("\"", "");
 
-        Log.d("------------------------------------------", str);
+
         Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
         restaurantList.addRestaurant(r);
 
-        //Log.d("MainActivity - ReadWriteData", "Added : " + r + " to restaurantList"  +"\n");
+        Log.d("MainActivity - ReadWriteData", "Added : " + r + " to restaurantList"  +"\n");
     }
 
     public void readInspectionData() {
@@ -84,15 +84,17 @@ public class Data {
         }
     }
 
+
     private void setInspectionData(String[] tokens) {
         String violations;
         Log.d("MainActivity - ReadWriteData", "length of tokens should be 6 or 7: " + tokens.length +"\n");
+
         String trackNum = tokens[0];
         if (tokens.length < 7 ) {
             violations = "";
         }
         else{
-            violations = tokens[6];
+            violations = tokens[6].replace("\"", "");
         }
         // store inspection into restaurant with matching tracking number
         Inspection i = new Inspection(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), tokens[5], violations);
@@ -104,5 +106,45 @@ public class Data {
 
         }
     }
+
+    public void readInspectionData2() {
+        String line;
+        try {
+            reader.readLine();
+            while (((line = reader.readLine()) != null)) {
+                String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                setInspectionData2(tokens);
+            }
+        }
+        catch (IOException e) {
+            Log.wtf("MainActivity - ReadWriteData", "error reading file on line: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    private void setInspectionData2(String[] tokens) {
+        String violations;
+        Log.d("MainActivity - ReadWriteData", "length of tokens should be 6 or 7: " + tokens.length +"\n");
+
+        String trackNum = tokens[0];
+        if (tokens.length < 7 ) {
+            violations = "";
+        }
+        else{
+            violations = tokens[6].replace("\"", "");
+        }
+        // store inspection into restaurant with matching tracking number
+        Inspection i = new Inspection(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), tokens[5], violations);
+        for (Restaurant r : restaurantList) {
+            if (Objects.equals(r.getTrackingNum(), trackNum)) {
+                r.addInspection(i);
+                Log.d("MainActivity - ReadWriteData", "Added: " + i + " to " + r.getName() +"\n");
+            }
+
+        }
+    }
+
+
+
 
 }

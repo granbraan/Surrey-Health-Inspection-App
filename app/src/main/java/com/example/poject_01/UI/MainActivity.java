@@ -4,13 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.annotation.SuppressLint;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.graphics.Color;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import android.content.Intent;
-import android.widget.Toast;
 
 
 import com.android.volley.Request;
@@ -45,18 +40,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static android.os.Environment.getExternalStoragePublicDirectory;
 import static android.os.Environment.getExternalStorageState;
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -69,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private RequestQueue mQueue;
     private Intent intent;
+    private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
+    private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
 
 
     @Override
@@ -78,14 +71,29 @@ public class MainActivity extends AppCompatActivity {
         readWriteData();
         populateListView();
         registerClick();
-        GetURL();
-        updateListView();
+        getURL(restaurantsURL, "restaurants.csv");
+        getURL(inspectionsURL, "inspections.csv");
+        updateInspections();
+        //updateListView();
 
+    }
+
+    private void updateInspections() {
+        try {
+            String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
+            InputStream fis = new FileInputStream(new File(fileName));
+            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            Data inspectionDataUpdate = new Data(restaurantList, inspectionReader);
+            inspectionDataUpdate.readInspectionData2();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateListView() {
         try {
-            String fileName = this.getFilesDir() + "/" + "restaurant_data" + "/" +"restaurants.csv";
+            String fileName = this.getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
             Data restaurantDataUpdate = new Data(restaurantList, restaurantReader);
@@ -96,17 +104,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void UpdateData(String url) {
-        DownloadDataAsyncTask task = new DownloadDataAsyncTask(MainActivity.this);
+    private void UpdateData(String url, String fileName) {
+        DownloadDataAsyncTask task = new DownloadDataAsyncTask(MainActivity.this, fileName);
         task.execute(url);
 
     }
 
-    private void GetURL() {
+    private void getURL(String url, String fileName) {
         mQueue = Volley.newRequestQueue(this);
-        String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
-        String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
-        JsonObjectRequest restaurantsRequest = new JsonObjectRequest(Request.Method.GET, restaurantsURL, null, new Response.Listener<JSONObject>() {
+
+        JsonObjectRequest restaurantsRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -114,10 +121,10 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray array1 = object1.getJSONArray("resources");
                     JSONObject data = array1.getJSONObject(0);
                     String testURL  =  data.getString("url");
-                    TextView text1 = findViewById(R.id.textJSON);
-                    //downloadData(testURL);
+
                     Log.d("Main Activity","URL:" + testURL);
-                    UpdateData(testURL);
+
+                    UpdateData(testURL , fileName);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
