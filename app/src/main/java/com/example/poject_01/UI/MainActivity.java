@@ -10,6 +10,7 @@ import android.graphics.Color;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 
 import com.android.volley.Request;
@@ -29,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.poject_01.R;
+import com.example.poject_01.model.DownloadDataAsyncTask;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.Restaurant;
@@ -39,14 +42,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import static android.os.Environment.getExternalStoragePublicDirectory;
+import static android.os.Environment.getExternalStorageState;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
@@ -68,6 +78,13 @@ public class MainActivity extends AppCompatActivity {
         populateListView();
         registerClick();
         GetURL();
+
+    }
+
+    private void UpdateData(String url) {
+        DownloadDataAsyncTask task = new DownloadDataAsyncTask(MainActivity.this);
+        task.execute(url);
+
     }
 
     private void GetURL() {
@@ -83,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject data = array1.getJSONObject(0);
                     String testURL  =  data.getString("url");
                     TextView text1 = findViewById(R.id.textJSON);
-                    downloadData(testURL);
+                    //downloadData(testURL);
+                    Log.d("Main Activity","URL:" + testURL);
+                    UpdateData(testURL);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -99,17 +118,7 @@ public class MainActivity extends AppCompatActivity {
         
     }
 
-    private void downloadData(String testURL) {
-        String url = testURL;
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setDescription("downloading restaurant data");
-        request.setTitle("Restaurants");
 
-// get download service and enqueue file
-        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        request.setDestinationUri(Uri.parse("data_restaurants.csv"));
-        manager.enqueue(request);
-    }
 
     private void readWriteData() {
         // reads data from data_restaurants.csv
