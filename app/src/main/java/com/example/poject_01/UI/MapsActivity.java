@@ -41,6 +41,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     Switch aSwitch;
     private FusedLocationProviderClient currentLocation;
+    boolean permissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        // aSwitch.setChecked(false);
         mapFragment.getMapAsync(this);
         aSwitch = findViewById(R.id.switch1);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -85,8 +85,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
             LatLng location = new LatLng(latitude, longitude);
             mMap.addMarker(new MarkerOptions().position(location).title("Restaurant"));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         }
         getDeviceLocation();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -123,6 +121,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void getDeviceLocation() {
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -131,6 +130,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
+            ActivityCompat.requestPermissions(this,permissions,12345);
+
             return;
         }
         Task location = LocationServices.getFusedLocationProviderClient(this).getLastLocation();
@@ -151,7 +153,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void moveCamera (LatLng latLng,float zoom)
+
+    private void moveCamera (LatLng latLng, float zoom)
     {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
     }
