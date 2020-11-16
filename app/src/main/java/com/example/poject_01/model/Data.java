@@ -11,7 +11,6 @@ import java.util.Objects;
  * setters are private, only the read() functions may be called from outside this class.
  */
 public class Data {
-
     private BufferedReader reader;
     private RestaurantList restaurantList = RestaurantList.getInstance();
 
@@ -95,7 +94,6 @@ public class Data {
             // jump over headers
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                //Log.d("readRestaurantData2", line);
                 String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 setRestaurantData(tokens);
             }
@@ -130,8 +128,6 @@ public class Data {
     private void setUpdatedInspectionData(String[] tokens) {
         String violations;
         String hazard;
-
-
         String trackNum = tokens[0];
 
         if (tokens.length <= 5){

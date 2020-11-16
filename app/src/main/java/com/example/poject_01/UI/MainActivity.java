@@ -45,6 +45,7 @@ import java.io.InputStreamReader;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -71,12 +72,15 @@ public class MainActivity extends AppCompatActivity {
         readWriteData();
         populateListView();
         registerClick();
+
         getURL(restaurantsURL, "restaurants.csv");
         getURL(inspectionsURL, "inspections.csv");
-        updateRestaurants();
-        updateInspections();
+        //updateRestaurants();
+       // updateInspections();
 
     }
+
+
 
     private void readWriteData() {
         // reads data from data_restaurants.csv
@@ -154,10 +158,23 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray array1 = object1.getJSONArray("resources");
                     JSONObject data = array1.getJSONObject(0);
                     String testURL  =  data.getString("url");
-
+                    String LAST_MODIFIED = data.getString("last_modified");
                     Log.d("Main Activity","URL:" + testURL);
 
-                    downloadData(testURL , fileName);
+
+                    // check if last_modified has been updated
+
+
+                    LocalDateTime date = LocalDateTime.parse(LAST_MODIFIED);
+                    LocalDateTime currentDate = LocalDateTime.now();
+
+
+
+                    Log.d("Date Time", ""+currentDate);
+
+
+
+                    //downloadData(testURL , fileName);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
