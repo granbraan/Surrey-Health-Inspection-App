@@ -1,23 +1,30 @@
 package com.example.poject_01.UI;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 
 import com.android.volley.Request;
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private Intent intent;
+    private Toolbar toolbar;
     private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
 
@@ -72,6 +80,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        toolbar.inflateMenu(R.menu.toggle_button_list);
+        toolbar.setTitle("List of Rastaurants");
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId()==R.id.switch_map) {
+                    finish();
+                    return  true;
+                }
+                else
+                    return false;
+            }
+        });
+       // readWriteData();
 
         SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
         boolean initial_update = prefs.getBoolean("initial_update", false);
@@ -103,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
             //updateRestaurants();
             //updateInspections();
         }
+        //back button
+//        ActionBar ab = getSupportActionBar();
+//        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -138,8 +164,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
     private void updateInspections() {
         try {
             String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
@@ -165,8 +189,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
 
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
         public RestaurantListAdapter() {
@@ -283,6 +305,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    public  static Intent makeIntent(Context context)
+    {
+        Intent intent =  new Intent(context, MainActivity.class);
+        return intent;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        Toast.makeText(this,"Back PRessed",Toast.LENGTH_SHORT).show();
+//        finish();
+        Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT",true);
+        startActivity(intent);
+    }
 
 }
