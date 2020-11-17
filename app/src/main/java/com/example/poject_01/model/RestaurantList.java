@@ -17,15 +17,21 @@ import java.util.List;
   */
  public class RestaurantList implements Iterable<Restaurant>{
     private List<Restaurant> restaurants = new ArrayList<>();
+    private int restaurantListSize=0;
     private static RestaurantList instance;
 
 
     public void addRestaurant(Restaurant r) {
         restaurants.add(r) ;
+        restaurantListSize++;
         Collections.sort(restaurants);
     }
 
-    public List<Restaurant> getList(){
+     public int getRestaurantListSize() {
+         return restaurantListSize;
+     }
+
+     public List<Restaurant> getList(){
         return(this.restaurants);
     }
 
