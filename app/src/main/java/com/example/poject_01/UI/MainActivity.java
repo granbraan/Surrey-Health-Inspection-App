@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 
 import android.os.Bundle;
@@ -48,7 +49,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static android.os.Environment.getExternalStorageState;
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -69,19 +72,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        readWriteInitialData();
+
+        SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
+        boolean initial_update = prefs.getBoolean("initial_update", false);
+        if (!initial_update){
+            readWriteInitialData();
+
+        }
+        else{
+            updateRestaurants();
+            updateInspections();
+        }
         populateListView();
         registerClick();
+        // comparing current time to last_update time
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date last_update = new Date( prefs.getLong("last_update", 0));
+        long diffInMillies = currentDate.getTime() - last_update.getTime();
+        long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        Log.d("Date - Last Update",""+ last_update);
+        Log.d("Date - Current",""+ currentDate);
+        Log.d("Difference in Hours:", "" +diffInHours);
+        // 20 hours since last update
+        if (diffInHours >= 20) {
+            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MainActivity.this, "restaurants.csv");
+            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MainActivity.this, "inspections.csv");
+            restaurants.getURL();
+            inspections.getURL();
 
-        DownloadRequest restaurants = new DownloadRequest("https://data.surrey.ca/api/3/action/package_show?id=restaurants", MainActivity.this, "restaurants.csv");
-        DownloadRequest inspections = new DownloadRequest("https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports", MainActivity.this, "inspections.csv");
-
-        restaurants.getURL();
-        inspections.getURL();
-
-        updateRestaurants();
-        updateInspections();
-
+            //updateRestaurants();
+            //updateInspections();
+        }
     }
 
 
