@@ -210,11 +210,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address + " Hazard Rating: "+ hazardRating).icon(BitmapDescriptorFactory.fromResource(markerImageId)));
         }
         getDeviceLocation();
+        setUpCluster();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mMap.setMyLocationEnabled(true);
-        googleMap.setOnInfoWindowClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -338,19 +339,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void addItems() {
+        double lat2 = 0;
+        double long2 = 0;
 
         for(int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
             if(restaurantList.getRestaurantIndex(i).getName().contains("Top")) {
-                double lat = restaurantList.getRestaurantIndex(i).getLatitude();
-                double lng = restaurantList.getRestaurantIndex(i).getLongitude();
+                lat2 = restaurantList.getRestaurantIndex(i).getLatitude();
+                long2 = restaurantList.getRestaurantIndex(i).getLongitude();
             }
         }
         //add 10 items to cluster
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
             double offset = i /60d;
-            lat = lat + offset;
-            lng = lng + offset;
-            RestaurantCluster offsetItem = new RestaurantCluster(lat, lng, "Title" + i, "Snippet" + i);
+            lat2 += offset;
+            long2 += offset;
+            RestaurantCluster offsetItem = new RestaurantCluster(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude(), "Title" + i, "Snippet" + i);
             clusterManager.addItem(offsetItem);
 
         }
