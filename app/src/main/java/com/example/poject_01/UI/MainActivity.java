@@ -72,14 +72,16 @@ public class MainActivity extends AppCompatActivity {
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private Intent intent;
     private Toolbar toolbar;
-    private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
-    private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        populateListView();
+        registerClick();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
         toolbar.setTitle("List of Rastaurants");
@@ -96,56 +98,12 @@ public class MainActivity extends AppCompatActivity {
         });
        // readWriteData();
 
-        SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
-        boolean initial_update = prefs.getBoolean("initial_update", false);
-        if (!initial_update){
-            readWriteInitialData();
 
-        }
-        else{
-            updateRestaurants();
-            updateInspections();
-        }
-        populateListView();
-        registerClick();
-        // comparing current time to last_update time
-        Date currentDate = new Date(System.currentTimeMillis());
-        Date last_update = new Date( prefs.getLong("last_update", 0));
-        long diffInMillies = currentDate.getTime() - last_update.getTime();
-        long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        Log.d("Date - Last Update",""+ last_update);
-        Log.d("Date - Current",""+ currentDate);
-        Log.d("Difference in Hours:", "" +diffInHours);
-        // 20 hours since last update
-        if (diffInHours >= 20) {
-            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MainActivity.this, "restaurants.csv");
-            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MainActivity.this, "inspections.csv");
-            restaurants.getURL();
-            inspections.getURL();
-
-            //updateRestaurants();
-            //updateInspections();
-        }
         //back button
 //        ActionBar ab = getSupportActionBar();
 //        ab.setDisplayHomeAsUpEnabled(true);
     }
 
-
-
-    private void readWriteInitialData() {
-        // reads data from data_restaurants.csv
-        InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
-        BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
-        // reads data from data_inspections.csv
-        InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
-        BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
-        // the data is set using private setters in the Data class
-        Data restaurantData = new Data( restaurantReader );
-        Data inspectionData = new Data( inspectionReader);
-        restaurantData.readRestaurantData();
-        inspectionData.readInspectionData();
-    }
 
 
     private void populateListView() {
@@ -164,31 +122,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    private void updateInspections() {
-        try {
-            String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data inspectionDataUpdate = new Data( inspectionReader);
-            inspectionDataUpdate.readUpdatedInspectionData();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateRestaurants() {
-        try {
-            String fileName = this.getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data restaurantDataUpdate = new Data(restaurantReader);
-            restaurantDataUpdate.readUpdatedRestaurantData();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
         public RestaurantListAdapter() {

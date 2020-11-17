@@ -41,6 +41,7 @@ public class DownloadRequest {
         DownloadDataAsyncTask task = new DownloadDataAsyncTask(rContext, fileName);
         task.execute(downloadURL);
 
+        // updating preferences used to control flow of app
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("initial_update", true);
         Date currentDate = new Date(System.currentTimeMillis());
@@ -64,7 +65,6 @@ public class DownloadRequest {
                     Log.d("Get URL - URL", "" + dataURL);
 
                     // check if last_modified has been updated
-
                     String surrey_last_modified = data.getString("last_modified");
                     String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
                     String inspections_last_modified = prefs.getString("inspections_last_modified", "");
@@ -72,12 +72,11 @@ public class DownloadRequest {
                     Log.d("restaurant_last_modified", ""+ restaurant_last_modified);
                     Log.d("inspection_last_modified", ""+ inspections_last_modified);
 
-                    if (!Objects.equals(surrey_last_modified, restaurant_last_modified) && !Objects.equals(surrey_last_modified, inspections_last_modified) ){
+                    if (!Objects.equals(surrey_last_modified, restaurant_last_modified) ){
                         // TODO: get user input for download (alert dialog)
                         Toast.makeText(rContext, "Do you wanna update?", Toast.LENGTH_LONG).show();
                         //downloadData(dataURL);
-
-                    }
+                        }
 
 
 

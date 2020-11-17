@@ -31,7 +31,7 @@ import java.util.List;
         restaurants.clear();
     }
 
-    public List<Restaurant> getList(){
+
      public int getRestaurantListSize() {
          return restaurantListSize;
      }

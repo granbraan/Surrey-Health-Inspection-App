@@ -1,30 +1,24 @@
 package com.example.poject_01.UI;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
+import com.example.poject_01.model.DownloadRequest;
 import com.example.poject_01.model.RestaurantList;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -38,19 +32,21 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -61,6 +57,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     boolean permissionGranted = false;
     LocationRequest locationRequest;
     private Toolbar toolbar;
+    private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
+    private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
 
 
     @Override
@@ -82,9 +80,37 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     return false;
             }
         });
-        if(getIntent().getBooleanExtra("EXIT",false))
+        if(getIntent().getBooleanExtra("EXIT",false)) {
             finish();
-        readWriteData();
+        }
+        SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
+        boolean initial_update = prefs.getBoolean("initial_update", false);
+        if (!initial_update){
+            readWriteInitialData();
+
+        }
+        else{
+            updateRestaurants();
+            updateInspections();
+        }
+        // comparing current time to last_update time
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date last_update = new Date( prefs.getLong("last_update", 0));
+        long diffInMillies = currentDate.getTime() - last_update.getTime();
+        long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        Log.d("Date - Last Update",""+ last_update);
+        Log.d("Date - Current",""+ currentDate);
+        Log.d("Difference in Hours:", "" +diffInHours);
+        // 20 hours since last update
+        if (diffInHours >= 20) {
+            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv");
+            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv");
+            restaurants.getURL();
+            inspections.getURL();
+
+            //updateRestaurants();
+            //updateInspections();
+        }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -98,6 +124,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12345);
         }
 
+    }
+
+    private void updateInspections() {
+        try {
+            String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
+            InputStream fis = new FileInputStream(new File(fileName));
+            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            Data inspectionDataUpdate = new Data( inspectionReader);
+            inspectionDataUpdate.readUpdatedInspectionData();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateRestaurants() {
+        try {
+            String fileName = this.getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
+            InputStream fis = new FileInputStream(new File(fileName));
+            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            Data restaurantDataUpdate = new Data(restaurantReader);
+            restaurantDataUpdate.readUpdatedRestaurantData();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -178,7 +230,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    private void readWriteData() {
+    private void readWriteInitialData() {
         // reads data from data_restaurants.csv
         InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
         BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
@@ -186,8 +238,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
         BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
         // the data is set using private setters in the Data class
-        Data restaurantData = new Data(restaurantList, restaurantReader);
-        Data inspectionData = new Data(restaurantList, inspectionReader);
+        Data restaurantData = new Data( restaurantReader );
+        Data inspectionData = new Data( inspectionReader);
         restaurantData.readRestaurantData();
         inspectionData.readInspectionData();
     }
