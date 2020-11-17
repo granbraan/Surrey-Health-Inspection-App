@@ -108,6 +108,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             restaurants.getURL();
             inspections.getURL();
 
+            //TODO: if user chooses to download data, update restaurants and inspections.
+
             //updateRestaurants();
             //updateInspections();
         }
@@ -126,7 +128,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void updateInspections() {
+    public void updateInspections() {
         try {
             String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
             InputStream fis = new FileInputStream(new File(fileName));
@@ -139,7 +141,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void updateRestaurants() {
+    public void updateRestaurants() {
         try {
             String fileName = this.getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
             InputStream fis = new FileInputStream(new File(fileName));
