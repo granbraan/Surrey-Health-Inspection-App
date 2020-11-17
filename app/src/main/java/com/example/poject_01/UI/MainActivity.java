@@ -27,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.poject_01.R;
 import com.example.poject_01.model.DownloadDataAsyncTask;
+import com.example.poject_01.model.DownloadRequest;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.Restaurant;
@@ -59,7 +60,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
     private final RestaurantList restaurantList = RestaurantList.getInstance();
-    private RequestQueue mQueue;
     private Intent intent;
     private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
@@ -69,20 +69,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        readWriteData();
+        readWriteInitialData();
         populateListView();
         registerClick();
 
-        getURL(restaurantsURL, "restaurants.csv");
-        getURL(inspectionsURL, "inspections.csv");
-        //updateRestaurants();
-       // updateInspections();
+        DownloadRequest restaurants = new DownloadRequest("https://data.surrey.ca/api/3/action/package_show?id=restaurants", MainActivity.this, "restaurants.csv");
+        DownloadRequest inspections = new DownloadRequest("https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports", MainActivity.this, "inspections.csv");
+
+        restaurants.getURL();
+        inspections.getURL();
+
+        updateRestaurants();
+        updateInspections();
 
     }
 
 
 
-    private void readWriteData() {
+    private void readWriteInitialData() {
         // reads data from data_restaurants.csv
         InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
         BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
@@ -140,57 +144,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    private void downloadData(String url, String fileName) {
-        DownloadDataAsyncTask task = new DownloadDataAsyncTask(MainActivity.this, fileName);
-        task.execute(url);
-
-    }
-
-    private void getURL(String url, String fileName) {
-        mQueue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest restaurantsRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONObject object1 = response.getJSONObject("result");
-                    JSONArray array1 = object1.getJSONArray("resources");
-                    JSONObject data = array1.getJSONObject(0);
-                    String testURL  =  data.getString("url");
-                    String LAST_MODIFIED = data.getString("last_modified");
-                    Log.d("Main Activity","URL:" + testURL);
-
-
-                    // check if last_modified has been updated
-
-
-                    LocalDateTime date = LocalDateTime.parse(LAST_MODIFIED);
-                    LocalDateTime currentDate = LocalDateTime.now();
-
-
-
-                    Log.d("Date Time", ""+currentDate);
-
-
-
-                    //downloadData(testURL , fileName);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        mQueue.add(restaurantsRequest);
-
-    }
-
-
 
 
 
