@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         //back button
 //        ActionBar ab = getSupportActionBar();
 //        ab.setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void readWriteData() {

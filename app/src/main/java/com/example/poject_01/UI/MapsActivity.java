@@ -120,7 +120,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
             double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
             LatLng location = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions().position(location).title("Restaurant"));
+            int markerImageId;
+            if(restaurantList.getRestaurantIndex(i).numInspections()>0)
+            {
+                if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("High"))
+                {
+                    markerImageId = R.drawable.red;
+                }
+                else if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("Moderate"))
+                {
+                    markerImageId = R.drawable.yellow;
+                }
+                else
+                    markerImageId = R.drawable.green;
+            }
+            else
+                markerImageId = R.drawable.green;
+
+            mMap.addMarker(new MarkerOptions().position(location).title("Restaurant").icon(BitmapDescriptorFactory.fromResource(markerImageId)));
         }
         getDeviceLocation();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
