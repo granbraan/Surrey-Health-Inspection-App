@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 
 import android.os.Bundle;
@@ -26,21 +27,40 @@ import android.content.Intent;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.poject_01.R;
+import com.example.poject_01.model.DownloadDataAsyncTask;
+import com.example.poject_01.model.DownloadRequest;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import static android.os.Environment.getExternalStorageState;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
@@ -50,14 +70,18 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
     private final RestaurantList restaurantList = RestaurantList.getInstance();
-
     private Intent intent;
     private Toolbar toolbar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        populateListView();
+        registerClick();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
         toolbar.setTitle("List of Rastaurants");
@@ -73,26 +97,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
        // readWriteData();
-        populateListView();
-        registerClick();
+
+
         //back button
 //        ActionBar ab = getSupportActionBar();
 //        ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void readWriteData() {
-        // reads data from data_restaurants.csv
-        InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
-        BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
-        // reads data from data_inspections.csv
-        InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
-        BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
-        // the data is set using private setters in the Data class
-        Data restaurantData = new Data(restaurantList , restaurantReader );
-        Data inspectionData = new Data(restaurantList, inspectionReader);
-        restaurantData.readRestaurantData();
-        inspectionData.readInspectionData();
-    }
 
 
     private void populateListView() {

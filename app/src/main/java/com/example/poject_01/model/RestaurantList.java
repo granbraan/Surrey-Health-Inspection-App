@@ -27,6 +27,11 @@ import java.util.List;
         Collections.sort(restaurants);
     }
 
+    public void clear(){
+        restaurants.clear();
+    }
+
+
      public int getRestaurantListSize() {
          return restaurantListSize;
      }
