@@ -20,7 +20,6 @@ import com.example.poject_01.model.Data;
 import com.example.poject_01.model.DownloadRequest;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantCluster;
-import com.example.poject_01.model.RestaurantClusterRenderer;
 import com.example.poject_01.model.RestaurantList;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -63,7 +62,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double lng;
     private String restaurantTrack;
     private ClusterManager<RestaurantCluster> clusterManager;
-    private RestaurantClusterRenderer renderer;
     private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
 
@@ -268,6 +266,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void getDeviceLocation() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(this,permissions,12345);
             return;
@@ -322,12 +327,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setUpCluster() {
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10));
+
         clusterManager = new ClusterManager<RestaurantCluster>(this,mMap);
-        renderer = new RestaurantClusterRenderer(this, mMap,clusterManager, mMap.getCameraPosition().zoom);
-        clusterManager.setRenderer(renderer);
         addItems();
         for(int i=0; i<restaurantList.getRestaurantListSize();i++)
         {
+            Restaurant r = restaurantList.getRestaurantIndex(i);
             LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
             moveCamera(coordinates, 15f);
         }
@@ -337,6 +343,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClusterItemInfoWindowClick(RestaurantCluster item) {
                 for(int i=0; i<restaurantList.getRestaurantListSize();i++)
                 {
+                    Restaurant r = restaurantList.getRestaurantIndex(i);
                     LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
                     moveCamera(coordinates, 15f);
                     if(item.getPosition().equals(coordinates))
@@ -384,5 +391,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, index);
         startActivity(intent);
     }
+
 
 }
