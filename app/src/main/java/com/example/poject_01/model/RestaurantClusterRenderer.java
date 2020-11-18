@@ -37,6 +37,5 @@ public class RestaurantClusterRenderer extends DefaultClusterRenderer<Restaurant
         super.onClusterItemRendered(clusterItem, marker);
         if(clusterItem.getPosition().equals(coordinates))
             marker.showInfoWindow();
-
     }
 }
