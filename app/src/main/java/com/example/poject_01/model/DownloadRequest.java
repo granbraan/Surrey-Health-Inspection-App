@@ -38,7 +38,7 @@ public class DownloadRequest {
     }
 
 
-    private void downloadData(String downloadURL) {
+    public void downloadData(String downloadURL) {
         DownloadDataAsyncTask task = new DownloadDataAsyncTask(rContext, fileName);
         task.execute(downloadURL);
 

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 
 import android.annotation.SuppressLint;
@@ -33,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.poject_01.DownloadFragment;
 import com.example.poject_01.R;
 import com.example.poject_01.model.DownloadDataAsyncTask;
 import com.example.poject_01.model.DownloadRequest;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         populateListView();
         registerClick();
+        DownloadOption();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
@@ -96,14 +99,23 @@ public class MainActivity extends AppCompatActivity {
                     return false;
             }
         });
-       // readWriteData();
 
-
-        //back button
-//        ActionBar ab = getSupportActionBar();
-//        ab.setDisplayHomeAsUpEnabled(true);
     }
 
+    private void DownloadOption(){
+        FragmentManager frag = getSupportFragmentManager();
+        DownloadFragment dialog = new DownloadFragment();
+        dialog.show(frag, "MessageDialog");
+
+
+
+    }
+
+    public void downloadTheData() throws Exception {
+
+        DownloadRequest request = new DownloadRequest("https://data.surrey.ca/dataset/3c8cb648-0e80-4659-9078-ef4917b90ffb/resource/0e5d04a2-be9b-40fe-8de2-e88362ea916b/download/restaurants.csv", getApplicationContext(), "restaurants.csv");
+        request.downloadData("https://data.surrey.ca/dataset/3c8cb648-0e80-4659-9078-ef4917b90ffb/resource/0e5d04a2-be9b-40fe-8de2-e88362ea916b/download/restaurants.csv");
+    }
 
 
     private void populateListView() {

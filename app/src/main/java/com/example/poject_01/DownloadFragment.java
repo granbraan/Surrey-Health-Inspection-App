@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
 import com.example.poject_01.model.DownloadRequest;
 
@@ -40,8 +42,13 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         //call method
                         //DownloadRequest request = new DownloadRequest (String, Context, String);
                         //request.downloadData(URL);
-
-                        //((MapsActivity) Objects.requireNonNull(getActivity())."download?? "());
+                        try {
+                            ((MainActivity) Objects.requireNonNull(getActivity())).downloadTheData();
+                        }
+                        catch(Exception e) {
+                            e.printStackTrace();
+                    }
+                        
 
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
