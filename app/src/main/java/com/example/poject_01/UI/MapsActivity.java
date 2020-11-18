@@ -177,6 +177,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
         mMap.setMyLocationEnabled(true);
+        setUpCluster();
         for (int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
             double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
             double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
@@ -210,7 +211,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address + " Hazard Rating: "+ hazardRating).icon(BitmapDescriptorFactory.fromResource(markerImageId)));
         }
         getDeviceLocation();
-        setUpCluster();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -362,7 +362,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onInfoWindowClick(Marker marker) {
         int index = 0;
+        Log.i("MARKER TITLE", marker.getTitle());
         for(int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
+            Log.i("MARKER TITLE", marker.getTitle());
             if(marker.getTitle().equals(restaurantList.getRestaurantIndex(i).getName())) {
                 index = i;
             }
@@ -370,4 +372,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, index);
         startActivity(intent);
     }
+
+
 }
