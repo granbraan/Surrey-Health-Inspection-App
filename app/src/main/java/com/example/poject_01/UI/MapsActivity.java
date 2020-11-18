@@ -34,6 +34,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -75,6 +77,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         toolbar = (Toolbar) findViewById(R.id.toolbar_map);
         toolbar.inflateMenu(R.menu.toggle_button);
         toolbar.setTitle("Maps");
+        extractData();
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -178,38 +181,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.setMyLocationEnabled(true);
         setUpCluster();
-//        for (int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
-//            double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
-//            double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
-//            LatLng location = new LatLng(latitude, longitude);
-//            int markerImageId;
-//            String hazardRating = "Low";
-//            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
-//            {
-//                if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("High"))
-//                {
-//                    markerImageId = R.drawable.red;
-//                    hazardRating = "High";
-//                }
-//                else if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("Moderate"))
-//                {
-//                    markerImageId = R.drawable.yellow;
-//                    hazardRating = "Moderate";
-//                }
-//                else {
-//                    markerImageId = R.drawable.green;
-//                    hazardRating = "Low";
-//                }
-//
-//            }
-//            else {
-//                markerImageId = R.drawable.green;
-//            }
-//            String name = restaurantList.getRestaurantIndex(i).getName();
-//            String address = restaurantList.getRestaurantIndex(i).getAddress();
-//            restaurantTrack = restaurantList.getRestaurantIndex(i).getTrackingNum();
-//            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address + " Hazard Rating: "+ hazardRating).icon(BitmapDescriptorFactory.fromResource(markerImageId)));
-//        }
         setUpCluster();
         getDeviceLocation();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -327,12 +298,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onBackPressed();
         finish();
     }
+    private void extractData(){
+        Intent intent = getIntent();
+        lat = intent.getDoubleExtra("Latitude",0);
+        lng = intent.getDoubleExtra("Longitude",0);
+    }
+
 
     private void setUpCluster() {
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10));
 
-        clusterManager = new ClusterManager<RestaurantCluster>(this,mMap);
-        renderer = new RestaurantClusterRenderer(this, mMap,clusterManager, mMap.getCameraPosition().zoom);
+        LatLng indexes = null;
+        indexes = new LatLng(lat,lng);
+        clusterManager = new ClusterManager<>(this,mMap);
+        renderer = new RestaurantClusterRenderer(this, mMap,clusterManager, indexes);
         clusterManager.setRenderer(renderer);
         addItems();
         for(int i=0; i<restaurantList.getRestaurantListSize();i++)
@@ -368,14 +347,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Restaurant r = restaurantList.getRestaurantIndex(i);
             double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
             double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
+            LatLng latitudeLongitude = new LatLng(latitude,longitude);
             RestaurantCluster cluster;
-            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
-                 cluster = new RestaurantCluster(latitude,longitude,restaurantList.getRestaurantIndex(i).getName(),
-                    restaurantList.getRestaurantIndex(i).getAddress() +","+ restaurantList.getRestaurantIndex(i).getCity()+
-                            "  HAZARD RATING - "+restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating());
+
+            BitmapDescriptor imageId;
+            if(restaurantList.getRestaurantIndex(i).numInspections()>0)
+            {
+                if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("High"))
+                {
+                    imageId = BitmapDescriptorFactory.fromResource(R.drawable.red);
+                }
+                else if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("Moderate"))
+                {
+                    imageId = BitmapDescriptorFactory.fromResource(R.drawable.yellow);
+                }
+                else {
+                    imageId = BitmapDescriptorFactory.fromResource(R.drawable.green);
+                }
+            }
             else
-                cluster = new RestaurantCluster(latitude,longitude,restaurantList.getRestaurantIndex(i).getName(),
-                        restaurantList.getRestaurantIndex(i).getAddress()+","+restaurantList.getRestaurantIndex(i).getCity()+" \"NO INSPECTIONS YET\" ");
+            {
+                imageId = BitmapDescriptorFactory.fromResource(R.drawable.green);
+            }
+            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
+                 cluster = new RestaurantCluster(latitudeLongitude,restaurantList.getRestaurantIndex(i).getName(),
+                    restaurantList.getRestaurantIndex(i).getAddress() +","+ restaurantList.getRestaurantIndex(i).getCity()+
+                            "  HAZARD RATING - "+restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating(),imageId);
+            else
+                cluster = new RestaurantCluster(latitudeLongitude,restaurantList.getRestaurantIndex(i).getName(),
+                        restaurantList.getRestaurantIndex(i).getAddress()+","+restaurantList.getRestaurantIndex(i).getCity()+" \"NO INSPECTIONS YET\" ",imageId);
 
             clusterManager.addItem(cluster);
 
