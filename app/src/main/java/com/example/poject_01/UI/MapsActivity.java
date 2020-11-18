@@ -1,6 +1,7 @@
 package com.example.poject_01.UI;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -394,6 +395,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, index);
         startActivity(intent);
+    }
+
+    public static  Intent makeLaunchIntent (Context c, double latitude, double longitude)
+    {
+        Intent intent = new Intent(c,MapsActivity.class);
+        intent.putExtra("Latitude",latitude);
+        intent.putExtra("Longitude",longitude);
+        return  intent;
     }
 
 
