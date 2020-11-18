@@ -11,14 +11,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Switch;
 
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.DownloadRequest;
+import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantCluster;
 import com.example.poject_01.model.RestaurantList;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -33,10 +33,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.ClusterManager;
@@ -178,38 +176,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.setMyLocationEnabled(true);
         setUpCluster();
-        for (int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
-            double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
-            double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
-            LatLng location = new LatLng(latitude, longitude);
-            int markerImageId;
-            String hazardRating = "Low";
-            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
-            {
-                if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("High"))
-                {
-                    markerImageId = R.drawable.red;
-                    hazardRating = "High";
-                }
-                else if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("Moderate"))
-                {
-                    markerImageId = R.drawable.yellow;
-                    hazardRating = "Moderate";
-                }
-                else {
-                    markerImageId = R.drawable.green;
-                    hazardRating = "Low";
-                }
-
-            }
-            else {
-                markerImageId = R.drawable.green;
-            }
-            String name = restaurantList.getRestaurantIndex(i).getName();
-            String address = restaurantList.getRestaurantIndex(i).getAddress();
-            restaurantTrack = restaurantList.getRestaurantIndex(i).getTrackingNum();
-            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address + " Hazard Rating: "+ hazardRating).icon(BitmapDescriptorFactory.fromResource(markerImageId)));
-        }
+//        for (int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
+//            double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
+//            double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
+//            LatLng location = new LatLng(latitude, longitude);
+//            int markerImageId;
+//            String hazardRating = "Low";
+//            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
+//            {
+//                if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("High"))
+//                {
+//                    markerImageId = R.drawable.red;
+//                    hazardRating = "High";
+//                }
+//                else if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("Moderate"))
+//                {
+//                    markerImageId = R.drawable.yellow;
+//                    hazardRating = "Moderate";
+//                }
+//                else {
+//                    markerImageId = R.drawable.green;
+//                    hazardRating = "Low";
+//                }
+//
+//            }
+//            else {
+//                markerImageId = R.drawable.green;
+//            }
+//            String name = restaurantList.getRestaurantIndex(i).getName();
+//            String address = restaurantList.getRestaurantIndex(i).getAddress();
+//            restaurantTrack = restaurantList.getRestaurantIndex(i).getTrackingNum();
+//            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address + " Hazard Rating: "+ hazardRating).icon(BitmapDescriptorFactory.fromResource(markerImageId)));
+//        }
+        setUpCluster();
         getDeviceLocation();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -328,33 +327,53 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setUpCluster() {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10));
 
         clusterManager = new ClusterManager<RestaurantCluster>(this,mMap);
+        addItems();
+        for(int i=0; i<restaurantList.getRestaurantListSize();i++)
+        {
+            Restaurant r = restaurantList.getRestaurantIndex(i);
+            LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
+            moveCamera(coordinates, 15f);
+        }
 
+        clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<RestaurantCluster>() {
+            @Override
+            public void onClusterItemInfoWindowClick(RestaurantCluster item) {
+                for(int i=0; i<restaurantList.getRestaurantListSize();i++)
+                {
+                    Restaurant r = restaurantList.getRestaurantIndex(i);
+                    LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
+                    moveCamera(coordinates, 15f);
+                    if(item.getPosition().equals(coordinates))
+                    {
+                        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
         mMap.setOnCameraIdleListener(clusterManager);
         mMap.setOnMarkerClickListener(clusterManager);
-
-        addItems();
     }
 
     private void addItems() {
-        double lat2 = 0;
-        double long2 = 0;
+        for(int i =0 ; i<restaurantList.getRestaurantListSize();i++)
+        {
+            Restaurant r = restaurantList.getRestaurantIndex(i);
+            double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
+            double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
+            RestaurantCluster cluster;
+            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
+                 cluster = new RestaurantCluster(latitude,longitude,restaurantList.getRestaurantIndex(i).getName(),
+                    restaurantList.getRestaurantIndex(i).getAddress() +","+ restaurantList.getRestaurantIndex(i).getCity()+
+                            "  HAZARD RATING - "+restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating());
+            else
+                cluster = new RestaurantCluster(latitude,longitude,restaurantList.getRestaurantIndex(i).getName(),
+                        restaurantList.getRestaurantIndex(i).getAddress()+","+restaurantList.getRestaurantIndex(i).getCity()+" \"NO INSPECTIONS YET\" ");
 
-        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
-            if(restaurantList.getRestaurantIndex(i).getName().contains("Top")) {
-                lat2 = restaurantList.getRestaurantIndex(i).getLatitude();
-                long2 = restaurantList.getRestaurantIndex(i).getLongitude();
-            }
-        }
-        //add 10 items to cluster
-        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
-            double offset = i /60d;
-            lat2 += offset;
-            long2 += offset;
-            RestaurantCluster offsetItem = new RestaurantCluster(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude(), "Title" + i, "Snippet" + i);
-            clusterManager.addItem(offsetItem);
+            clusterManager.addItem(cluster);
 
         }
     }

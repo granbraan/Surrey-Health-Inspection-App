@@ -10,13 +10,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.poject_01.UI.MapsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -76,7 +74,7 @@ public class DownloadRequest {
                     if (!Objects.equals(surrey_last_modified, restaurant_last_modified) ){
                         // TODO: get user input for download (alert dialog)
                         Toast.makeText(rContext, "Do you wanna update?", Toast.LENGTH_LONG).show();
-                        //downloadData(dataURL);
+                        downloadData(dataURL);
                         }
 
 
