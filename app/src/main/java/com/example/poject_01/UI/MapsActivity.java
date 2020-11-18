@@ -49,7 +49,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -176,45 +176,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.setMyLocationEnabled(true);
         setUpCluster();
-//        for (int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
-//            double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
-//            double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
-//            LatLng location = new LatLng(latitude, longitude);
-//            int markerImageId;
-//            String hazardRating = "Low";
-//            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
-//            {
-//                if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("High"))
-//                {
-//                    markerImageId = R.drawable.red;
-//                    hazardRating = "High";
-//                }
-//                else if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("Moderate"))
-//                {
-//                    markerImageId = R.drawable.yellow;
-//                    hazardRating = "Moderate";
-//                }
-//                else {
-//                    markerImageId = R.drawable.green;
-//                    hazardRating = "Low";
-//                }
-//
-//            }
-//            else {
-//                markerImageId = R.drawable.green;
-//            }
-//            String name = restaurantList.getRestaurantIndex(i).getName();
-//            String address = restaurantList.getRestaurantIndex(i).getAddress();
-//            restaurantTrack = restaurantList.getRestaurantIndex(i).getTrackingNum();
-//            mMap.addMarker(new MarkerOptions().position(location).title(name).snippet(address + " Hazard Rating: "+ hazardRating).icon(BitmapDescriptorFactory.fromResource(markerImageId)));
-//        }
-        setUpCluster();
         getDeviceLocation();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mMap.setMyLocationEnabled(true);
-        mMap.setOnInfoWindowClickListener(this);
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -329,9 +295,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setUpCluster() {
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10));
 
-        clusterManager = new ClusterManager<RestaurantCluster>(this,mMap);
+        clusterManager = new ClusterManager<RestaurantCluster>(this, mMap);
         addItems();
-        for(int i=0; i<restaurantList.getRestaurantListSize();i++)
+        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
         {
             Restaurant r = restaurantList.getRestaurantIndex(i);
             LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
@@ -341,7 +307,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<RestaurantCluster>() {
             @Override
             public void onClusterItemInfoWindowClick(RestaurantCluster item) {
-                for(int i=0; i<restaurantList.getRestaurantListSize();i++)
+                for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
                 {
                     Restaurant r = restaurantList.getRestaurantIndex(i);
                     LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
@@ -359,38 +325,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void addItems() {
-        for(int i =0 ; i<restaurantList.getRestaurantListSize();i++)
+        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
         {
             Restaurant r = restaurantList.getRestaurantIndex(i);
             double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
             double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
             RestaurantCluster cluster;
-            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
-                 cluster = new RestaurantCluster(latitude,longitude,restaurantList.getRestaurantIndex(i).getName(),
-                    restaurantList.getRestaurantIndex(i).getAddress() +","+ restaurantList.getRestaurantIndex(i).getCity()+
-                            "  HAZARD RATING - "+restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating());
-            else
+            if(restaurantList.getRestaurantIndex(i).numInspections() > 0) {
+                cluster = new RestaurantCluster(latitude,longitude,restaurantList.getRestaurantIndex(i).getName(),
+                        restaurantList.getRestaurantIndex(i).getAddress() +","+ restaurantList.getRestaurantIndex(i).getCity()+
+                                "  HAZARD RATING - "+restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating());
+            }
+            else {
                 cluster = new RestaurantCluster(latitude,longitude,restaurantList.getRestaurantIndex(i).getName(),
                         restaurantList.getRestaurantIndex(i).getAddress()+","+restaurantList.getRestaurantIndex(i).getCity()+" \"NO INSPECTIONS YET\" ");
-
-            clusterManager.addItem(cluster);
-
-        }
-    }
-
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        int index = 0;
-        Log.i("MARKER TITLE", marker.getTitle());
-        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
-            Log.i("MARKER TITLE", marker.getTitle());
-            if(marker.getTitle().equals(restaurantList.getRestaurantIndex(i).getName())) {
-                index = i;
             }
+            clusterManager.addItem(cluster);
         }
-        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, index);
-        startActivity(intent);
     }
-
 
 }
