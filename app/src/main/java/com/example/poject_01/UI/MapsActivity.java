@@ -20,6 +20,7 @@ import com.example.poject_01.model.Data;
 import com.example.poject_01.model.DownloadRequest;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantCluster;
+import com.example.poject_01.model.RestaurantClusterRenderer;
 import com.example.poject_01.model.RestaurantList;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -62,6 +63,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double lng;
     private String restaurantTrack;
     private ClusterManager<RestaurantCluster> clusterManager;
+    private RestaurantClusterRenderer renderer;
     private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
 
@@ -330,6 +332,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10));
 
         clusterManager = new ClusterManager<RestaurantCluster>(this,mMap);
+        renderer = new RestaurantClusterRenderer(this, mMap,clusterManager, mMap.getCameraPosition().zoom);
+        clusterManager.setRenderer(renderer);
         addItems();
         for(int i=0; i<restaurantList.getRestaurantListSize();i++)
         {
