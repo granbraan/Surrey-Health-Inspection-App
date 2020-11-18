@@ -43,12 +43,13 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         //DownloadRequest request = new DownloadRequest (String, Context, String);
                         //request.downloadData(URL);
                         try {
-                            ((MainActivity) Objects.requireNonNull(getActivity())).downloadTheData();
+                            //((MainActivity) requireActivity()).downloadTheData();
+                            //((MainActivity) Objects.requireNonNull(getActivity())).downloadTheData();
                         }
                         catch(Exception e) {
                             e.printStackTrace();
                     }
-                        
+
 
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
