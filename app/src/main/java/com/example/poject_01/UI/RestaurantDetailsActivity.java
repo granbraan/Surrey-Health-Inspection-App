@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.poject_01.model.InspectionListAdapter;
-import com.example.poject_01.model.RestaurantList;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,10 +15,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.MenuItem;
-import android.widget.TextView;
-
 import com.example.poject_01.R;
+import com.example.poject_01.model.InspectionListAdapter;
+import com.example.poject_01.model.RestaurantList;
 
 /**
  * Displays information of the restaurant clicked by the user
@@ -69,6 +68,12 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         String Latitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLatitude());
         String Longitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLongitude());
         setGps.setText(Latitude+" (Latitude)\n"+ Longitude +" (Longitude)");
+        setGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //finish();
+            }
+        });
 
         TextView noInspection = findViewById((R.id.no_inspection));
         if(restaurantList.getRestaurantIndex(index).getInspections().getNum_inspection()==0)

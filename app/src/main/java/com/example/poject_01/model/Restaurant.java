@@ -1,8 +1,6 @@
 package com.example.poject_01.model;
 
 
-import android.util.Log;
-
 /**
  * This class stores all related restaurant data
  * Holds all related inspection data in inspection list - implemented with arraylist
