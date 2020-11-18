@@ -17,7 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.InspectionListAdapter;
+import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
+
+import java.util.Map;
 
 /**
  * Displays information of the restaurant clicked by the user
@@ -71,7 +74,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finish();
+                Intent intent = MapsActivity.makeLaunchIntent(RestaurantDetailsActivity.this,
+                        restaurantList.getRestaurantIndex(index).getLatitude(),
+                        restaurantList.getRestaurantIndex(index).getLongitude(),true);
+                startActivity(intent);
             }
         });
 

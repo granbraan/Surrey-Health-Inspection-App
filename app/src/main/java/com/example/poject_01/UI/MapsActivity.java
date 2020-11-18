@@ -64,6 +64,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Toolbar toolbar;
     private double lat;
     private double lng;
+    private Boolean check;
     private String restaurantTrack;
     private ClusterManager<RestaurantCluster> clusterManager;
     private RestaurantClusterRenderer renderer;
@@ -78,6 +79,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         toolbar = (Toolbar) findViewById(R.id.toolbar_map);
         toolbar.inflateMenu(R.menu.toggle_button);
         toolbar.setTitle("Maps");
+        check = false;
         extractData();
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -96,13 +98,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
         boolean initial_update = prefs.getBoolean("initial_update", false);
-        if (!initial_update){
-            readWriteInitialData();
+        if(!check) {
+            if (!initial_update) {
+                readWriteInitialData();
 
-        }
-        else{
-            updateRestaurants();
-            updateInspections();
+            } else {
+                updateRestaurants();
+                updateInspections();
+            }
         }
         // comparing current time to last_update time
         Date currentDate = new Date(System.currentTimeMillis());
@@ -183,7 +186,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMyLocationEnabled(true);
         setUpCluster();
         setUpCluster();
-        getDeviceLocation();
+        if(!check)
+            getDeviceLocation();
+        else
+            moveCamera(new LatLng(lat,lng),15f);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -303,6 +309,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         lat = intent.getDoubleExtra("Latitude",0);
         lng = intent.getDoubleExtra("Longitude",0);
+        check = intent.getBooleanExtra("FROM_REST",false);
+
     }
 
 
@@ -397,11 +405,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 
-    public static  Intent makeLaunchIntent (Context c, double latitude, double longitude)
+    public static  Intent makeLaunchIntent (Context c, double latitude, double longitude,Boolean load)
     {
         Intent intent = new Intent(c,MapsActivity.class);
         intent.putExtra("Latitude",latitude);
         intent.putExtra("Longitude",longitude);
+        intent.putExtra("FROM_REST",load);
         return  intent;
     }
 
