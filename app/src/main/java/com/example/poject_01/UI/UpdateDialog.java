@@ -3,6 +3,7 @@ package com.example.poject_01.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,16 +26,22 @@ public class UpdateDialog extends AppCompatDialogFragment {
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                refreshActivity();
                 Log.i("TAG", "CLICKED ON CANCEL");
                 //TODO: load previous data
             }
         };
         //build alert dialog
-        return new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.updating))
+        return new AlertDialog.Builder(getActivity()).setTitle("")
                 .setView(v)
-                .setNegativeButton(android.R.string.no, listener)
+                .setNegativeButton(android.R.string.cancel, listener)
                 .setCancelable(false)
                 .create();
-
     }
+
+    private void refreshActivity() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
 }

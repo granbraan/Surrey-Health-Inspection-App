@@ -2,8 +2,10 @@ package com.example.poject_01.UI;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 
 import android.annotation.SuppressLint;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         populateListView();
         registerClick();
+        //setupUpdateDialog(); 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
@@ -263,6 +266,13 @@ public class MainActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT",true);
         startActivity(intent);
+    }
+
+    private void setupUpdateDialog() {
+        FragmentManager manager = getSupportFragmentManager();
+        UpdateDialog dialog = new UpdateDialog();
+        dialog.show(manager, "message");
+
     }
 
 }
