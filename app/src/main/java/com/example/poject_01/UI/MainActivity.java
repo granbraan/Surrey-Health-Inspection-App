@@ -1,18 +1,9 @@
 package com.example.poject_01.UI;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,13 +19,6 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
 
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.poject_01.R;
 import com.example.poject_01.model.DownloadDataAsyncTask;
 import com.example.poject_01.model.DownloadRequest;
@@ -56,13 +40,9 @@ import java.io.InputStreamReader;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
-import static android.os.Environment.getExternalStorageState;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
@@ -83,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         populateListView();
         registerClick();
-        //setupUpdateDialog(); 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
@@ -99,12 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     return false;
             }
         });
-       // readWriteData();
-
-
-        //back button
-//        ActionBar ab = getSupportActionBar();
-//        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -289,8 +262,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        Toast.makeText(this,"Back PRessed",Toast.LENGTH_SHORT).show();
-//        finish();
+
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT",true);

@@ -13,7 +13,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * This class downloads
+ * This class downloads the data on a separate thread than the Main thread
+ *
  */
 public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
