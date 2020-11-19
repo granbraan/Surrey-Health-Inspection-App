@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -332,7 +333,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<RestaurantCluster>() {
             @Override
             public void onClusterItemInfoWindowClick(RestaurantCluster item) {
-                for(int i=0; i<restaurantList.getRestaurantListSize();i++)
+                for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
                 {
                     Restaurant r = restaurantList.getRestaurantIndex(i);
                     LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
@@ -358,19 +359,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng latitudeLongitude = new LatLng(latitude,longitude);
             RestaurantCluster cluster;
 
+            BitmapDescriptor red = BitmapDescriptorFactory.fromResource(R.drawable.red);
+            BitmapDescriptor yellow = BitmapDescriptorFactory.fromResource(R.drawable.yellow);
+            BitmapDescriptor green = BitmapDescriptorFactory.fromResource(R.drawable.green);
             BitmapDescriptor imageId;
             if(restaurantList.getRestaurantIndex(i).numInspections()>0)
             {
                 if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("High"))
                 {
-                    imageId = BitmapDescriptorFactory.fromResource(R.drawable.red);
+                    imageId = red;
                 }
                 else if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("Moderate"))
                 {
-                    imageId = BitmapDescriptorFactory.fromResource(R.drawable.yellow);
+                    imageId = yellow;
                 }
                 else {
-                    imageId = BitmapDescriptorFactory.fromResource(R.drawable.green);
+                    imageId = green;
                 }
             }
             else
