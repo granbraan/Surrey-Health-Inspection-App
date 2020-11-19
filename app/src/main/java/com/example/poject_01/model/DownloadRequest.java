@@ -33,9 +33,6 @@ import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/**
- *  This class handles getting the data from the URL - get requests
- */
 public class DownloadRequest {
     private RequestQueue mQueue;
     private String url;
@@ -54,7 +51,19 @@ public class DownloadRequest {
     }
 
 
+    public void downloadData(String downloadURL) {
+        DownloadDataAsyncTask task = new DownloadDataAsyncTask(rContext, fileName);
+        task.execute(downloadURL);
 
+        // updating preferences used to control flow of app
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("initial_update", true);
+        Date currentDate = new Date(System.currentTimeMillis());
+        editor.putLong("last_update", currentDate.getTime() );
+        editor.commit();
+
+
+    }
 
     public void getURL() {
         mQueue = Volley.newRequestQueue(rContext);
@@ -80,6 +89,10 @@ public class DownloadRequest {
                     if (!Objects.equals(surrey_last_modified, restaurant_last_modified) ){
                         // TODO: get user input for download (alert dialog)
                             DownloadOption();
+
+                            downloadData(dataURL);
+                            //Toast.makeText(rContext, "Do you wanna update?", Toast.LENGTH_LONG).show();
+                            //downloadData(dataURL);
                         }
 
                 } catch (JSONException e) {
