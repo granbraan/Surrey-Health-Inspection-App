@@ -346,7 +346,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     moveCamera(coordinates, 15f);
                     if(item.getPosition().equals(coordinates))
                     {
-                        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i);
+                        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i,true);
                         startActivity(intent);
                     }
                 }
@@ -410,7 +410,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 index = i;
             }
         }
-        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, index);
+        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, index,false);
         startActivity(intent);
     }
 

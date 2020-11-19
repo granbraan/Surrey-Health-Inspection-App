@@ -88,14 +88,12 @@ public class DownloadRequest {
 
                     if (!Objects.equals(surrey_last_modified, restaurant_last_modified) ){
                         // TODO: get user input for download (alert dialog)
-                        DownloadOption();
+                            DownloadOption();
 
                             //downloadData(dataURL);
                             //Toast.makeText(rContext, "Do you wanna update?", Toast.LENGTH_LONG).show();
                             //downloadData(dataURL);
                         }
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

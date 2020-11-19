@@ -30,13 +30,13 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
     private int index = 0;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
+    private boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_single_restaurant);
         extractDataFromIntent();
         displayNameAndLocation();
-
 
         //use of recycler view to show list of inspections
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -56,6 +56,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private void extractDataFromIntent() {
         Intent intent = getIntent();
         index = intent.getIntExtra("index=",0);
+        flag = intent.getBooleanExtra("flag",false);
+
 
     }
 
@@ -75,10 +77,17 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = MapsActivity.makeLaunchIntent(RestaurantDetailsActivity.this,
-                        restaurantList.getRestaurantIndex(index).getLatitude(),
-                        restaurantList.getRestaurantIndex(index).getLongitude(),true);
-                startActivity(intent);
+                if(!flag) {
+                    Intent intent = MapsActivity.makeLaunchIntent(RestaurantDetailsActivity.this,
+                            restaurantList.getRestaurantIndex(index).getLatitude(),
+                            restaurantList.getRestaurantIndex(index).getLongitude(), true);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                }
+                finish();
             }
         });
 
@@ -133,11 +142,16 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public  static Intent makeIntent(Context context, int ind)
+    public  static Intent makeIntent(Context context, int ind,boolean flag)
     {
         Intent intent =  new Intent(context, RestaurantDetailsActivity.class);
         intent.putExtra("index=",ind);
+        intent.putExtra("flag",flag);
         return intent;
     }
+
+
+
+
 }
 
