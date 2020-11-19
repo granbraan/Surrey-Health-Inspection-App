@@ -219,19 +219,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private void makeDataGetRequest() {
-        DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" );
-        DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv" );
+        DownloadRequest restaurantsRequest = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" );
+        DownloadRequest inspectionsRequest = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv" );
 
-        restaurants.getURL(0, new DownloadRequest.VolleyCallBack() {
+        restaurantsRequest.getURL(0, new DownloadRequest.VolleyCallBack() {
             @Override
             public void onSuccess() {
                 Log.d("Download Option", "restaurants request success " );
-                inspections.getURL(1, new DownloadRequest.VolleyCallBack() {
+                inspectionsRequest.getURL(1, new DownloadRequest.VolleyCallBack() {
                     @Override
                     public void onSuccess() {
                         Log.d("Download Option", "inspections request success " );
-                        Log.d("bool check", "" + restaurants.dataModified());
-                        if (restaurants.dataModified() || inspections.dataModified()){
+                        Log.d("bool check", "" + restaurantsRequest.dataModified());
+                        if (restaurantsRequest.dataModified() || inspectionsRequest.dataModified()){
                             downloadOption();
                         }
                     }

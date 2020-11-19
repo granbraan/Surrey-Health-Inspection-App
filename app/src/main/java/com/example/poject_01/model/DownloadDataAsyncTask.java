@@ -41,18 +41,19 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             URLConnection connection = url.openConnection();
             connection.connect();
 
-
             // input stream to read file - with 8k buffer
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
+            // created directory to store data
             File dir = new File(mContext.getFilesDir(), "restaurantData");
             if(!dir.exists()){
                 dir.mkdir();
             }
-            File gpxfile = new File(dir, fileName);
+
+            File dataFile = new File(dir, fileName);
             // Output stream to write file
-            OutputStream output = new FileOutputStream(gpxfile);
-            Log.d( "The file path = ", gpxfile.getAbsolutePath());
+            OutputStream output = new FileOutputStream(dataFile);
+            Log.d( "The file path = ", dataFile.getAbsolutePath());
 
             byte data[] = new byte[1024];
 
@@ -67,7 +68,6 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
                 // writing data to file
                 output.write(data, 0, count);
             }
-
             // flushing output
             output.flush();
 
