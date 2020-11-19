@@ -54,10 +54,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private FragmentManager downloadFrag;
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
+
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+    private FragmentManager downloadFrag;
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     Switch aSwitch;
