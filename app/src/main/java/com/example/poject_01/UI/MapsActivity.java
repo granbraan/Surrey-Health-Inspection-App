@@ -185,7 +185,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.setMyLocationEnabled(true);
         setUpCluster();
-        setUpCluster();
         if(!check)
             getDeviceLocation();
         else

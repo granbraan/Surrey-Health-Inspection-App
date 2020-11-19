@@ -1,32 +1,68 @@
 package com.example.poject_01.UI;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+
+
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import android.content.Intent;
+import android.widget.Toast;
 
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.poject_01.R;
+import com.example.poject_01.model.DownloadDataAsyncTask;
+import com.example.poject_01.model.DownloadRequest;
 import com.example.poject_01.model.Inspection;
+import com.example.poject_01.model.Data;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import static android.os.Environment.getExternalStorageState;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
@@ -47,10 +83,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         populateListView();
         registerClick();
+        //setupUpdateDialog(); 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
-        toolbar.setTitle("List of Rastaurants");
+        toolbar.setTitle("List of Restaurants");
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -62,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
                     return false;
             }
         });
+       // readWriteData();
+
+
+        //back button
+//        ActionBar ab = getSupportActionBar();
+//        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -99,10 +142,39 @@ public class MainActivity extends AppCompatActivity {
             }
             Restaurant currentRestaurant = restaurantList.getRestaurantIndex(position);
 
-            // restaurant icon
-            ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
-            imageView.setImageResource(R.drawable.restaurant_image);
-
+            if(currentRestaurant.getName().contains("Church's")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.churchs_chicken_logo);
+            }
+            else if(currentRestaurant.getName().contains("A & W") || currentRestaurant.getName().contains("A&W")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.a_and_w_logo);
+            }
+            else if(currentRestaurant.getName().contains("Booster")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.booster_juice_logo);
+            }
+            else if(currentRestaurant.getName().contains("Burger King")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.burger_king_logo);
+            }
+            else if(currentRestaurant.getName().contains("Dairy")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.dairy_queen_logo);
+            }
+            else if(currentRestaurant.getName().contains("Five Guys")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.five_guys_burger_and_fries_logo);
+            }
+            else if(currentRestaurant.getName().contains("Apna")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.apna_chaat_house_logo);
+            }
+            else {
+                // restaurant icon
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.restaurant_image);
+            }
             // name
             TextView textName = restaurantView.findViewById(R.id.textRestaurantName);
             textName.setText(currentRestaurant.getName());
