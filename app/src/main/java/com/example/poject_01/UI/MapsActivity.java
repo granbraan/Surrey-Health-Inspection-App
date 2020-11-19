@@ -94,9 +94,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 readWriteInitialData();
 
             } else {
-                // reads data from internal storage - data/inspections.csv/inspections.csv
-                updateRestaurants();
-                updateInspections();
+                                     // reads data from internal storage:
+                updateRestaurants(); // data/restaurantData/restaurants.csv
+                updateInspections(); // data/restaurantData/inspections.csv
             }
         }
 
@@ -158,9 +158,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    private void readWriteInitialData() {
+        // reads data from data_restaurants.csv
+        InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
+        BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
+        // reads data from data_inspections.csv
+        InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
+        BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
+        // the data is set using private setters in the Data class
+        Data restaurantData = new Data( restaurantReader );
+        Data inspectionData = new Data( inspectionReader);
+        restaurantData.readRestaurantData();
+        inspectionData.readInspectionData();
+
+    }
     public void updateInspections() {
         try {
-            String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
+            String fileName = this.getFilesDir() + "/"+ "restaurantData" + "/" + "inspections.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
             Data inspectionDataUpdate = new Data( inspectionReader);
@@ -173,7 +187,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void updateRestaurants() {
         try {
-            String fileName = this.getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
+            String fileName = this.getFilesDir() + "/"+ "restaurantData" + "/" + "restaurants.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
             Data restaurantDataUpdate = new Data(restaurantReader);
@@ -208,7 +222,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onSuccess() {
                         Log.d("Download Option", "inspections request success " );
-                        if (restaurants.wasModified() || inspections.wasModified()){
+                        Log.d("bool check", "" + restaurants.dataModified());
+                        if (restaurants.dataModified() || inspections.dataModified()){
                             downloadOption();
                         }
                     }
@@ -283,19 +298,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    private void readWriteInitialData() {
-        // reads data from data_restaurants.csv
-        InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
-        BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
-        // reads data from data_inspections.csv
-        InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
-        BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
-        // the data is set using private setters in the Data class
-        Data restaurantData = new Data( restaurantReader );
-        Data inspectionData = new Data( inspectionReader);
-        restaurantData.readRestaurantData();
-        inspectionData.readInspectionData();
-    }
 
     private void getDeviceLocation() {
 

@@ -45,7 +45,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             // input stream to read file - with 8k buffer
             InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-            File dir = new File(mContext.getFilesDir(), fileName);
+            File dir = new File(mContext.getFilesDir(), "restaurantData");
             if(!dir.exists()){
                 dir.mkdir();
             }

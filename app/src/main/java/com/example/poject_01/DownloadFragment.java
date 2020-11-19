@@ -37,9 +37,9 @@ public class DownloadFragment extends AppCompatDialogFragment {
                     case DialogInterface.BUTTON_POSITIVE:
                         Log.i("DownloadFragment Activity", "User clicked 'accept' button");
                         // TODO: download and update data
-
+                        //DownloadRequest.
                         //showUpdateDialog();
-                        dialog.cancel();
+
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         Log.i("DownloadFragment Activity", "User clicked 'decline' button");
