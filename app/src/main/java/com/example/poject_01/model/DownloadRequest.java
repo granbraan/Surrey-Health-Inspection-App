@@ -34,20 +34,21 @@ import java.util.Objects;
 import static android.content.Context.MODE_PRIVATE;
 
 public class DownloadRequest {
+
     private RequestQueue mQueue;
     private String url;
     private Context rContext;
     private String fileName;
     private SharedPreferences prefs;
-    private FragmentManager downloadFragment;
 
 
-    public DownloadRequest(String url, Context rContext, String fileName, FragmentManager frag) {
+    public DownloadRequest(String url, Context rContext, String fileName) {
         this.url = url;
         this.rContext = rContext;
         this.fileName = fileName;
         this.prefs = rContext.getSharedPreferences("startup_logic", MODE_PRIVATE);
-        this.downloadFragment = frag;
+
+
     }
 
 
@@ -65,9 +66,9 @@ public class DownloadRequest {
 
     }
 
-    public void getURL() {
+    public boolean getURL(int urlCheck) {
         mQueue = Volley.newRequestQueue(rContext);
-
+        final Boolean[] flag = {false};
         JsonObjectRequest restaurantsRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -78,24 +79,32 @@ public class DownloadRequest {
                     String dataURL  =  data.getString("url");
                     Log.d("getURL - URL", "" + dataURL);
 
-                    // check if last_modified has been updated
                     String surrey_last_modified = data.getString("last_modified");
-                    String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
-                    String inspections_last_modified = prefs.getString("inspections_last_modified", "");
-                    Log.d("surrey_last_modified", ""+ surrey_last_modified);
-                    Log.d("restaurant_last_modified", ""+ restaurant_last_modified);
-                    Log.d("inspection_last_modified", ""+ inspections_last_modified);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    // restaurant url = 0
+                    if (urlCheck == 0) {
+                        String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
+                        if (!Objects.equals(surrey_last_modified, restaurant_last_modified)){
+                            flag[0] = true;
+                            editor.putString("restaurant_last_modified",  surrey_last_modified);
+                            editor.commit();
+                        }
+                        Log.d("surrey_last_modified", ""+ surrey_last_modified);
+                        Log.d("restaurant_last_modified", ""+ restaurant_last_modified);
+                    }
+                    else {
+                        String inspections_last_modified = prefs.getString("inspections_last_modified", "");
+                        if (!Objects.equals(surrey_last_modified, inspections_last_modified)){
+                            flag[0] = true;
+                            editor.putString("inspections_last_modified",  surrey_last_modified);
+                            editor.commit();
+                        }
+                        Log.d("surrey_last_modified", ""+ surrey_last_modified);
+                        Log.d("inspection_last_modified", ""+ inspections_last_modified);
+                    }
 
-                    if (!Objects.equals(surrey_last_modified, restaurant_last_modified) ){
-                        // TODO: get user input for download (alert dialog)
-                        DownloadOption();
 
                         //downloadData(dataURL);
-                        Toast.makeText(rContext, "Do you wanna update?", Toast.LENGTH_LONG).show();
-                        downloadData(dataURL);
-                        }
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -108,14 +117,11 @@ public class DownloadRequest {
             }
         });
         mQueue.add(restaurantsRequest);
+        return (flag[0]);
 
     }
 
-    private void DownloadOption(){
-        DownloadFragment dialog = new DownloadFragment();
-        dialog.show(downloadFragment, "MessageDialog");
 
-    }
 
     public void updateInspections() {
         try {

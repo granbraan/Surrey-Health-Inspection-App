@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.poject_01.DownloadFragment;
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.DownloadRequest;
@@ -58,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
-    private FragmentManager downloadFrag;
+    private FragmentManager downloadFrag = getSupportFragmentManager();;
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     Switch aSwitch;
@@ -101,7 +102,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("EXIT", "---------------");
             finish();
         }
-        Log.d("BUILT IN BACK BUTTON", "---------------");
         SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
         boolean initial_update = prefs.getBoolean("initial_update", false);
         if(!check) {
@@ -120,14 +120,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         Log.d("Date - Last Update",""+ last_update);
         Log.d("Date - Current",""+ currentDate);
-        Log.d("Difference in Hours:", "" +diffInHours);
+        Log.d("Difference in Hours:", "" + diffInHours);
         // 20 hours since last update
         if (diffInHours >= 20) {
-            downloadFrag = getSupportFragmentManager();
-            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv", downloadFrag);
-            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv", downloadFrag);
-            restaurants.getURL();
-            inspections.getURL();
+            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" );
+            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv" );
+            boolean restaurantsModified = restaurants.getURL(0);
+            boolean inspectionsModified = inspections.getURL(1);
+
+            if (restaurantsModified || inspectionsModified){
+                DownloadOption();
+            }
+
 
             //TODO: if user chooses to download data, update restaurants and inspections.
             //updateRestaurants();
@@ -145,6 +149,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12345);
         }
+
+    }
+
+    private void DownloadOption(){
+        DownloadFragment dialog = new DownloadFragment();
+        dialog.show(downloadFrag, "MessageDialog");
 
     }
 

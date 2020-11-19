@@ -153,9 +153,13 @@ public class Data {
         // store inspection into restaurant with matching tracking number
         Inspection i = new Inspection(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), hazard, violations);
         for (Restaurant r : restaurantList) {
+            if (Objects.equals(r.getName(), "Hillside Lodge Food Service")){
+                Log.d("MainActivity - Updated Inspection  Data - Added",  i + " to " + r.getName() +"\n");
+                //Log.d("MainActivity - Updated Inspection  Data",  +"\n");
+            }
             if (Objects.equals(r.getTrackingNum(), trackNum)) {
                 r.addInspection(i);
-                Log.d("MainActivity - Updated Inspection  Data - Added",  i + " to " + r.getName() +"\n");
+
             }
 
         }
