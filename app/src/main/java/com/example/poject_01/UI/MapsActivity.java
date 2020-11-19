@@ -125,12 +125,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (diffInHours >= 20) {
             DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" );
             DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv" );
+            //Log.d("Download Option", "skit ------------ " );
             boolean restaurantsModified = restaurants.getURL(0);
             boolean inspectionsModified = inspections.getURL(1);
-
-            if (restaurantsModified || inspectionsModified){
-                DownloadOption();
-            }
+            Log.d("Download Option", "skittttts ------------ " );
+            //if (restaurantsModified || inspectionsModified){
+                //DownloadOption();
+            //}
 
 
             //TODO: if user chooses to download data, update restaurants and inspections.
@@ -153,6 +154,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void DownloadOption(){
+
         DownloadFragment dialog = new DownloadFragment();
         dialog.show(downloadFrag, "MessageDialog");
 

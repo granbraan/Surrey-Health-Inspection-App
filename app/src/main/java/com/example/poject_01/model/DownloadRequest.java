@@ -86,8 +86,8 @@ public class DownloadRequest {
                         String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
                         if (!Objects.equals(surrey_last_modified, restaurant_last_modified)){
                             flag[0] = true;
-                            editor.putString("restaurant_last_modified",  surrey_last_modified);
-                            editor.commit();
+                            //editor.putString("restaurant_last_modified",  surrey_last_modified);
+                            //editor.commit();
                         }
                         Log.d("surrey_last_modified", ""+ surrey_last_modified);
                         Log.d("restaurant_last_modified", ""+ restaurant_last_modified);
@@ -96,8 +96,8 @@ public class DownloadRequest {
                         String inspections_last_modified = prefs.getString("inspections_last_modified", "");
                         if (!Objects.equals(surrey_last_modified, inspections_last_modified)){
                             flag[0] = true;
-                            editor.putString("inspections_last_modified",  surrey_last_modified);
-                            editor.commit();
+                            //editor.putString("inspections_last_modified",  surrey_last_modified);
+                            //editor.commit();
                         }
                         Log.d("surrey_last_modified", ""+ surrey_last_modified);
                         Log.d("inspection_last_modified", ""+ inspections_last_modified);
