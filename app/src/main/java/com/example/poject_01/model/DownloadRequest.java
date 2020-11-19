@@ -40,6 +40,7 @@ public class DownloadRequest {
     private Context rContext;
     private String fileName;
     private SharedPreferences prefs;
+    private boolean urlModified;
 
 
     public DownloadRequest(String url, Context rContext, String fileName) {
@@ -51,6 +52,12 @@ public class DownloadRequest {
 
     }
 
+
+    public boolean wasModified(){
+
+        return urlModified;
+
+    }
 
     public void downloadData(String downloadURL) {
         DownloadDataAsyncTask task = new DownloadDataAsyncTask(rContext, fileName);
@@ -66,9 +73,9 @@ public class DownloadRequest {
 
     }
 
-    public boolean getURL(int urlCheck) {
+    public void getURL(int urlCheck, final VolleyCallBack callBack) {
         mQueue = Volley.newRequestQueue(rContext);
-        final Boolean[] flag = {false};
+
         JsonObjectRequest restaurantsRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -85,25 +92,31 @@ public class DownloadRequest {
                     if (urlCheck == 0) {
                         String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
                         if (!Objects.equals(surrey_last_modified, restaurant_last_modified)){
-                            flag[0] = true;
+                            urlModified = true;
                             //editor.putString("restaurant_last_modified",  surrey_last_modified);
-                            //editor.commit();
+                            editor.commit();
+                        }
+                        else{
+                            urlModified = false;
                         }
                         Log.d("surrey_last_modified", ""+ surrey_last_modified);
-                        Log.d("restaurant_last_modified", ""+ restaurant_last_modified);
+                        Log.d("restaurant_last_modified", "none "+ restaurant_last_modified);
                     }
                     else {
                         String inspections_last_modified = prefs.getString("inspections_last_modified", "");
                         if (!Objects.equals(surrey_last_modified, inspections_last_modified)){
-                            flag[0] = true;
+                            urlModified = true;
                             //editor.putString("inspections_last_modified",  surrey_last_modified);
                             //editor.commit();
                         }
+                        else{
+                            urlModified = false;
+                        }
                         Log.d("surrey_last_modified", ""+ surrey_last_modified);
-                        Log.d("inspection_last_modified", ""+ inspections_last_modified);
+                        Log.d("inspection_last_modified", "none "+ inspections_last_modified);
                     }
 
-
+                    callBack.onSuccess();
                         //downloadData(dataURL);
 
                 } catch (JSONException e) {
@@ -117,8 +130,11 @@ public class DownloadRequest {
             }
         });
         mQueue.add(restaurantsRequest);
-        return (flag[0]);
+    }
 
+
+    public interface VolleyCallBack {
+        void onSuccess();
     }
 
 

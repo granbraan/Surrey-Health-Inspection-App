@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
                     case DialogInterface.BUTTON_POSITIVE:
                         Log.i("DownloadFragment Activity", "User clicked 'accept' button");
                         // TODO: download and update data
+
                         //showUpdateDialog();
                         dialog.cancel();
                         break;

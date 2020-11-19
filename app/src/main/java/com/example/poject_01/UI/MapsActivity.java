@@ -77,27 +77,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_map);
-        toolbar.inflateMenu(R.menu.toggle_button);
-        toolbar.setTitle("Maps");
         check = false;
         extractData();
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = MainActivity.makeIntent(MapsActivity.this);
-                if(item.getItemId()==R.id.switch_list) {
-                    startActivity(intent);
-                    return  true;
-                }
-                else
-                    return false;
-            }
-        });
+        setupToolbar();
         if(getIntent().getBooleanExtra("EXIT",false)) {
             Log.d("EXIT", "---------------");
             finish();
@@ -121,22 +108,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d("Date - Last Update",""+ last_update);
         Log.d("Date - Current",""+ currentDate);
         Log.d("Difference in Hours:", "" + diffInHours);
+
         // 20 hours since last update
         if (diffInHours >= 20) {
             DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" );
             DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv" );
-            //Log.d("Download Option", "skit ------------ " );
-            boolean restaurantsModified = restaurants.getURL(0);
-            boolean inspectionsModified = inspections.getURL(1);
-            Log.d("Download Option", "skittttts ------------ " );
-            //if (restaurantsModified || inspectionsModified){
-                //DownloadOption();
-            //}
+            Log.d("Download Option", "111111111111111111111111111 " );
+
+            restaurants.getURL(0, new DownloadRequest.VolleyCallBack() {
+                @Override
+                public void onSuccess() {
+                    Log.d("Download Option", "restaurants request success " );
+                    inspections.getURL(1, new DownloadRequest.VolleyCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            Log.d("Download Option", "inspections request success " );
+                            if (restaurants.wasModified() || inspections.wasModified()){
+                                DownloadOption();
+
+                            }
+                        }
+                    });
+                }
+            });
 
 
-            //TODO: if user chooses to download data, update restaurants and inspections.
-            //updateRestaurants();
-            //updateInspections();
+
+
+
+            //TODO: separate/clean up
+
         }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -151,13 +152,29 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12345);
         }
 
+
+    }
+   private void setupToolbar(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar_map);
+        toolbar.inflateMenu(R.menu.toggle_button);
+        toolbar.setTitle("Maps");
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = MainActivity.makeIntent(MapsActivity.this);
+                if(item.getItemId()==R.id.switch_list) {
+                    startActivity(intent);
+                    return  true;
+                }
+                else
+                    return false;
+            }
+        });
     }
 
     private void DownloadOption(){
-
         DownloadFragment dialog = new DownloadFragment();
         dialog.show(downloadFrag, "MessageDialog");
-
     }
 
     public void updateInspections() {
@@ -433,6 +450,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         intent.putExtra("FROM_REST",load);
         return  intent;
     }
+
+
+
 
 
 }
