@@ -3,6 +3,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +19,13 @@ import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
 import com.example.poject_01.model.DownloadRequest;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class DownloadFragment extends AppCompatDialogFragment {
     AlertDialog.Builder builder;
-    private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
-    private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+    SharedPreferences prefs;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -35,14 +39,15 @@ public class DownloadFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        Log.i("DownloadFragment Activity", "User clicked 'accept' button");
+                        //prefs =  MapsActivity.getContext().getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
+                        //Toast.makeText(MapsActivity.getContext(), "User clicked download", Toast.LENGTH_LONG);
+                        Log.d("DownloadFragment Activity", "User clicked 'accept' button");
                         // TODO: download and update data
-                        //DownloadRequest.
-                        //showUpdateDialog();
+
 
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
-                        Log.i("DownloadFragment Activity", "User clicked 'decline' button");
+                        Log.d("DownloadFragment Activity", "User clicked 'decline' button");
                         //Do nothing - User chose not to download
                         break;
                 }
@@ -60,6 +65,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
                 .setNegativeButton(R.string.update_alert_no, listener)
                 .create();
     }
+
 
     private Dialog showUpdateDialog() {
         //create view to show

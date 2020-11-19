@@ -28,10 +28,9 @@ public class DownloadRequest {
     private Context rContext;
     private String fileName;
     private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
     private boolean urlModified;
     private String surreyLastModified;
-    private String csvDataURL;
-
 
 
 
@@ -40,11 +39,10 @@ public class DownloadRequest {
         this.rContext = rContext;
         this.fileName = fileName;
         this.prefs = rContext.getSharedPreferences("startup_logic", MODE_PRIVATE);
+        this.editor = prefs.edit();
     }
 
-    public String getCsvUrl(){
-        return csvDataURL;
-    }
+
 
     public boolean dataModified(){
         return urlModified;
@@ -55,7 +53,7 @@ public class DownloadRequest {
         task.execute(downloadURL);
 
         // updating preferences used to control flow of app
-        SharedPreferences.Editor editor = prefs.edit();
+
         editor.putBoolean("initial_update", true);
         Date currentDate = new Date(System.currentTimeMillis());
         editor.putLong("last_update", currentDate.getTime() );
@@ -82,11 +80,14 @@ public class DownloadRequest {
                     JSONObject urlResult = response.getJSONObject("result");
                     JSONArray dataType = urlResult.getJSONArray("resources");
                     JSONObject csvObject = dataType.getJSONObject(0);
-                     csvDataURL  =  csvObject.getString("url");
+                    String csvDataURL  =  csvObject.getString("url");
                     Log.d("getURL - URL", "" + csvDataURL);
+
 
                     surreyLastModified = csvObject.getString("last_modified");
                     if (urlCheck == RESTAURANT_URL_CHECK) {
+                        editor.putString("restaurants_url_csv" ,csvDataURL);
+                        editor.commit();
                         String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
                         if (!Objects.equals(surreyLastModified, restaurant_last_modified)){
                             urlModified = true;
@@ -99,6 +100,8 @@ public class DownloadRequest {
                         Log.d("restaurant_last_modified", "none "+ restaurant_last_modified);
                     }
                     else if ( urlCheck == INSPECTION_URL_CHECK) {
+                        editor.putString("inspections_url_csv" , csvDataURL);
+                        editor.commit();
                         String inspections_last_modified = prefs.getString("inspections_last_modified", "");
                         if (!Objects.equals(surreyLastModified, inspections_last_modified)){
                             urlModified = true;
