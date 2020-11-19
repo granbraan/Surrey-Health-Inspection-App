@@ -55,7 +55,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * this class holds all data related to map
+ */
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private FragmentManager downloadFrag;
@@ -109,7 +111,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("EXIT", "---------------");
             finish();
         }
-        Log.d("BUILT IN BACK BUTTON", "---------------");
+
         SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
         boolean initial_update = prefs.getBoolean("initial_update", false);
         if(!check) {

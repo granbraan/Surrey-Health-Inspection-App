@@ -4,13 +4,20 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.poject_01.UI.MapsActivity;
+
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class downloads the data on a separate thread than the Main thread
@@ -94,4 +101,5 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
         super.onPostExecute(s);
 
     }
+
 }
