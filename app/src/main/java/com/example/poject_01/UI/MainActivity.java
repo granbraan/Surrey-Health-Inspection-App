@@ -1,5 +1,12 @@
 package com.example.poject_01.UI;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +25,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.poject_01.DownloadFragment;
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Restaurant;
@@ -48,9 +63,10 @@ public class MainActivity extends AppCompatActivity {
         populateListView();
         registerClick();
 
+
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
-        toolbar.setTitle("List of Rastaurants");
+        toolbar.setTitle("List of Restaurants");
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -62,7 +78,11 @@ public class MainActivity extends AppCompatActivity {
                     return false;
             }
         });
+
     }
+
+
+
 
 
 
@@ -217,8 +237,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        Toast.makeText(this,"Back PRessed",Toast.LENGTH_SHORT).show();
-//        finish();
+
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT",true);
