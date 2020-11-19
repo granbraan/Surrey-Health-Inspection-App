@@ -53,7 +53,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
                 .setView(v)
                 .setPositiveButton("Yes", listener)
                 .setNegativeButton("No", listener)
-
                 .create();
 
 
