@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -56,13 +54,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-
-
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private FragmentManager downloadFrag = getSupportFragmentManager();;
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
-    Switch aSwitch;
     private FusedLocationProviderClient currentLocation;
     boolean permissionGranted = false;
     LocationRequest locationRequest;
@@ -72,10 +67,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean check;
     private String restaurantTrack;
     private ClusterManager<RestaurantCluster> clusterManager;
+    private SharedPreferences prefs;
     private RestaurantClusterRenderer renderer;
     private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
-
 
 
     @Override
@@ -83,13 +78,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         check = false;
-        extractData();
+        prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
+        extractMapsData();
         setupToolbar();
+
         if(getIntent().getBooleanExtra("EXIT",false)) {
             Log.d("EXIT", "---------------");
             finish();
         }
-        SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
+
         boolean initial_update = prefs.getBoolean("initial_update", false);
         if(!check) {
             if (!initial_update) {
@@ -100,45 +97,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 updateInspections();
             }
         }
+
         // comparing current time to last_update time
-        Date currentDate = new Date(System.currentTimeMillis());
-        Date last_update = new Date( prefs.getLong("last_update", 0));
-        long diffInMillies = currentDate.getTime() - last_update.getTime();
-        long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        Log.d("Date - Last Update",""+ last_update);
-        Log.d("Date - Current",""+ currentDate);
-        Log.d("Difference in Hours:", "" + diffInHours);
-
-        // 20 hours since last update
+        long diffInHours = hoursSinceUpdate();
         if (diffInHours >= 20) {
-            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" );
-            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv" );
-            Log.d("Download Option", "111111111111111111111111111 " );
-
-            restaurants.getURL(0, new DownloadRequest.VolleyCallBack() {
-                @Override
-                public void onSuccess() {
-                    Log.d("Download Option", "restaurants request success " );
-                    inspections.getURL(1, new DownloadRequest.VolleyCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            Log.d("Download Option", "inspections request success " );
-                            if (restaurants.wasModified() || inspections.wasModified()){
-                                DownloadOption();
-
-                            }
-                        }
-                    });
-                }
-            });
-
-
-
-
-
-            //TODO: separate/clean up
-
+            // 20 hours since last update
+            makeDataGetRequest();
         }
+
+        //TODO: separate/clean up
+
+        /** THE CODE WITHIN THE COMMENTS GETS EXECUTED BEFORE URL RESPONSE IS RECEIVED
+         * *********************************************************************************
+         */
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -151,10 +122,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12345);
         }
-
+        /**
+         * ************************************************************************************
+         */
 
     }
-   private void setupToolbar(){
+
+
+
+    private void extractMapsData(){
+        Intent intent = getIntent();
+        lat = intent.getDoubleExtra("Latitude",0);
+        lng = intent.getDoubleExtra("Longitude",0);
+        check = intent.getBooleanExtra("FROM_REST",false);
+
+    }
+
+    private void setupToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar_map);
         toolbar.inflateMenu(R.menu.toggle_button);
         toolbar.setTitle("Maps");
@@ -170,11 +154,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     return false;
             }
         });
-    }
-
-    private void DownloadOption(){
-        DownloadFragment dialog = new DownloadFragment();
-        dialog.show(downloadFrag, "MessageDialog");
     }
 
     public void updateInspections() {
@@ -202,6 +181,46 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
     }
+
+    private long hoursSinceUpdate() {
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date last_update = new Date( prefs.getLong("last_update", 0));
+        long diffInMillies = currentDate.getTime() - last_update.getTime();
+        long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        Log.d("Date - Last Update",""+ last_update);
+        Log.d("Date - Current",""+ currentDate);
+        Log.d("Difference in Hours:", "" + diffInHours);
+        return  diffInHours ;
+    }
+
+
+    private void makeDataGetRequest() {
+        DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" );
+        DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv" );
+
+        restaurants.getURL(0, new DownloadRequest.VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                Log.d("Download Option", "restaurants request success " );
+                inspections.getURL(1, new DownloadRequest.VolleyCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d("Download Option", "inspections request success " );
+                        if (restaurants.wasModified() || inspections.wasModified()){
+                            DownloadOption();
+
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void DownloadOption(){
+        DownloadFragment dialog = new DownloadFragment();
+        dialog.show(downloadFrag, "MessageDialog");
+    }
+
 
     /**
      * Manipulates the map once available.
@@ -339,13 +358,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onBackPressed();
         finish();
     }
-    private void extractData(){
-        Intent intent = getIntent();
-        lat = intent.getDoubleExtra("Latitude",0);
-        lng = intent.getDoubleExtra("Longitude",0);
-        check = intent.getBooleanExtra("FROM_REST",false);
 
-    }
 
 
     private void setUpCluster() {

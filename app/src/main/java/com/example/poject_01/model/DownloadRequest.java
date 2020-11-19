@@ -54,9 +54,7 @@ public class DownloadRequest {
 
 
     public boolean wasModified(){
-
         return urlModified;
-
     }
 
     public void downloadData(String downloadURL) {
@@ -80,21 +78,20 @@ public class DownloadRequest {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject object1 = response.getJSONObject("result");
-                    JSONArray array1 = object1.getJSONArray("resources");
-                    JSONObject data = array1.getJSONObject(0);
-                    String dataURL  =  data.getString("url");
-                    Log.d("getURL - URL", "" + dataURL);
+                    JSONObject urlResult = response.getJSONObject("result");
+                    JSONArray dataType = urlResult.getJSONArray("resources");
+                    JSONObject csvObject = dataType.getJSONObject(0);
+                    String csvDataURL  =  csvObject.getString("url");
+                    Log.d("getURL - URL", "" + csvDataURL);
 
-                    String surrey_last_modified = data.getString("last_modified");
-                    SharedPreferences.Editor editor = prefs.edit();
+                    String surrey_last_modified = csvObject.getString("last_modified");
+
                     // restaurant url = 0
                     if (urlCheck == 0) {
                         String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
                         if (!Objects.equals(surrey_last_modified, restaurant_last_modified)){
                             urlModified = true;
-                            //editor.putString("restaurant_last_modified",  surrey_last_modified);
-                            editor.commit();
+
                         }
                         else{
                             urlModified = false;
@@ -106,8 +103,6 @@ public class DownloadRequest {
                         String inspections_last_modified = prefs.getString("inspections_last_modified", "");
                         if (!Objects.equals(surrey_last_modified, inspections_last_modified)){
                             urlModified = true;
-                            //editor.putString("inspections_last_modified",  surrey_last_modified);
-                            //editor.commit();
                         }
                         else{
                             urlModified = false;
