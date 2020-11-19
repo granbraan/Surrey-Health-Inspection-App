@@ -1,33 +1,26 @@
 package com.example.poject_01;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.example.poject_01.UI.MainActivity;
-import com.example.poject_01.UI.MapsActivity;
-import com.example.poject_01.model.DownloadRequest;
 
-import java.util.Objects;
 
 public class DownloadFragment extends AppCompatDialogFragment {
+
 
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        //return super.onCreateDialog(savedInstanceState);
-
         //create the view
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.download_alert,null);
@@ -38,41 +31,32 @@ public class DownloadFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-
-                        //call method
-                        //DownloadRequest request = new DownloadRequest (String, Context, String);
-                        //request.downloadData(URL);
-                        try {
-                            //((MainActivity) requireActivity()).downloadTheData();
-                            //((MainActivity) Objects.requireNonNull(getActivity())).downloadTheData();
-                        }
-                        catch(Exception e) {
-                            e.printStackTrace();
-                    }
+                        Log.i("DownloadFragment Activity", "User clicked 'accept' button");
+                        // TODO: download and update data
 
 
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
-
-                        //Do nothing
+                        Log.i("DownloadFragment Activity", "User clicked 'decline' button");
+                        //Do nothing - User chose not to download
                         break;
                 }
-                //Log message
-                Log.i("TAG", "You clicked");
+
+
             }
         };
 
-
+        // TODO: extract strings
         //build alert dialog
         return new AlertDialog.Builder(getActivity())
-                .setTitle("Found Update")
+                .setTitle("Update Available")
                 .setView(v)
-                .setPositiveButton(android.R.string.ok, listener)
-                .setNegativeButton(android.R.string.cancel, listener)
+                .setPositiveButton("Yes", listener)
+                .setNegativeButton("No", listener)
+
                 .create();
+
+
+
     }
-
-
-
-
 }

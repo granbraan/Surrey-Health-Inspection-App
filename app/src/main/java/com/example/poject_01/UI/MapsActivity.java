@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
@@ -49,7 +50,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
-
+    private FragmentManager downloadFrag;
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     Switch aSwitch;
@@ -81,8 +82,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
         if(getIntent().getBooleanExtra("EXIT",false)) {
+            Log.d("EXIT", "---------------");
             finish();
         }
+        Log.d("BUILT IN BACK BUTTON", "---------------");
         SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
         boolean initial_update = prefs.getBoolean("initial_update", false);
         if (!initial_update){
@@ -103,8 +106,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d("Difference in Hours:", "" +diffInHours);
         // 20 hours since last update
         if (diffInHours >= 20) {
-            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv");
-            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv");
+            downloadFrag = getSupportFragmentManager();
+            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv", downloadFrag);
+            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv", downloadFrag);
             restaurants.getURL();
             inspections.getURL();
 

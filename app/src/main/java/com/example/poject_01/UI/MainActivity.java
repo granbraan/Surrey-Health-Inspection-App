@@ -83,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         populateListView();
         registerClick();
-        DownloadOption();
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
-        toolbar.setTitle("List of Rastaurants");
+        toolbar.setTitle("List of Restaurants");
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -102,20 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void DownloadOption(){
-        FragmentManager frag = getSupportFragmentManager();
-        DownloadFragment dialog = new DownloadFragment();
-        dialog.show(frag, "MessageDialog");
 
 
 
-    }
-
-    public void downloadTheData() throws Exception {
-
-        DownloadRequest request = new DownloadRequest("https://data.surrey.ca/dataset/3c8cb648-0e80-4659-9078-ef4917b90ffb/resource/0e5d04a2-be9b-40fe-8de2-e88362ea916b/download/restaurants.csv", getApplicationContext(), "restaurants.csv");
-        request.downloadData("https://data.surrey.ca/dataset/3c8cb648-0e80-4659-9078-ef4917b90ffb/resource/0e5d04a2-be9b-40fe-8de2-e88362ea916b/download/restaurants.csv");
-    }
 
 
     private void populateListView() {
@@ -269,8 +258,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        Toast.makeText(this,"Back PRessed",Toast.LENGTH_SHORT).show();
-//        finish();
+
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT",true);
