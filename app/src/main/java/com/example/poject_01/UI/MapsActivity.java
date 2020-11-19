@@ -74,7 +74,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private RestaurantClusterRenderer renderer;
     private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+    private static Context mContext;
 
+    public static Context getContext() {
+        return mContext;
+    }
+
+    public void setContext(Context mContext) {
+        this.mContext = mContext;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +121,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 updateInspections();
             }
         }
+
+
         // comparing current time to last_update time
         Date currentDate = new Date(System.currentTimeMillis());
         Date last_update = new Date( prefs.getLong("last_update", 0));
