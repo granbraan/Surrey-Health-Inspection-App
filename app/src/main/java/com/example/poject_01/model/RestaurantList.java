@@ -22,7 +22,7 @@ import java.util.List;
 
 
     public void addRestaurant(Restaurant r) {
-        restaurants.add(r) ;
+        restaurants.add(r);
         restaurantListSize++;
         Collections.sort(restaurants);
     }
