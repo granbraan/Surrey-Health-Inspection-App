@@ -91,6 +91,8 @@ public class DownloadRequest {
                         DownloadOption();
 
                         //downloadData(dataURL);
+                        Toast.makeText(rContext, "Do you wanna update?", Toast.LENGTH_LONG).show();
+                        downloadData(dataURL);
                         }
 
 
