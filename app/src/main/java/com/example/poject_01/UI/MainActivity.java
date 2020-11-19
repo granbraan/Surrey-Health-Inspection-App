@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,13 +27,10 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.poject_01.R;
 import com.example.poject_01.model.DownloadDataAsyncTask;
 import com.example.poject_01.model.DownloadRequest;
@@ -56,13 +52,9 @@ import java.io.InputStreamReader;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
-import static android.os.Environment.getExternalStorageState;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
@@ -83,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         populateListView();
         registerClick();
-        //setupUpdateDialog(); 
+        //setupUpdateDialog();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
-        toolbar.setTitle("List of Rastaurants");
+        toolbar.setTitle("List of Restaurants");
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -99,12 +91,6 @@ public class MainActivity extends AppCompatActivity {
                     return false;
             }
         });
-       // readWriteData();
-
-
-        //back button
-//        ActionBar ab = getSupportActionBar();
-//        ab.setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -142,10 +128,47 @@ public class MainActivity extends AppCompatActivity {
             }
             Restaurant currentRestaurant = restaurantList.getRestaurantIndex(position);
 
-            // restaurant icon
-            ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
-            imageView.setImageResource(R.drawable.restaurant_image);
-
+            if(currentRestaurant.getName().contains("Church's")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.churchs_chicken_logo);
+            }
+            else if(currentRestaurant.getName().contains("A & W") || currentRestaurant.getName().contains("A&W")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.a_and_w_logo);
+            }
+            else if(currentRestaurant.getName().contains("Booster")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.booster_juice_logo);
+            }
+            else if(currentRestaurant.getName().contains("Burger King")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.burger_king_logo);
+            }
+            else if(currentRestaurant.getName().contains("Dairy")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.dairy_queen_logo);
+            }
+            else if(currentRestaurant.getName().contains("Five Guys")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.five_guys_burger_and_fries_logo);
+            }
+            else if(currentRestaurant.getName().contains("Kelly's")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.kellys_pub_logo);
+            }
+            else if(currentRestaurant.getName().contains("New York")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.new_york_fries_logo);
+            }
+            else if(currentRestaurant.getName().contains("7-Eleven")) {
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.seven_eleven_logo);
+            }
+            else {
+                // restaurant icon
+                ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
+                imageView.setImageResource(R.drawable.restaurant_image);
+            }
             // name
             TextView textName = restaurantView.findViewById(R.id.textRestaurantName);
             textName.setText(currentRestaurant.getName());
@@ -260,8 +283,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        Toast.makeText(this,"Back PRessed",Toast.LENGTH_SHORT).show();
-//        finish();
+
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT",true);

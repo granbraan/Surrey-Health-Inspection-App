@@ -4,9 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.poject_01.model.InspectionListAdapter;
-import com.example.poject_01.model.RestaurantList;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,10 +16,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.MenuItem;
-import android.widget.TextView;
-
 import com.example.poject_01.R;
+import com.example.poject_01.model.InspectionListAdapter;
+import com.example.poject_01.model.Restaurant;
+import com.example.poject_01.model.RestaurantList;
+
+import java.util.Map;
 
 /**
  * Displays information of the restaurant clicked by the user
@@ -69,15 +72,61 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         String Latitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLatitude());
         String Longitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLongitude());
         setGps.setText(Latitude+" (Latitude)\n"+ Longitude +" (Longitude)");
+        setGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MapsActivity.makeLaunchIntent(RestaurantDetailsActivity.this,
+                        restaurantList.getRestaurantIndex(index).getLatitude(),
+                        restaurantList.getRestaurantIndex(index).getLongitude(),true);
+                startActivity(intent);
+            }
+        });
 
         TextView noInspection = findViewById((R.id.no_inspection));
-        if(restaurantList.getRestaurantIndex(index).getInspections().getNum_inspection()==0)
+        if(restaurantList.getRestaurantIndex(index).getInspections().getNum_inspection() == 0)
         {
             noInspection.setText(R.string.no_recent_inspections_main);
         }
         else
         {
             noInspection.setText("");
+        }
+
+        ImageView imageView = findViewById(R.id.imageView);
+        Restaurant currentRestaurant = restaurantList.getRestaurantIndex(index);
+        if(currentRestaurant.getName().contains("Church's")) {
+            imageView.setImageResource(R.drawable.churchs_chicken_logo);
+        }
+        else if(currentRestaurant.getName().contains("A & W") || currentRestaurant.getName().contains("A&W")) {
+            imageView.setImageResource(R.drawable.a_and_w_logo);
+        }
+        else if(currentRestaurant.getName().contains("Booster")) {
+            imageView.setImageResource(R.drawable.booster_juice_logo);
+        }
+        else if(currentRestaurant.getName().contains("Burger King")) {
+            imageView.setImageResource(R.drawable.burger_king_logo);
+        }
+        else if(currentRestaurant.getName().contains("Dairy")) {
+            imageView.setImageResource(R.drawable.dairy_queen_logo);
+        }
+        else if(currentRestaurant.getName().contains("Five Guys")) {
+            imageView.setImageResource(R.drawable.five_guys_burger_and_fries_logo);
+        }
+        else if(currentRestaurant.getName().contains("Apna")) {
+            imageView.setImageResource(R.drawable.apna_chaat_house_logo);
+        }
+        else if(currentRestaurant.getName().contains("Kelly's")) {
+            imageView.setImageResource(R.drawable.kellys_pub_logo);
+        }
+        else if(currentRestaurant.getName().contains("New York")) {
+            imageView.setImageResource(R.drawable.new_york_fries_logo);
+        }
+        else if(currentRestaurant.getName().contains("7-Eleven")) {
+            imageView.setImageResource(R.drawable.seven_eleven_logo);
+        }
+        else {
+            // restaurant icon
+            imageView.setImageResource(R.drawable.restaurant_image);
         }
 
     }

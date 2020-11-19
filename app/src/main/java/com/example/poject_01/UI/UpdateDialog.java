@@ -29,6 +29,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
                 refreshActivity();
                 Log.i("TAG", "CLICKED ON CANCEL");
                 //TODO: load previous data
+
             }
         };
         //build alert dialog
@@ -43,5 +44,6 @@ public class UpdateDialog extends AppCompatDialogFragment {
         Intent intent = new Intent(getContext(), MainActivity.class);
         startActivity(intent);
     }
+
 
 }
