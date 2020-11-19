@@ -90,7 +90,7 @@ public class DownloadRequest {
                         // TODO: get user input for download (alert dialog)
                             DownloadOption();
 
-                            //downloadData(dataURL);
+                            downloadData(dataURL);
                             //Toast.makeText(rContext, "Do you wanna update?", Toast.LENGTH_LONG).show();
                             //downloadData(dataURL);
                         }
