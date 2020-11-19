@@ -51,13 +51,13 @@ public class DownloadFragment extends AppCompatDialogFragment {
             }
         };
 
-        // TODO: extract strings
+
         //build alert dialog
         return new AlertDialog.Builder(getActivity())
-                .setTitle("Update Available")
+                .setTitle(R.string.update_alert_title)
                 .setView(v)
-                .setPositiveButton("Yes", listener)
-                .setNegativeButton("No", listener)
+                .setPositiveButton(R.string.update_alert_yes, listener)
+                .setNegativeButton(R.string.update_alert_no, listener)
                 .create();
     }
 

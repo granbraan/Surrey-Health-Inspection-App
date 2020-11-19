@@ -90,9 +90,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         boolean initial_update = prefs.getBoolean("initial_update", false);
         if(!check) {
             if (!initial_update) {
+                // reads initial data set - ap/res/raw
                 readWriteInitialData();
 
             } else {
+                // reads data from internal storage - data/inspections.csv/inspections.csv
                 updateRestaurants();
                 updateInspections();
             }
@@ -207,8 +209,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     public void onSuccess() {
                         Log.d("Download Option", "inspections request success " );
                         if (restaurants.wasModified() || inspections.wasModified()){
-                            DownloadOption();
-
+                            downloadOption();
                         }
                     }
                 });
@@ -216,7 +217,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void DownloadOption(){
+    private void downloadOption(){
         DownloadFragment dialog = new DownloadFragment();
         dialog.show(downloadFrag, "MessageDialog");
     }

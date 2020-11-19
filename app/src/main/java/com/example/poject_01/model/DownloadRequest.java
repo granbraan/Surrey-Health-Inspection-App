@@ -35,6 +35,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DownloadRequest {
 
+    public static final int RESTAURANT_URL_CHECK = 0;
+    public static final int INSPECTION_URL_CHECK = 1;
     private RequestQueue mQueue;
     private String url;
     private Context rContext;
@@ -87,7 +89,7 @@ public class DownloadRequest {
                     String surrey_last_modified = csvObject.getString("last_modified");
 
                     // restaurant url = 0
-                    if (urlCheck == 0) {
+                    if (urlCheck == RESTAURANT_URL_CHECK) {
                         String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
                         if (!Objects.equals(surrey_last_modified, restaurant_last_modified)){
                             urlModified = true;
@@ -99,7 +101,7 @@ public class DownloadRequest {
                         Log.d("surrey_last_modified", ""+ surrey_last_modified);
                         Log.d("restaurant_last_modified", "none "+ restaurant_last_modified);
                     }
-                    else {
+                    else if ( urlCheck == INSPECTION_URL_CHECK) {
                         String inspections_last_modified = prefs.getString("inspections_last_modified", "");
                         if (!Objects.equals(surrey_last_modified, inspections_last_modified)){
                             urlModified = true;
@@ -109,6 +111,9 @@ public class DownloadRequest {
                         }
                         Log.d("surrey_last_modified", ""+ surrey_last_modified);
                         Log.d("inspection_last_modified", "none "+ inspections_last_modified);
+                    }
+                    else{
+                        Log.d("getURL - onResponse", "failed to validate url - Checking for website dat changes not preformed ");
                     }
 
                     callBack.onSuccess();
