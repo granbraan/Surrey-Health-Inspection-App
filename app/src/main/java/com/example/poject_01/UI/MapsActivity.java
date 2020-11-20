@@ -54,10 +54,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-/**
- * this class holds all data related to map
- */
-
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
@@ -71,17 +67,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String restaurantTrack;
     private ClusterManager<RestaurantCluster> clusterManager;
     private RestaurantClusterRenderer renderer;
-    private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
-    private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+    private boolean check;
     private static Context mContext;
 
-    public static Context getContext() {
-        return mContext;
-    }
-
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,40 +86,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             finish();
         }
 
-        SharedPreferences prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
-        boolean initial_update = prefs.getBoolean("initial_update", false);
-        if(!check) {
-            if (!initial_update) {
-                readWriteInitialData();
-
-            } else {
-                updateRestaurants();
-                updateInspections();
-            }
-        }
 
 
-        // comparing current time to last_update time
-        Date currentDate = new Date(System.currentTimeMillis());
-        Date last_update = new Date( prefs.getLong("last_update", 0));
-        long diffInMillies = currentDate.getTime() - last_update.getTime();
-        long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        Log.d("Date - Last Update",""+ last_update);
-        Log.d("Date - Current",""+ currentDate);
-        Log.d("Difference in Hours:", "" +diffInHours);
-        // 20 hours since last update
-        if (diffInHours >= 20) {
-            downloadFrag = getSupportFragmentManager();
-            DownloadRequest restaurants = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv", downloadFrag);
-            DownloadRequest inspections = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv", downloadFrag);
-            restaurants.getURL();
-            inspections.getURL();
+        //TODO: separate/clean up
 
-            //TODO: if user chooses to download data, update restaurants and inspections.
-
-            //updateRestaurants();
-            //updateInspections();
-        }
+        /** THE CODE WITHIN THE COMMENTS GETS EXECUTED BEFORE URL RESPONSE IS RECEIVED
+         * *********************************************************************************
+         */
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -209,8 +170,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.setMyLocationEnabled(true);
         mMap.setOnInfoWindowClickListener(this);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setZoomGesturesEnabled(true);
     }
 
     LocationCallback locationCallback = new LocationCallback() {

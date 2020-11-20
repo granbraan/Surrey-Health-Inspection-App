@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
+import com.example.poject_01.UI.WelcomeActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -23,6 +25,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * This class downloads the data on a separate thread than the Main thread
@@ -140,5 +143,31 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
 
     }
+    public void updateInspections() {
+        try {
+            String fileName = mContext.getFilesDir() + "/"+ "restaurantData" + "/" + "inspections.csv";
+            InputStream fis = new FileInputStream(new File(fileName));
+            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            Data inspectionDataUpdate = new Data( inspectionReader);
+            inspectionDataUpdate.readUpdatedInspectionData();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateRestaurants() {
+        try {
+            String fileName = mContext.getFilesDir() + "/"+ "restaurantData" + "/" + "restaurants.csv";
+            InputStream fis = new FileInputStream(new File(fileName));
+            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            Data restaurantDataUpdate = new Data(restaurantReader);
+            restaurantDataUpdate.readUpdatedRestaurantData();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

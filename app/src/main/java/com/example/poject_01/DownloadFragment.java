@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,24 +17,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
-import com.example.poject_01.model.Data;
-import com.example.poject_01.model.DownloadDataAsyncTask;
+import com.example.poject_01.UI.WelcomeActivity;
+import com.example.poject_01.model.DownloadRequest;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class DownloadFragment extends AppCompatDialogFragment {
-    private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
-    private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+    AlertDialog.Builder builder;
     private SharedPreferences prefs;
+    private DownloadRequest restaurantsDownload;
+    private DownloadRequest inspectionsDownload;
+    private SharedPreferences.Editor editor;
 
     @NonNull
     @Override
@@ -47,12 +45,34 @@ public class DownloadFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        Log.i("DownloadFragment Activity", "User clicked 'accept' button");
-                        // TODO: download and update data
-                        downloadData(restaurantsURL,"restaurants.csv");
-                        downloadData(inspectionsURL,"inspections.csv");
-                        updateInspections();
-                        updateRestaurants();
+                        Log.d("DownloadFragment Activity", "User clicked 'accept' button");
+                        prefs = WelcomeActivity.getContext().getSharedPreferences("startup_logic", MODE_PRIVATE);
+                        editor = prefs.edit();
+                        restaurantsDownload = ((WelcomeActivity)getActivity()).getRestaurantsRequest();
+                        inspectionsDownload = ((WelcomeActivity)getActivity()).getInspectionsRequest();
+
+                        if (restaurantsDownload.dataModified()){
+                            restaurantsDownload.downloadData();
+                            int count  = prefs.getInt("url_count", 0);
+                            count +=1;
+                            editor.putInt("url_count", count);
+                            editor.commit();
+                            Log.d("DownloadFragment Activity", "******************************************************************" );
+
+                        }
+                        if (inspectionsDownload.dataModified()){
+                            inspectionsDownload.downloadData();
+                            int count  = prefs.getInt("url_count", 0);
+                            count +=1;
+                            editor.putInt("url_count", count);
+                            editor.commit();
+                            Log.d("DownloadFragment Activity", "******************************************************************" );
+
+                        }
+
+
+                        Log.d("DownloadFragment Activity", "Restaurants Modified = " + restaurantsDownload.dataModified());
+                        Log.d("DownloadFragment Activity", "Inspections Modified = " + inspectionsDownload.dataModified());
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         Log.d("DownloadFragment Activity", "User clicked 'decline' button");
@@ -72,8 +92,9 @@ public class DownloadFragment extends AppCompatDialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.update_alert_title)
                 .setView(v)
-                .setPositiveButton("Yes", listener)
-                .setNegativeButton("No", listener)
+                .setCancelable(false)
+                .setPositiveButton(R.string.update_alert_yes, listener)
+                .setNegativeButton(R.string.update_alert_no, listener)
                 .create();
     }
 
@@ -102,42 +123,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
         dialog.show();
         return dialog;
     }
-    public void downloadData(String downloadURL, String fileName) {
-        DownloadDataAsyncTask task = new DownloadDataAsyncTask(MapsActivity.getContext(), fileName);
-        task.execute(downloadURL);
 
-        // updating preferences used to control flow of app
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("initial_update", true);
-        Date currentDate = new Date(System.currentTimeMillis());
-        editor.putLong("last_update", currentDate.getTime() );
-        editor.commit();
 
-    }
 
-    public void updateInspections() {
-        try {
-            String fileName = MapsActivity.getContext().getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data inspectionDataUpdate = new Data( inspectionReader);
-            inspectionDataUpdate.readUpdatedInspectionData();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateRestaurants() {
-        try {
-            String fileName = MapsActivity.getContext().getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data restaurantDataUpdate = new Data(restaurantReader);
-            restaurantDataUpdate.readUpdatedRestaurantData();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 }

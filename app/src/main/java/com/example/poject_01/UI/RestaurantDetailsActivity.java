@@ -30,13 +30,14 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
     private int index = 0;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
-    private boolean flag;
+    private  boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_single_restaurant);
         extractDataFromIntent();
         displayNameAndLocation();
+
 
         //use of recycler view to show list of inspections
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -57,7 +58,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         index = intent.getIntExtra("index=",0);
         flag = intent.getBooleanExtra("flag",false);
-
 
     }
 
@@ -85,7 +85,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-
                 }
                 finish();
             }
@@ -158,9 +157,5 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         intent.putExtra("flag",flag);
         return intent;
     }
-
-
-
-
 }
 
