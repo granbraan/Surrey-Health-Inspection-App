@@ -1,5 +1,5 @@
 1.Some restaurants share the same coordinates. Clicking on the coordinates of one restaurant may show another restaurant with the same coordinates in map/restaurant activity
 2.UI not built for dark mode.
-3.Did not implement AlertDialog for update
-4. User needs to refresh application, to get new restaurant dataset
+3. Location not shown when giving permission. Can go to listview to click on a restaurant coordinates and it will refresh the map or refresh the app.
+
 
