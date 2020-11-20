@@ -79,7 +79,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+
+        mContext = MapsActivity.this;
         check = false;
         prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
         extractMapsData();
@@ -136,9 +137,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return mContext;
     }
 
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
-    }
+
 
 
     private void extractMapsData(){

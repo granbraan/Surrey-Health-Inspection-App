@@ -51,25 +51,30 @@ public class DownloadRequest {
         return urlModified;
     }
 
+
+
     public void downloadData() {
         DownloadDataAsyncTask task = new DownloadDataAsyncTask(rContext, fileName);
-        task.execute(csvDataURL);
+        // calls DownloadDataAsyncTask.doInBackground()
+
+        if (dataSetCheck == INSPECTION_URL_CHECK) {
+            if(urlModified){
+                editor.putString("inspections_last_modified" , surreyLastModified);
+                //task.execute(csvDataURL, "1");
+            }
+        }
+        if(dataSetCheck == RESTAURANT_URL_CHECK){
+            if(urlModified){
+                editor.putString("restaurants_last_modified", surreyLastModified);
+                //task.execute(csvDataURL, "0");
+            }
+        }
 
         // updating preferences used to control flow of app
-
         editor.putBoolean("initial_update", true);
         Date currentDate = new Date(System.currentTimeMillis());
         editor.putLong("last_update", currentDate.getTime() );
-
-        if(urlModified && dataSetCheck == INSPECTION_URL_CHECK){
-            editor.putString("inspections_last_modified" , surreyLastModified);
-        }
-        if(urlModified && dataSetCheck == RESTAURANT_URL_CHECK){
-            editor.putString("restaurants_last_modified", surreyLastModified);
-        }
-
         editor.commit();
-
 
     }
 
