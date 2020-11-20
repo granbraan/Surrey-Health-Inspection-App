@@ -476,6 +476,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return  intent;
     }
 
+    public static Intent getIntent (Context c)
+    {
+        Intent intent = new Intent(c,MapsActivity.class);
+        return intent;
+
+    }
+
     public DownloadRequest getRestaurantsRequest(){
             return restaurantsRequest;
     }
