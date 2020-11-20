@@ -25,6 +25,9 @@ import com.example.poject_01.model.DownloadRequest;
 import static android.content.Context.MODE_PRIVATE;
 
 
+/**
+ * Handles initial dialog and its cases for downloading or not
+ */
 public class DownloadFragment extends AppCompatDialogFragment {
     AlertDialog.Builder builder;
     private SharedPreferences prefs;
@@ -45,20 +48,16 @@ public class DownloadFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        Log.d("DownloadFragment Activity", "User clicked 'accept' button");
                         prefs = WelcomeActivity.getContext().getSharedPreferences("startup_logic", MODE_PRIVATE);
                         editor = prefs.edit();
                         restaurantsDownload = ((WelcomeActivity)getActivity()).getRestaurantsRequest();
                         inspectionsDownload = ((WelcomeActivity)getActivity()).getInspectionsRequest();
-
                         if (restaurantsDownload.dataModified()){
                             restaurantsDownload.downloadData();
                             int count  = prefs.getInt("url_count", 0);
                             count +=1;
                             editor.putInt("url_count", count);
                             editor.commit();
-                            Log.d("DownloadFragment Activity", "******************************************************************" );
-
                         }
                         if (inspectionsDownload.dataModified()){
                             inspectionsDownload.downloadData();
@@ -66,20 +65,12 @@ public class DownloadFragment extends AppCompatDialogFragment {
                             count +=1;
                             editor.putInt("url_count", count);
                             editor.commit();
-                            Log.d("DownloadFragment Activity", "******************************************************************" );
-
                         }
-
-
-                        Log.d("DownloadFragment Activity", "Restaurants Modified = " + restaurantsDownload.dataModified());
-                        Log.d("DownloadFragment Activity", "Inspections Modified = " + inspectionsDownload.dataModified());
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
-                        Log.d("DownloadFragment Activity", "User clicked 'decline' button");
                         Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
                         startActivity(intent);
                         ((WelcomeActivity)getActivity()).finish();
-
                         //Do nothing - User chose not to download
                         break;
                 }

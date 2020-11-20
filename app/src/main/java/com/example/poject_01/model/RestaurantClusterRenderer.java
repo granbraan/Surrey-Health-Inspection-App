@@ -14,7 +14,6 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 public class RestaurantClusterRenderer extends DefaultClusterRenderer<RestaurantCluster> {
    private LatLng coordinates;
 
-
     public RestaurantClusterRenderer(Context context, GoogleMap map, ClusterManager<RestaurantCluster> clusterManager, LatLng coordinates) {
         super(context, map, clusterManager);
         clusterManager.setRenderer(this);

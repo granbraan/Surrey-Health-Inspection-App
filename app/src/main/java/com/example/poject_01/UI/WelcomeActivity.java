@@ -25,6 +25,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Displays background screen for dialog to show up
+ * Handles methods for downloading/updating and reading data
+ */
 public class WelcomeActivity extends AppCompatActivity {
     private static Context mContext;
     private SharedPreferences prefs;
@@ -46,8 +50,6 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-
-
         boolean initial_update = prefs.getBoolean("initial_update", false);
         if(!check) {
             if (!initial_update) {
@@ -59,7 +61,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 updateInspections(); // data/restaurantData/inspections.csv
             }
         }
-
         // comparing current time to last_update time
         long diffInHours = hoursSinceUpdate();
         if (diffInHours >= 20) {
@@ -115,28 +116,19 @@ public class WelcomeActivity extends AppCompatActivity {
     private long hoursSinceUpdate() {
         Date currentDate = new Date(System.currentTimeMillis());
         Date last_update = new Date( prefs.getLong("last_update", 0));
-        long diffInMillies = currentDate.getTime() - last_update.getTime();
-        long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        Log.d("Date - Last Update",""+ last_update);
-        Log.d("Date - Current",""+ currentDate);
-        Log.d("Difference in Hours:", "" + diffInHours);
-        return  diffInHours ;
+        long diffInMiles = currentDate.getTime() - last_update.getTime();
+        return TimeUnit.HOURS.convert(diffInMiles, TimeUnit.MILLISECONDS);
     }
-
 
     private void makeDataGetRequest() {
         restaurantsRequest = new DownloadRequest(restaurantsURL, WelcomeActivity.this, "restaurants.csv" , 0);
         inspectionsRequest = new DownloadRequest(inspectionsURL, WelcomeActivity.this, "inspections.csv", 1 );
-
         restaurantsRequest.getURL(new DownloadRequest.VolleyCallBack() {
             @Override
             public void onSuccess() {
-                Log.d("Download Option", "restaurants request success " );
                 inspectionsRequest.getURL( new DownloadRequest.VolleyCallBack() {
                     @Override
                     public void onSuccess() {
-                        Log.d("Download Option", "inspections request success " );
-                        Log.d("bool check", "" + restaurantsRequest.dataModified());
                         if (restaurantsRequest.dataModified() || inspectionsRequest.dataModified()){
                             downloadOptionFragment();
                         }
@@ -158,7 +150,6 @@ public class WelcomeActivity extends AppCompatActivity {
     public DownloadRequest getInspectionsRequest(){
         return inspectionsRequest;
     }
-
 
     public static Context getContext() {
         return mContext;

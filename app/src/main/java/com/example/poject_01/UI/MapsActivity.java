@@ -3,7 +3,6 @@ package com.example.poject_01.UI;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -14,12 +13,8 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
 
-import com.example.poject_01.DownloadFragment;
 import com.example.poject_01.R;
-import com.example.poject_01.model.Data;
-import com.example.poject_01.model.DownloadRequest;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantCluster;
 import com.example.poject_01.model.RestaurantClusterRenderer;
@@ -44,17 +39,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.ClusterManager;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+/**
+ * Handles user location, clusters, and etc needed for Map
+ *
+ */
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -82,17 +71,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupToolbar();
 
         if(getIntent().getBooleanExtra("EXIT",false)) {
-            Log.d("EXIT", "---------------");
             finish();
         }
 
-
-
-        //TODO: separate/clean up
-
-        /** THE CODE WITHIN THE COMMENTS GETS EXECUTED BEFORE URL RESPONSE IS RECEIVED
-         * *********************************************************************************
-         */
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -105,9 +86,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12345);
         }
-        /**
-         * ************************************************************************************
-         */
 
     }
 
@@ -132,7 +110,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = MainActivity.makeIntent(MapsActivity.this);
-                if(item.getItemId()==R.id.switch_list) {
+                if(item.getItemId() == R.id.switch_list) {
                     startActivity(intent);
                     return  true;
                 }
@@ -141,8 +119,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-
-
 
     /**
      * Manipulates the map once available.
@@ -161,15 +137,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.setMyLocationEnabled(true);
         setUpCluster();
-        if(!check)
+        if(!check) {
             getDeviceLocation();
-        else
+        }
+        else {
             moveCamera(new LatLng(lat,lng),15f);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mMap.setMyLocationEnabled(true);
-        mMap.setOnInfoWindowClickListener(this);
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -207,19 +187,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void getDeviceLocation() {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(this,permissions,12345);
             return;
         }
-        Task location = LocationServices.getFusedLocationProviderClient(this).getLastLocation();
+        Task<Location> location = LocationServices.getFusedLocationProviderClient(this).getLastLocation();
         location.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -268,18 +244,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         finish();
     }
 
-
-
     private void setUpCluster() {
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),10));
-
         LatLng indexes = null;
         indexes = new LatLng(lat,lng);
         clusterManager = new ClusterManager<>(this,mMap);
         renderer = new RestaurantClusterRenderer(this, mMap,clusterManager, indexes);
         clusterManager.setRenderer(renderer);
         addItems();
-        for(int i=0; i<restaurantList.getRestaurantListSize();i++)
+        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
         {
             Restaurant r = restaurantList.getRestaurantIndex(i);
             LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
@@ -307,7 +279,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void addItems() {
-        for(int i =0 ; i<restaurantList.getRestaurantListSize();i++)
+        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
         {
             Restaurant r = restaurantList.getRestaurantIndex(i);
             double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
@@ -348,20 +320,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             clusterManager.addItem(cluster);
 
         }
-    }
-
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        int index = 0;
-        Log.i("MARKER TITLE", marker.getTitle());
-        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++) {
-            Log.i("MARKER TITLE", marker.getTitle());
-            if(marker.getTitle().equals(restaurantList.getRestaurantIndex(i).getName())) {
-                index = i;
-            }
-        }
-        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, index,false);
-        startActivity(intent);
     }
 
     public static  Intent makeLaunchIntent (Context c, double latitude, double longitude,Boolean load)

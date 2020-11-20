@@ -37,9 +37,6 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
     private String fileName;
     private SharedPreferences prefs;
 
-
-
-
     public DownloadDataAsyncTask(Context context, String fileName) {
         mContext = context;
         this.fileName = fileName;
@@ -51,13 +48,10 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
     }
 
-
-
     @Override
     protected String doInBackground(String... f_url) {
         int count;
         try {
-
             URL url = new URL(f_url[0]);
             URLConnection connection = url.openConnection();
             connection.connect();
@@ -76,7 +70,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             OutputStream output = new FileOutputStream(dataFile);
 
             Log.d( "The file path = ", dataFile.getAbsolutePath());
-            byte data[] = new byte[1024];
+            byte[] data = new byte[1024];
 
             long total = 0;
 
@@ -96,15 +90,12 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             Log.e("Error: ", e.getMessage());
         }
-        Log.d( "DownLoadAsyncTask", "Download from " + f_url[0] + " COMPLETE");
         return f_url[1];
     }
 
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-        Log.d("ptg", "onProgressUpdate: " + values[0]);
-
     }
 
     @Override
@@ -113,34 +104,26 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
         // restaurant download
         prefs = mContext.getSharedPreferences("startup_logic" , Context.MODE_PRIVATE);
         int count = prefs.getInt("url_count", 0);
-
-        if (count ==1 ){
-
-            if (Objects.equals(dataSetCheck, "0")){
+        if (count == 1 ) {
+            if (Objects.equals(dataSetCheck, "0")) {
                 updateRestaurants();
             }
-            if (Objects.equals(dataSetCheck, "1")){
+            if (Objects.equals(dataSetCheck, "1")) {
                 updateInspections();
             }
             Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
             mContext.startActivity(intent);
         }
-        else if ( count == 2){
-            if (Objects.equals(dataSetCheck, "0")){
+        else if ( count == 2) {
+            if (Objects.equals(dataSetCheck, "0")) {
                 updateRestaurants();
-                Log.d("onPostExecute", "restaurantsFinished" );
             }
-            if (Objects.equals(dataSetCheck, "1")){
-                Log.d("onPostExecute", "inspectionsFinished" );
+            if (Objects.equals(dataSetCheck, "1")) {
                 updateInspections();
                 Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
                 mContext.startActivity(intent);
             }
         }
-
-
-
-
 
     }
     public void updateInspections() {
@@ -168,6 +151,4 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             e.printStackTrace();
         }
     }
-
-
 }
