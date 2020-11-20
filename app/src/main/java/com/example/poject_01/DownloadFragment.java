@@ -52,6 +52,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         editor = prefs.edit();
                         restaurantsDownload = ((WelcomeActivity)getActivity()).getRestaurantsRequest();
                         inspectionsDownload = ((WelcomeActivity)getActivity()).getInspectionsRequest();
+                        showUpdateDialog();
                         if (restaurantsDownload.dataModified()){
                             restaurantsDownload.downloadData();
                             int count  = prefs.getInt("url_count", 0);
@@ -66,6 +67,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
                             editor.putInt("url_count", count);
                             editor.commit();
                         }
+                        showUpdateDialog().cancel();
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
@@ -74,8 +76,8 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         //Do nothing - User chose not to download
                         break;
                 }
-
             }
+
         };
 
 
@@ -102,8 +104,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_NEGATIVE:
-                        //Cancel Download
-                        //refreshActivity();
                         break;
                 }
             }

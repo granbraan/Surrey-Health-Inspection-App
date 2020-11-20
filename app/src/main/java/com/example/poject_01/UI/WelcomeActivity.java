@@ -1,5 +1,6 @@
 package com.example.poject_01.UI;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -37,6 +38,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private Boolean check;
     private FragmentManager downloadFrag ;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
+    private AlertDialog dialog2;
 
     private DownloadRequest restaurantsRequest;
     private DownloadRequest inspectionsRequest;
@@ -70,6 +72,7 @@ public class WelcomeActivity extends AppCompatActivity {
         else{
             Intent intent = MapsActivity.getIntent(WelcomeActivity.this);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -119,6 +122,8 @@ public class WelcomeActivity extends AppCompatActivity {
         long diffInMiles = currentDate.getTime() - last_update.getTime();
         return TimeUnit.HOURS.convert(diffInMiles, TimeUnit.MILLISECONDS);
     }
+
+
 
     private void makeDataGetRequest() {
         restaurantsRequest = new DownloadRequest(restaurantsURL, WelcomeActivity.this, "restaurants.csv" , 0);

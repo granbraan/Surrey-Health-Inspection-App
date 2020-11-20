@@ -1,5 +1,7 @@
 package com.example.poject_01.model;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +38,8 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private String fileName;
     private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
+
 
     public DownloadDataAsyncTask(Context context, String fileName) {
         mContext = context;
@@ -100,9 +104,11 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String dataSetCheck) {
+
         super.onPostExecute(dataSetCheck);
         // restaurant download
         prefs = mContext.getSharedPreferences("startup_logic" , Context.MODE_PRIVATE);
+        editor = prefs.edit();
         int count = prefs.getInt("url_count", 0);
         if (count == 1 ) {
             if (Objects.equals(dataSetCheck, "0")) {
@@ -111,8 +117,12 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             if (Objects.equals(dataSetCheck, "1")) {
                 updateInspections();
             }
+            editor.putInt("url_count", 0);
+            editor.commit();
             Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
             mContext.startActivity(intent);
+            ((Activity)mContext).finish();
+
         }
         else if ( count == 2) {
             if (Objects.equals(dataSetCheck, "0")) {
@@ -120,8 +130,12 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             }
             if (Objects.equals(dataSetCheck, "1")) {
                 updateInspections();
+                editor.putInt("url_count", 0);
+                editor.commit();
                 Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
                 mContext.startActivity(intent);
+                ((Activity)mContext).finish();
+
             }
         }
 
