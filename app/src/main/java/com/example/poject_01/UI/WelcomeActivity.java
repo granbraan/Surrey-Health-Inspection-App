@@ -71,6 +71,7 @@ public class WelcomeActivity extends AppCompatActivity {
         else{
             Intent intent = MapsActivity.getIntent(WelcomeActivity.this);
             startActivity(intent);
+            finish();
         }
     }
 

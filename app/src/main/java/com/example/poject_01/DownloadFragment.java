@@ -50,7 +50,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         editor = prefs.edit();
                         restaurantsDownload = ((WelcomeActivity)getActivity()).getRestaurantsRequest();
                         inspectionsDownload = ((WelcomeActivity)getActivity()).getInspectionsRequest();
-
                         showUpdateDialog();
                         if (restaurantsDownload.dataModified()){
                             restaurantsDownload.downloadData();
@@ -59,7 +58,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
                             editor.putInt("url_count", count);
                             editor.commit();
                             Log.d("DownloadFragment Activity", "******************************************************************" );
-
                         }
                         if (inspectionsDownload.dataModified()){
                             inspectionsDownload.downloadData();
@@ -68,10 +66,8 @@ public class DownloadFragment extends AppCompatDialogFragment {
                             editor.putInt("url_count", count);
                             editor.commit();
                             Log.d("DownloadFragment Activity", "******************************************************************" );
-
                         }
-
-
+                        showUpdateDialog().cancel();
                         Log.d("DownloadFragment Activity", "Restaurants Modified = " + restaurantsDownload.dataModified());
                         Log.d("DownloadFragment Activity", "Inspections Modified = " + inspectionsDownload.dataModified());
                         break;
@@ -84,8 +80,8 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         //Do nothing - User chose not to download
                         break;
                 }
-
             }
+
         };
 
 

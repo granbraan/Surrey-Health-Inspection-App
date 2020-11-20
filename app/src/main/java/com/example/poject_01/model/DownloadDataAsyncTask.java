@@ -1,5 +1,6 @@
 package com.example.poject_01.model;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -119,7 +120,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
         editor = prefs.edit();
         int count = prefs.getInt("url_count", 0);
 
-        if (count ==1 ){
+        if (count == 1 ) {
 
             if (Objects.equals(dataSetCheck, "0")){
                 updateRestaurants();
@@ -131,6 +132,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             editor.commit();
             Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
             mContext.startActivity(intent);
+            ((Activity)mContext).finish();
 
         }
         else if ( count == 2){
@@ -145,6 +147,8 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
                 editor.commit();
                 Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
                 mContext.startActivity(intent);
+                ((Activity)mContext).finish();
+
             }
         }
 
