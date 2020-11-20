@@ -91,7 +91,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             Log.e("Error: ", e.getMessage());
         }
         Log.d( "DownLoadAsyncTask", "Download from " + f_url[0] + " COMPLETE");
-        return null;
+        return f_url[1];
     }
 
     @Override
@@ -105,13 +105,13 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String dataSetCheck) {
         super.onPostExecute(dataSetCheck);
         // restaurant download
-         /*
+
         if (Objects.equals(dataSetCheck, "0")){
             updateRestaurants();
         }
         if (Objects.equals(dataSetCheck, "1")){
             updateInspections();
-        }*/
+        }
     }
     public void updateInspections() {
         try {

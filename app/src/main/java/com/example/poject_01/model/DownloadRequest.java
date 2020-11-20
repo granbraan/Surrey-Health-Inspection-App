@@ -60,13 +60,13 @@ public class DownloadRequest {
         if (dataSetCheck == INSPECTION_URL_CHECK) {
             if(urlModified){
                 editor.putString("inspections_last_modified" , surreyLastModified);
-                //task.execute(csvDataURL, "1");
+                task.execute(csvDataURL, "1");
             }
         }
         if(dataSetCheck == RESTAURANT_URL_CHECK){
             if(urlModified){
                 editor.putString("restaurants_last_modified", surreyLastModified);
-                //task.execute(csvDataURL, "0");
+                task.execute(csvDataURL, "0");
             }
         }
 
