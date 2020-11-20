@@ -1,13 +1,15 @@
 package com.example.poject_01;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,26 +55,52 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         updateRestaurants();
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
-                        Log.i("DownloadFragment Activity", "User clicked 'decline' button");
+                        Log.d("DownloadFragment Activity", "User clicked 'decline' button");
+                        Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
+                        startActivity(intent);
+                        ((WelcomeActivity)getActivity()).finish();
+
                         //Do nothing - User chose not to download
                         break;
                 }
 
-
             }
         };
 
-        // TODO: extract strings
+
         //build alert dialog
         return new AlertDialog.Builder(getActivity())
-                .setTitle("Update Available")
+                .setTitle(R.string.update_alert_title)
                 .setView(v)
                 .setPositiveButton("Yes", listener)
                 .setNegativeButton("No", listener)
                 .create();
+    }
 
 
-
+    private Dialog showUpdateDialog() {
+        //create view to show
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.loading_dialog, null);
+        builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("");
+        builder.setCancelable(false);
+        builder.setView(v);
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //Cancel Download
+                        //refreshActivity();
+                        break;
+                }
+            }
+        });
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.create();
+        dialog.show();
+        return dialog;
     }
     public void downloadData(String downloadURL, String fileName) {
         DownloadDataAsyncTask task = new DownloadDataAsyncTask(MapsActivity.getContext(), fileName);

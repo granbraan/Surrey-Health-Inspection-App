@@ -34,7 +34,11 @@
     <string name="textview">TextView</string>
     <string name="google_maps_API_key">AIzaSyAnGniTvBrdUSk2FuIqRSJSP29NTCzC6n8</string>
     <string name="title_activity_maps">Map</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="updating">Updating...</string>
+    <string name="update_alert_title">Update Available</string>
+    <string name="update_alert_yes">Yes</string>
+    <string name="update_alert_no">No</string>
 
 </resources>

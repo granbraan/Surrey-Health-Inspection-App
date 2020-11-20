@@ -124,6 +124,15 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         else if(currentRestaurant.getName().contains("Apna")) {
             imageView.setImageResource(R.drawable.apna_chaat_house_logo);
         }
+        else if(currentRestaurant.getName().contains("Kelly's")) {
+            imageView.setImageResource(R.drawable.kellys_pub_logo);
+        }
+        else if(currentRestaurant.getName().contains("New York")) {
+            imageView.setImageResource(R.drawable.new_york_fries_logo);
+        }
+        else if(currentRestaurant.getName().contains("7-Eleven")) {
+            imageView.setImageResource(R.drawable.seven_eleven_logo);
+        }
         else {
             // restaurant icon
             imageView.setImageResource(R.drawable.restaurant_image);

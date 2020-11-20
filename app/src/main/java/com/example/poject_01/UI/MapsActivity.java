@@ -5,19 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.poject_01.DownloadFragment;
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.DownloadRequest;
@@ -60,17 +59,15 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
-    private FragmentManager downloadFrag;
+
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
-    Switch aSwitch;
     private FusedLocationProviderClient currentLocation;
     boolean permissionGranted = false;
     LocationRequest locationRequest;
     private Toolbar toolbar;
     private double lat;
     private double lng;
-    private Boolean check;
     private String restaurantTrack;
     private ClusterManager<RestaurantCluster> clusterManager;
     private RestaurantClusterRenderer renderer;
@@ -90,23 +87,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_map);
-        toolbar.inflateMenu(R.menu.toggle_button);
-        toolbar.setTitle("Maps");
-        check = false;
-        extractData();
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = MainActivity.makeIntent(MapsActivity.this);
-                if(item.getItemId()==R.id.switch_list) {
-                    startActivity(intent);
-                    return  true;
-                }
-                else
-                    return false;
-            }
-        });
+        check =false;
+        mContext = MapsActivity.this;
+
+        extractMapsData();
+        setupToolbar();
+
         if(getIntent().getBooleanExtra("EXIT",false)) {
             Log.d("EXIT", "---------------");
             finish();
@@ -158,34 +144,44 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12345);
         }
+        /**
+         * ************************************************************************************
+         */
 
     }
 
-    public void updateInspections() {
-        try {
-            String fileName = this.getFilesDir() + "/"+ "inspections.csv" + "/" + "inspections.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data inspectionDataUpdate = new Data( inspectionReader);
-            inspectionDataUpdate.readUpdatedInspectionData();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static Context getContext() {
+        return mContext;
     }
 
-    public void updateRestaurants() {
-        try {
-            String fileName = this.getFilesDir() + "/"+ "restaurants.csv" + "/" + "restaurants.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data restaurantDataUpdate = new Data(restaurantReader);
-            restaurantDataUpdate.readUpdatedRestaurantData();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+    private void extractMapsData(){
+        Intent intent = getIntent();
+        lat = intent.getDoubleExtra("Latitude",0);
+        lng = intent.getDoubleExtra("Longitude",0);
+        check = intent.getBooleanExtra("FROM_REST",false);
     }
+
+    private void setupToolbar(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar_map);
+        toolbar.inflateMenu(R.menu.toggle_button);
+        toolbar.setTitle("Maps");
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = MainActivity.makeIntent(MapsActivity.this);
+                if(item.getItemId()==R.id.switch_list) {
+                    startActivity(intent);
+                    return  true;
+                }
+                else
+                    return false;
+            }
+        });
+    }
+
+
 
     /**
      * Manipulates the map once available.
@@ -249,19 +245,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    private void readWriteInitialData() {
-        // reads data from data_restaurants.csv
-        InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
-        BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
-        // reads data from data_inspections.csv
-        InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
-        BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
-        // the data is set using private setters in the Data class
-        Data restaurantData = new Data( restaurantReader );
-        Data inspectionData = new Data( inspectionReader);
-        restaurantData.readRestaurantData();
-        inspectionData.readInspectionData();
-    }
 
     private void getDeviceLocation() {
 
@@ -325,13 +308,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onBackPressed();
         finish();
     }
-    private void extractData(){
-        Intent intent = getIntent();
-        lat = intent.getDoubleExtra("Latitude",0);
-        lng = intent.getDoubleExtra("Longitude",0);
-        check = intent.getBooleanExtra("FROM_REST",false);
 
-    }
 
 
     private void setUpCluster() {
@@ -436,6 +413,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         intent.putExtra("FROM_REST",load);
         return  intent;
     }
+
+    public static Intent getIntent (Context c)
+    {
+        Intent intent = new Intent(c,MapsActivity.class);
+        return intent;
+
+    }
+
 
 
 }
