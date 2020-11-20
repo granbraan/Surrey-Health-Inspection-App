@@ -117,13 +117,13 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
         if (count ==1 ){
 
             if (Objects.equals(dataSetCheck, "0")){
-                //updateRestaurants();
+                updateRestaurants();
             }
             if (Objects.equals(dataSetCheck, "1")){
-               // updateInspections();
+                updateInspections();
             }
-            //Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
-            //mContext.startActivity(intent);
+            Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
+            mContext.startActivity(intent);
         }
         else if ( count == 2){
             if (Objects.equals(dataSetCheck, "0")){
