@@ -133,7 +133,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             if (Objects.equals(dataSetCheck, "1")){
                 Log.d("onPostExecute", "inspectionsFinished" );
                 updateInspections();
-                Intent intent = MainActivity.getIntent(MapsActivity.getContext());
+                Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
                 mContext.startActivity(intent);
             }
         }
