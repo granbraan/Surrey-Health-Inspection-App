@@ -312,4 +312,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static Intent getIntent (Context c)
+    {
+        Intent intent = new Intent(c,MainActivity.class);
+        return intent;
+
+    }
+
 }

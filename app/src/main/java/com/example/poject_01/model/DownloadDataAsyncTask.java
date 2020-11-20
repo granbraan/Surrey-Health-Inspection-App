@@ -2,11 +2,14 @@ package com.example.poject_01.model;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
 import com.example.poject_01.UI.WelcomeActivity;
 
@@ -32,6 +35,10 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
     private Context mContext;
     private String fileName;
+    private SharedPreferences prefs;
+
+
+
 
     public DownloadDataAsyncTask(Context context, String fileName) {
         mContext = context;
@@ -104,13 +111,35 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String dataSetCheck) {
         super.onPostExecute(dataSetCheck);
         // restaurant download
+        prefs = mContext.getSharedPreferences("startup_logic" , Context.MODE_PRIVATE);
+        int count = prefs.getInt("url_count", 0);
 
-        if (Objects.equals(dataSetCheck, "0")){
-            updateRestaurants();
+        if (count ==1 ){
+
+            if (Objects.equals(dataSetCheck, "0")){
+                //updateRestaurants();
+            }
+            if (Objects.equals(dataSetCheck, "1")){
+               // updateInspections();
+            }
+            //Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
+            //mContext.startActivity(intent);
         }
-        if (Objects.equals(dataSetCheck, "1")){
-            updateInspections();
+        else if ( count == 2){
+            if (Objects.equals(dataSetCheck, "0")){
+                updateRestaurants();
+                Log.d("onPostExecute", "restaurantsFinished" );
+            }
+            if (Objects.equals(dataSetCheck, "1")){
+                Log.d("onPostExecute", "inspectionsFinished" );
+                updateInspections();
+                Intent intent = MainActivity.getIntent(MapsActivity.getContext());
+                mContext.startActivity(intent);
+            }
         }
+
+
+
 
 
     }

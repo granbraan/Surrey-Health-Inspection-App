@@ -13,6 +13,7 @@ import com.example.poject_01.DownloadFragment;
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.DownloadRequest;
+import com.example.poject_01.model.RestaurantList;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,6 +32,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
     private Boolean check;
     private FragmentManager downloadFrag ;
+    private final RestaurantList restaurantList = RestaurantList.getInstance();
 
     private DownloadRequest restaurantsRequest;
     private DownloadRequest inspectionsRequest;

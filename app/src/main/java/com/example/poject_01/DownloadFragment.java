@@ -30,11 +30,11 @@ public class DownloadFragment extends AppCompatDialogFragment {
     private SharedPreferences prefs;
     private DownloadRequest restaurantsDownload;
     private DownloadRequest inspectionsDownload;
+    private SharedPreferences.Editor editor;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
         //create the view
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.download_alert,null);
@@ -46,17 +46,26 @@ public class DownloadFragment extends AppCompatDialogFragment {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         Log.d("DownloadFragment Activity", "User clicked 'accept' button");
-
+                        prefs = WelcomeActivity.getContext().getSharedPreferences("startup_logic", MODE_PRIVATE);
+                        editor = prefs.edit();
                         restaurantsDownload = ((WelcomeActivity)getActivity()).getRestaurantsRequest();
                         inspectionsDownload = ((WelcomeActivity)getActivity()).getInspectionsRequest();
 
                         if (restaurantsDownload.dataModified()){
                             restaurantsDownload.downloadData();
+                            int count  = prefs.getInt("url_count", 0);
+                            count +=1;
+                            editor.putInt("url_count", count);
+                            editor.commit();
                             Log.d("DownloadFragment Activity", "******************************************************************" );
 
                         }
                         if (inspectionsDownload.dataModified()){
                             inspectionsDownload.downloadData();
+                            int count  = prefs.getInt("url_count", 0);
+                            count +=1;
+                            editor.putInt("url_count", count);
+                            editor.commit();
                             Log.d("DownloadFragment Activity", "******************************************************************" );
 
                         }
@@ -83,6 +92,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.update_alert_title)
                 .setView(v)
+                .setCancelable(false)
                 .setPositiveButton(R.string.update_alert_yes, listener)
                 .setNegativeButton(R.string.update_alert_no, listener)
                 .create();
@@ -102,7 +112,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
                 switch (which) {
                     case DialogInterface.BUTTON_NEGATIVE:
                         //Cancel Download
-                        refreshActivity();
+                        //refreshActivity();
                         break;
                 }
             }
@@ -114,9 +124,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
         return dialog;
     }
 
-    private void refreshActivity() {
-        //Intent intent = new Intent(getContext(), MapsActivity.class);
-        //startActivity(intent);
-    }
+
 
 }
