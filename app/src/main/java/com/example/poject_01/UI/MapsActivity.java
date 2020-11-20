@@ -55,6 +55,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+    private DownloadRequest restaurantsRequest;
+    private DownloadRequest inspectionsRequest;
     private FragmentManager downloadFrag = getSupportFragmentManager();;
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -94,8 +96,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // reads initial data set - ap/res/raw
                 readWriteInitialData();
 
-            } else {
-                                     // reads data from internal storage:
+            } else {                 // reads data from internal storage:
                 updateRestaurants(); // data/restaurantData/restaurants.csv
                 updateInspections(); // data/restaurantData/inspections.csv
             }
@@ -219,20 +220,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private void makeDataGetRequest() {
-        DownloadRequest restaurantsRequest = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" );
-        DownloadRequest inspectionsRequest = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv" );
+        restaurantsRequest = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" , 0);
+        inspectionsRequest = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv", 1 );
 
-        restaurantsRequest.getURL(0, new DownloadRequest.VolleyCallBack() {
+        restaurantsRequest.getURL(new DownloadRequest.VolleyCallBack() {
             @Override
             public void onSuccess() {
                 Log.d("Download Option", "restaurants request success " );
-                inspectionsRequest.getURL(1, new DownloadRequest.VolleyCallBack() {
+                inspectionsRequest.getURL( new DownloadRequest.VolleyCallBack() {
                     @Override
                     public void onSuccess() {
                         Log.d("Download Option", "inspections request success " );
                         Log.d("bool check", "" + restaurantsRequest.dataModified());
                         if (restaurantsRequest.dataModified() || inspectionsRequest.dataModified()){
-                            downloadOption();
+                            downloadOptionFragment();
                         }
                     }
                 });
@@ -240,7 +241,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void downloadOption(){
+    private void downloadOptionFragment(){
         DownloadFragment dialog = new DownloadFragment();
         dialog.show(downloadFrag, "MessageDialog");
     }
@@ -475,8 +476,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return  intent;
     }
 
+    public DownloadRequest getRestaurantsRequest(){
+            return restaurantsRequest;
+    }
 
-
-
+    public DownloadRequest getInspectionsRequest(){
+        return inspectionsRequest;
+    }
 
 }

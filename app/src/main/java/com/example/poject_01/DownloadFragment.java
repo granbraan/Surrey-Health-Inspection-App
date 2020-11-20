@@ -1,6 +1,7 @@
 package com.example.poject_01;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +25,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DownloadFragment extends AppCompatDialogFragment {
     AlertDialog.Builder builder;
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
+    private DownloadRequest restaurantsDownload;
+    private DownloadRequest inspectionsDownload;
 
     @NonNull
     @Override
@@ -41,7 +44,18 @@ public class DownloadFragment extends AppCompatDialogFragment {
                     case DialogInterface.BUTTON_POSITIVE:
                         //prefs =  MapsActivity.getContext().getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
                         //Toast.makeText(MapsActivity.getContext(), "User clicked download", Toast.LENGTH_LONG);
+                        restaurantsDownload = ((MapsActivity)getActivity()).getRestaurantsRequest();
+                        inspectionsDownload =((MapsActivity)getActivity()).getInspectionsRequest();
+
+                        if (restaurantsDownload.dataModified()){
+                            restaurantsDownload.downloadData();
+                        }
+                        if (inspectionsDownload.dataModified()){
+                            inspectionsDownload.downloadData();
+                        }
                         Log.d("DownloadFragment Activity", "User clicked 'accept' button");
+                        Log.d("DownloadFragment Activity", "Restaurants Modified = " + restaurantsDownload.dataModified());
+                        Log.d("DownloadFragment Activity", "Inspections Modified = " + inspectionsDownload.dataModified());
                         // TODO: download and update data
 
 

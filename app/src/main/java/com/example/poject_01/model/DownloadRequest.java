@@ -31,15 +31,18 @@ public class DownloadRequest {
     private SharedPreferences.Editor editor;
     private boolean urlModified;
     private String surreyLastModified;
+    private String csvDataURL;
+    private int dataSetCheck;
 
 
 
-    public DownloadRequest(String url, Context rContext, String fileName) {
+    public DownloadRequest(String url, Context rContext, String fileName, int check ) {
         this.url = url;
         this.rContext = rContext;
         this.fileName = fileName;
         this.prefs = rContext.getSharedPreferences("startup_logic", MODE_PRIVATE);
         this.editor = prefs.edit();
+        this.dataSetCheck = check;
     }
 
 
@@ -48,9 +51,9 @@ public class DownloadRequest {
         return urlModified;
     }
 
-    public void downloadData(String downloadURL) {
+    public void downloadData() {
         DownloadDataAsyncTask task = new DownloadDataAsyncTask(rContext, fileName);
-        task.execute(downloadURL);
+        task.execute(csvDataURL);
 
         // updating preferences used to control flow of app
 
@@ -58,10 +61,10 @@ public class DownloadRequest {
         Date currentDate = new Date(System.currentTimeMillis());
         editor.putLong("last_update", currentDate.getTime() );
 
-        if(urlModified){
+        if(urlModified && dataSetCheck == INSPECTION_URL_CHECK){
             editor.putString("inspections_last_modified" , surreyLastModified);
         }
-        if(urlModified){
+        if(urlModified && dataSetCheck == RESTAURANT_URL_CHECK){
             editor.putString("restaurants_last_modified", surreyLastModified);
         }
 
@@ -70,7 +73,7 @@ public class DownloadRequest {
 
     }
 
-    public void getURL(int urlCheck, final VolleyCallBack callBack) {
+    public void getURL( final VolleyCallBack callBack) {
         mQueue = Volley.newRequestQueue(rContext);
 
         JsonObjectRequest restaurantsRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -80,14 +83,13 @@ public class DownloadRequest {
                     JSONObject urlResult = response.getJSONObject("result");
                     JSONArray dataType = urlResult.getJSONArray("resources");
                     JSONObject csvObject = dataType.getJSONObject(0);
-                    String csvDataURL  =  csvObject.getString("url");
+                    csvDataURL  =  csvObject.getString("url");
                     Log.d("getURL - URL", "" + csvDataURL);
 
 
                     surreyLastModified = csvObject.getString("last_modified");
-                    if (urlCheck == RESTAURANT_URL_CHECK) {
-                        editor.putString("restaurants_url_csv" ,csvDataURL);
-                        editor.commit();
+                    if (dataSetCheck == RESTAURANT_URL_CHECK) {
+
                         String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
                         if (!Objects.equals(surreyLastModified, restaurant_last_modified)){
                             urlModified = true;
@@ -99,9 +101,8 @@ public class DownloadRequest {
                         Log.d("surrey_last_modified", ""+ surreyLastModified);
                         Log.d("restaurant_last_modified", "none "+ restaurant_last_modified);
                     }
-                    else if ( urlCheck == INSPECTION_URL_CHECK) {
-                        editor.putString("inspections_url_csv" , csvDataURL);
-                        editor.commit();
+                    else if ( dataSetCheck == INSPECTION_URL_CHECK) {
+
                         String inspections_last_modified = prefs.getString("inspections_last_modified", "");
                         if (!Objects.equals(surreyLastModified, inspections_last_modified)){
                             urlModified = true;
