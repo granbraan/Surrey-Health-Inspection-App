@@ -73,7 +73,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(getIntent().getBooleanExtra("EXIT",false)) {
             finish();
         }
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            checkSettingAndStartLocationUpdates();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12345);
+        }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -81,11 +85,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         currentLocation = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            checkSettingAndStartLocationUpdates();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12345);
-        }
+
 
     }
 
