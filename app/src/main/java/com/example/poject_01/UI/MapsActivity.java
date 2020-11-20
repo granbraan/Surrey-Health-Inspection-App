@@ -55,9 +55,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
-    private DownloadRequest restaurantsRequest;
-    private DownloadRequest inspectionsRequest;
-    private FragmentManager downloadFrag = getSupportFragmentManager();;
+
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private FusedLocationProviderClient currentLocation;
@@ -66,13 +64,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Toolbar toolbar;
     private double lat;
     private double lng;
-    private Boolean check;
     private String restaurantTrack;
     private ClusterManager<RestaurantCluster> clusterManager;
-    private SharedPreferences prefs;
     private RestaurantClusterRenderer renderer;
-    private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
-    private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+    private boolean check;
     private static Context mContext;
 
 
@@ -80,10 +75,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        check =false;
         mContext = MapsActivity.this;
-        check = false;
-        prefs = this.getSharedPreferences("startup_logic"   ,  MODE_PRIVATE);
+
         extractMapsData();
         setupToolbar();
 
@@ -92,24 +86,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             finish();
         }
 
-        boolean initial_update = prefs.getBoolean("initial_update", false);
-        if(!check) {
-            if (!initial_update) {
-                // reads initial data set - ap/res/raw
-                readWriteInitialData();
 
-            } else {                 // reads data from internal storage:
-                updateRestaurants(); // data/restaurantData/restaurants.csv
-                updateInspections(); // data/restaurantData/inspections.csv
-            }
-        }
-
-        // comparing current time to last_update time
-        long diffInHours = hoursSinceUpdate();
-        if (diffInHours >= 20) {
-            // 20 hours since last update
-            makeDataGetRequest();
-        }
 
         //TODO: separate/clean up
 
@@ -140,13 +117,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
     private void extractMapsData(){
         Intent intent = getIntent();
         lat = intent.getDoubleExtra("Latitude",0);
         lng = intent.getDoubleExtra("Longitude",0);
         check = intent.getBooleanExtra("FROM_REST",false);
-
     }
 
     private void setupToolbar(){
@@ -167,84 +142,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    private void readWriteInitialData() {
-        // reads data from data_restaurants.csv
-        InputStream restaurantStream = getResources().openRawResource(R.raw.data_restaurants);
-        BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(restaurantStream, StandardCharsets.UTF_8));
-        // reads data from data_inspections.csv
-        InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
-        BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
-        // the data is set using private setters in the Data class
-        Data restaurantData = new Data( restaurantReader );
-        Data inspectionData = new Data( inspectionReader);
-        restaurantData.readRestaurantData();
-        inspectionData.readInspectionData();
-
-    }
-    public void updateInspections() {
-        try {
-            String fileName = this.getFilesDir() + "/"+ "restaurantData" + "/" + "inspections.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data inspectionDataUpdate = new Data( inspectionReader);
-            inspectionDataUpdate.readUpdatedInspectionData();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateRestaurants() {
-        try {
-            String fileName = this.getFilesDir() + "/"+ "restaurantData" + "/" + "restaurants.csv";
-            InputStream fis = new FileInputStream(new File(fileName));
-            BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data restaurantDataUpdate = new Data(restaurantReader);
-            restaurantDataUpdate.readUpdatedRestaurantData();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private long hoursSinceUpdate() {
-        Date currentDate = new Date(System.currentTimeMillis());
-        Date last_update = new Date( prefs.getLong("last_update", 0));
-        long diffInMillies = currentDate.getTime() - last_update.getTime();
-        long diffInHours =  TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        Log.d("Date - Last Update",""+ last_update);
-        Log.d("Date - Current",""+ currentDate);
-        Log.d("Difference in Hours:", "" + diffInHours);
-        return  diffInHours ;
-    }
-
-
-    private void makeDataGetRequest() {
-        restaurantsRequest = new DownloadRequest(restaurantsURL, MapsActivity.this, "restaurants.csv" , 0);
-        inspectionsRequest = new DownloadRequest(inspectionsURL, MapsActivity.this, "inspections.csv", 1 );
-
-        restaurantsRequest.getURL(new DownloadRequest.VolleyCallBack() {
-            @Override
-            public void onSuccess() {
-                Log.d("Download Option", "restaurants request success " );
-                inspectionsRequest.getURL( new DownloadRequest.VolleyCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        Log.d("Download Option", "inspections request success " );
-                        Log.d("bool check", "" + restaurantsRequest.dataModified());
-                        if (restaurantsRequest.dataModified() || inspectionsRequest.dataModified()){
-                            downloadOptionFragment();
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    private void downloadOptionFragment(){
-        DownloadFragment dialog = new DownloadFragment();
-        dialog.show(downloadFrag, "MessageDialog");
-    }
 
 
     /**
@@ -483,12 +380,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public DownloadRequest getRestaurantsRequest(){
-            return restaurantsRequest;
-    }
 
-    public DownloadRequest getInspectionsRequest(){
-        return inspectionsRequest;
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.poject_01.model;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.example.poject_01.UI.MapsActivity;
+import com.example.poject_01.UI.WelcomeActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -73,9 +75,6 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
             while ((count = input.read(data)) != -1) {
                 total += count;
-                // publishing the progress....
-                // After this onProgressUpdate will be called
-                //publishProgress(""+(int)((total*100)/lenghtOfFile));
 
                 // writing data to file
                 output.write(data, 0, count);
@@ -112,10 +111,12 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
         if (Objects.equals(dataSetCheck, "1")){
             updateInspections();
         }
+
+
     }
     public void updateInspections() {
         try {
-            String fileName = MapsActivity.getContext().getFilesDir() + "/"+ "restaurantData" + "/" + "inspections.csv";
+            String fileName = mContext.getFilesDir() + "/"+ "restaurantData" + "/" + "inspections.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
             Data inspectionDataUpdate = new Data( inspectionReader);
@@ -128,7 +129,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
     public void updateRestaurants() {
         try {
-            String fileName = MapsActivity.getContext().getFilesDir() + "/"+ "restaurantData" + "/" + "restaurants.csv";
+            String fileName = mContext.getFilesDir() + "/"+ "restaurantData" + "/" + "restaurants.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
             Data restaurantDataUpdate = new Data(restaurantReader);

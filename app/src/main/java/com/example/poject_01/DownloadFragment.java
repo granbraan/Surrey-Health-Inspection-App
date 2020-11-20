@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
+import com.example.poject_01.UI.WelcomeActivity;
 import com.example.poject_01.model.DownloadRequest;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -46,8 +47,8 @@ public class DownloadFragment extends AppCompatDialogFragment {
                     case DialogInterface.BUTTON_POSITIVE:
                         Log.d("DownloadFragment Activity", "User clicked 'accept' button");
 
-                        restaurantsDownload = ((MapsActivity)getActivity()).getRestaurantsRequest();
-                        inspectionsDownload =((MapsActivity)getActivity()).getInspectionsRequest();
+                        restaurantsDownload = ((WelcomeActivity)getActivity()).getRestaurantsRequest();
+                        inspectionsDownload = ((WelcomeActivity)getActivity()).getInspectionsRequest();
 
                         if (restaurantsDownload.dataModified()){
                             restaurantsDownload.downloadData();
@@ -66,6 +67,10 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         Log.d("DownloadFragment Activity", "User clicked 'decline' button");
+                        Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
+                        startActivity(intent);
+                        ((WelcomeActivity)getActivity()).finish();
+
                         //Do nothing - User chose not to download
                         break;
                 }
