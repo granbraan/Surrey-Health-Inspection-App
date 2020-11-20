@@ -29,6 +29,7 @@ import java.util.List;
 
     public void clear(){
         restaurants.clear();
+        restaurantListSize = 0;
     }
 
 
