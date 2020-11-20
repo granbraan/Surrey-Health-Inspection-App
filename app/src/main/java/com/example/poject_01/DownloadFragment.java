@@ -59,7 +59,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
                             count +=1;
                             editor.putInt("url_count", count);
                             editor.commit();
-                            Log.d("DownloadFragment Activity", "******************************************************************" );
                         }
                         if (inspectionsDownload.dataModified()){
                             inspectionsDownload.downloadData();
@@ -67,11 +66,8 @@ public class DownloadFragment extends AppCompatDialogFragment {
                             count +=1;
                             editor.putInt("url_count", count);
                             editor.commit();
-                            Log.d("DownloadFragment Activity", "******************************************************************" );
                         }
                         showUpdateDialog().cancel();
-                        Log.d("DownloadFragment Activity", "Restaurants Modified = " + restaurantsDownload.dataModified());
-                        Log.d("DownloadFragment Activity", "Inspections Modified = " + inspectionsDownload.dataModified());
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
@@ -108,8 +104,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_NEGATIVE:
-                        //Cancel Download
-                        //refreshActivity();
                         break;
                 }
             }
