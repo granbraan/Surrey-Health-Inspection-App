@@ -10,10 +10,10 @@
         android:id="@+id/alertText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="45dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
         android:gravity="center"
-        android:text="Do you want to download new data?"
+        android:text="@string/do_you_want_to_download_new_data"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
