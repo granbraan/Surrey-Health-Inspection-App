@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.restaurantListView);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Log.d("MainActivity", "User clicked restaurant at position: " + position);
-            intent = RestaurantDetailsActivity.makeIntent(MainActivity.this,position);
+            intent = RestaurantDetailsActivity.makeIntent(MainActivity.this,position,false);
             startActivity(intent);
         });
 
@@ -192,6 +192,21 @@ public class MainActivity extends AppCompatActivity {
                 // setting hazard colour
                 setHazardColour(restaurantView, latestInspection);
             }
+            else
+            {
+                ImageView hazardIcon = findViewById(R.id.iconHazardLevel);
+                hazardIcon.setImageResource(R.drawable.low_risk);
+
+                TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
+                textViolations.setText("NO INSPECTION YET");
+
+                TextView textDate = restaurantView.findViewById(R.id.textInspectionDate);
+                textDate.setText("NO INSPECTIONS YET");
+
+                ImageView hazardColour = findViewById(R.id.hazardColour);
+                hazardColour.setBackgroundColor(Color.GREEN);
+            }
+
 
             return restaurantView;
         }
