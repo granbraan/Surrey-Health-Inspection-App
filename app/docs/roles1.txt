@@ -1,6 +1,0 @@
-ROLES:
-
-SCRUM MASTER - Nick Hannay
-PRODUCT OWNER - Ritika Goyal
-REPO MANAGER - Granton Lo
-TEAM MEMBER - Kian Kaas

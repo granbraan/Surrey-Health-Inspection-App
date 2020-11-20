@@ -93,6 +93,4 @@ public class Restaurant implements Comparable<Restaurant> {
                 '}';
     }
 
-
-
 }
