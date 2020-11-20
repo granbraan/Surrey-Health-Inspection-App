@@ -85,20 +85,27 @@ public class DownloadRequest {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONObject urlResult = response.getJSONObject("result");
-                    JSONArray dataType = urlResult.getJSONArray("resources");
-                    JSONObject csvObject = dataType.getJSONObject(0);
-                    csvDataURL  =  csvObject.getString("url");
-                    Log.d("getURL - URL", "" + csvDataURL);
+                    JSONObject object1 = response.getJSONObject("result");
+                    JSONArray array1 = object1.getJSONArray("resources");
+                    JSONObject data = array1.getJSONObject(0);
+                    String dataURL  =  data.getString("url");
+                    Log.d("getURL - URL", "" + dataURL);
 
+                    // check if last_modified has been updated
+                    String surrey_last_modified = data.getString("last_modified");
+                    String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
+                    String inspections_last_modified = prefs.getString("inspections_last_modified", "");
+                    Log.d("surrey_last_modified", ""+ surrey_last_modified);
+                    Log.d("restaurant_last_modified", ""+ restaurant_last_modified);
+                    Log.d("inspection_last_modified", ""+ inspections_last_modified);
 
-                    surreyLastModified = csvObject.getString("last_modified");
-                    if (dataSetCheck == RESTAURANT_URL_CHECK) {
+                    if (!Objects.equals(surrey_last_modified, restaurant_last_modified) ){
+                        // TODO: get user input for download (alert dialog)
+                            DownloadOption();
 
-                        String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
-                        if (!Objects.equals(surreyLastModified, restaurant_last_modified)){
-                            urlModified = true;
-
+                            downloadData(dataURL);
+                            //Toast.makeText(rContext, "Do you wanna update?", Toast.LENGTH_LONG).show();
+                            //downloadData(dataURL);
                         }
                         else{
                             urlModified = false;
@@ -111,20 +118,6 @@ public class DownloadRequest {
                         String inspections_last_modified = prefs.getString("inspections_last_modified", "");
                         if (!Objects.equals(surreyLastModified, inspections_last_modified)){
                             urlModified = true;
-
-                        }
-                        else{
-                            urlModified = false;
-                        }
-                        Log.d("surrey_last_modified", ""+ surreyLastModified);
-                        Log.d("inspection_last_modified", "none "+ inspections_last_modified);
-                    }
-                    else{
-                        Log.d("getURL - onResponse", "failed to validate url - Checking for website dat changes not preformed ");
-                    }
-                    //downloadData(csvDataURL);
-                    callBack.onSuccess();
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

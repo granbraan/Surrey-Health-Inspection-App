@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
                 // number of violations
                 setNumViolations(restaurantView, latestInspection);
 
-
                 // setting hazard icon
                 setHazardIcon(restaurantView, latestInspection);
 
@@ -206,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                 ImageView hazardColour = findViewById(R.id.hazardColour);
                 hazardColour.setBackgroundColor(Color.GREEN);
             }
-
 
             return restaurantView;
         }
