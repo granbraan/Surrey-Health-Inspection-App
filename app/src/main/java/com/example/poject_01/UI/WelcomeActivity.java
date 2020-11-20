@@ -1,5 +1,6 @@
 package com.example.poject_01.UI;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -33,6 +34,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private Boolean check;
     private FragmentManager downloadFrag ;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
+    private AlertDialog dialog2;
 
     private DownloadRequest restaurantsRequest;
     private DownloadRequest inspectionsRequest;
@@ -122,6 +124,8 @@ public class WelcomeActivity extends AppCompatActivity {
         Log.d("Difference in Hours:", "" + diffInHours);
         return  diffInHours ;
     }
+
+
 
 
     private void makeDataGetRequest() {

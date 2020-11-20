@@ -51,6 +51,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         restaurantsDownload = ((WelcomeActivity)getActivity()).getRestaurantsRequest();
                         inspectionsDownload = ((WelcomeActivity)getActivity()).getInspectionsRequest();
 
+                        showUpdateDialog();
                         if (restaurantsDownload.dataModified()){
                             restaurantsDownload.downloadData();
                             int count  = prefs.getInt("url_count", 0);
