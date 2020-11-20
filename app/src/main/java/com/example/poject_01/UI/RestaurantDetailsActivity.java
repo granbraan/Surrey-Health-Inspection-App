@@ -38,7 +38,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         extractDataFromIntent();
         displayNameAndLocation();
 
-
         //use of recycler view to show list of inspections
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);

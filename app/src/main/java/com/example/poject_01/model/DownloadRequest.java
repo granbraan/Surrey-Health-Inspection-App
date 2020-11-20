@@ -19,6 +19,9 @@ import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ *  Gets Data from URL and handles it
+ */
 public class DownloadRequest {
 
     private static final int RESTAURANT_URL_CHECK = 0;
@@ -34,8 +37,6 @@ public class DownloadRequest {
     private String csvDataURL;
     private int dataSetCheck;
 
-
-
     public DownloadRequest(String url, Context rContext, String fileName, int check ) {
         this.url = url;
         this.rContext = rContext;
@@ -45,13 +46,9 @@ public class DownloadRequest {
         this.dataSetCheck = check;
     }
 
-
-
     public boolean dataModified(){
         return urlModified;
     }
-
-
 
     public void downloadData() {
         DownloadDataAsyncTask task = new DownloadDataAsyncTask(rContext, fileName);
@@ -80,7 +77,6 @@ public class DownloadRequest {
 
     public void getURL( final VolleyCallBack callBack) {
         mQueue = Volley.newRequestQueue(rContext);
-
         JsonObjectRequest restaurantsRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -89,43 +85,27 @@ public class DownloadRequest {
                     JSONArray dataType = urlResult.getJSONArray("resources");
                     JSONObject csvObject = dataType.getJSONObject(0);
                     csvDataURL  =  csvObject.getString("url");
-                    Log.d("getURL - URL", "" + csvDataURL);
-
 
                     surreyLastModified = csvObject.getString("last_modified");
                     if (dataSetCheck == RESTAURANT_URL_CHECK) {
-
-                        String restaurant_last_modified = prefs.getString("restaurant_last_modified", "");
-                        if (!Objects.equals(surreyLastModified, restaurant_last_modified)){
+                        String restaurantLastModified = prefs.getString("restaurantLastModified", "");
+                        if (!Objects.equals(surreyLastModified, restaurantLastModified)){
                             urlModified = true;
-
                         }
                         else{
                             urlModified = false;
                         }
-                        Log.d("surrey_last_modified", ""+ surreyLastModified);
-                        Log.d("restaurant_last_modified", "none "+ restaurant_last_modified);
                     }
                     else if ( dataSetCheck == INSPECTION_URL_CHECK) {
-
-                        String inspections_last_modified = prefs.getString("inspections_last_modified", "");
-                        if (!Objects.equals(surreyLastModified, inspections_last_modified)){
+                        String inspectionsLastModified = prefs.getString("inspectionsLastModified", "");
+                        if (!Objects.equals(surreyLastModified, inspectionsLastModified)){
                             urlModified = true;
-
                         }
                         else{
                             urlModified = false;
                         }
-                        Log.d("surrey_last_modified", ""+ surreyLastModified);
-                        Log.d("inspection_last_modified", "none "+ inspections_last_modified);
                     }
-                    else{
-                        Log.d("getURL - onResponse", "failed to validate url - Checking for website dat changes not preformed ");
-                    }
-                    //downloadData(csvDataURL);
                     callBack.onSuccess();
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -139,12 +119,7 @@ public class DownloadRequest {
         mQueue.add(restaurantsRequest);
     }
 
-
     public interface VolleyCallBack {
         void onSuccess();
     }
-
-
-
-
 }

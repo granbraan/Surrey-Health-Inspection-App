@@ -40,5 +40,8 @@
     <string name="update_alert_title">Update Available</string>
     <string name="update_alert_yes">Yes</string>
     <string name="update_alert_no">No</string>
+    <string name="do_you_want_to_download_new_data">Do you want to download new data?</string>
+    <string name="inspectionnumber">inspectionNumber</string>
+    <string name="criticaltype">criticalType</string>
 
 </resources>
