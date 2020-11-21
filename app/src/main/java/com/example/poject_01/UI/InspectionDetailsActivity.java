@@ -40,7 +40,6 @@ public class InspectionDetailsActivity extends AppCompatActivity {
     private int index;
     private RestaurantList restaurantList = RestaurantList.getInstance();
     private int restaurantIndex;
-    private static InspectionList instance = InspectionList.getInstance();
 
     public static Intent makeLaunchIntent(Context c, int index) {
         Intent intent =  new Intent(c, InspectionDetailsActivity.class);

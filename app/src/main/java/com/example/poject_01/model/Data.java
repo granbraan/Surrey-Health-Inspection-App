@@ -97,6 +97,7 @@ public class Data {
                 String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 setRestaurantData(tokens);
             }
+            reader.close();
         }
         catch (IOException e) {
             Log.wtf("MainActivity - Updated Inspection  Data", "error reading file on line: " + e);
@@ -117,6 +118,7 @@ public class Data {
                 }
 
             }
+            reader.close();
 
         }
         catch (IOException e) {

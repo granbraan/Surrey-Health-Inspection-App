@@ -34,34 +34,34 @@ public class WelcomeActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
-    private Boolean check;
-    private FragmentManager downloadFrag ;
-    private final RestaurantList restaurantList = RestaurantList.getInstance();
-    private AlertDialog dialog2;
 
+    private FragmentManager downloadFrag ;
     private DownloadRequest restaurantsRequest;
     private DownloadRequest inspectionsRequest;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mContext = WelcomeActivity.this;
         prefs = mContext.getSharedPreferences("startup_logic", MODE_PRIVATE);
-
         downloadFrag = getSupportFragmentManager();
-        check = false;
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
         boolean initial_update = prefs.getBoolean("initial_update", false);
-        if(!check) {
-            if (!initial_update) {
-                // reads initial data set - ap/res/raw
-                readWriteInitialData();
 
-            } else {                 // reads data from internal storage:
-                updateRestaurants(); // data/restaurantData/restaurants.csv
-                updateInspections(); // data/restaurantData/inspections.csv
-            }
+        if (!initial_update) {
+            // reads initial data set - ap/res/raw
+            readWriteInitialData();
+
         }
+        else {                 // reads data from internal storage:
+            updateRestaurants(); // data/restaurantData/restaurants.csv
+            updateInspections(); // data/restaurantData/inspections.csv
+        }
+
         // comparing current time to last_update time
         long diffInHours = hoursSinceUpdate();
         if (diffInHours >= 20) {
