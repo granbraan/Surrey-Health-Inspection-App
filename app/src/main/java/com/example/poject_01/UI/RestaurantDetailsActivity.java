@@ -35,23 +35,12 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_single_restaurant);
         extractDataFromIntent();
+        setupBackButton();
+        setupRecycleView();
         displayNameAndLocation();
-
-        //use of recycler view to show list of inspections
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
-        recyclerView.setAdapter(myAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(divider);
-
-        //back button
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
 
     }
 
-    //extract index from main activity
     private void extractDataFromIntent() {
         Intent intent = getIntent();
         index = intent.getIntExtra("index=",0);
@@ -60,7 +49,23 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
     }
 
-    @SuppressLint("SetTextI18n")
+    private void setupBackButton() {
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setupRecycleView() {
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
+        recyclerView.setAdapter(myAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(divider);
+    }
+
+
+
+
     private void displayNameAndLocation() {
         //displays the contents of restaurant whose inspection list is shown
         TextView setName = findViewById(R.id.restaurant_name_dsp);
@@ -89,15 +94,20 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             }
         });
 
-        TextView noInspection = findViewById((R.id.no_inspection));
-        if(restaurant.numInspections() == 0)
-        {
-            noInspection.setText(R.string.no_recent_inspections_main);
+        TextView inspectionListTitle = findViewById((R.id.inspectionListTitle));
+        int numInspections = restaurant.numInspections();
+        switch (numInspections){
+            case 0:
+                inspectionListTitle.setText(R.string.no_recent_inspections_main);
+                break;
+            case 1:
+                inspectionListTitle.setText("There was " + numInspections + " recent inspection: ");
+                break;
+            default:
+                inspectionListTitle.setText("There were " + numInspections + " recent inspections: ");
+                break;
         }
-        else
-        {
-            noInspection.setText("");
-        }
+
 
         ImageView imageView = findViewById(R.id.imageView);
 

@@ -1,14 +1,15 @@
 <resources>
     <string name="app_name">Poject_01</string>
-    <string name="title_activity_detail_single_restaurant">detail_single_restaurant</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="restaurant_name_dsp">restaurant_name_dsp</string>
     <string name="address_dsp">address_dsp</string>
     <string name="gps_cords_dsp">gps_cords_dsp</string>
@@ -27,21 +28,18 @@
     <string name="no_recent_inspections_main">NO RECENT INSPECTIONS</string>
     <string name="violations_text_main_single_1">There was:</string>
     <string name="violations_text_single">violation</string>
-    <string name="no_inspection">no_inspection</string>
     <string name="num_critical_restaurant">Number of critical issues =</string>
     <string name="num_non_critical_restaurant">Number of non critical issues =</string>
     <string name="hazard_lvl_restaurant">Hazard level =</string>
-    <string name="textview">TextView</string>
     <string name="google_maps_API_key">AIzaSyAnGniTvBrdUSk2FuIqRSJSP29NTCzC6n8</string>
     <string name="title_activity_maps">Map</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="updating">Updating...</string>
     <string name="update_alert_title">Update Available</string>
     <string name="update_alert_yes">Yes</string>
     <string name="update_alert_no">No</string>
     <string name="do_you_want_to_download_new_data">Do you want to download new data?</string>
-    <string name="inspectionnumber">inspectionNumber</string>
-    <string name="criticaltype">criticalType</string>
+
 
 </resources>
