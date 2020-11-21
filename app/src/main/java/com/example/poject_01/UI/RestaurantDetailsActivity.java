@@ -21,8 +21,6 @@ import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
-import java.util.Map;
-
 /**
  * Displays information of the restaurant clicked by the user
  */
@@ -92,7 +90,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         });
 
         TextView noInspection = findViewById((R.id.no_inspection));
-        if(restaurant.getInspections().getNum_inspection() == 0)
+        if(restaurant.numInspections() == 0)
         {
             noInspection.setText(R.string.no_recent_inspections_main);
         }

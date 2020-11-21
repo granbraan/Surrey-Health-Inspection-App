@@ -103,7 +103,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
     //returns the total number of inspections
     @Override
     public int getItemCount() {
-        return inspectionList.getNum_inspection();
+        return inspectionList.getNumInspections();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
