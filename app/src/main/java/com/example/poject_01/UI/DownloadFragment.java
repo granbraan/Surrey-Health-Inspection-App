@@ -1,4 +1,4 @@
-package com.example.poject_01;
+package com.example.poject_01.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.example.poject_01.R;
 import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
 import com.example.poject_01.UI.WelcomeActivity;

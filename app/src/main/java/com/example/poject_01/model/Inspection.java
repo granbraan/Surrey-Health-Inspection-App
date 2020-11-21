@@ -27,7 +27,7 @@ public class Inspection implements Comparable<Inspection> {
 
         // parsing violation lump - storing each violation as element in array list "vioLump"
         String[] tokens = vioLump.split("\\|");
-        Log.d("Inspection Class", "vioLump size:  " + tokens.length  +"\n");
+        //Log.d("Inspection Class", "vioLump size:  " + tokens.length  +"\n");
         for (int i=0; i<tokens.length; i++){
             this.vioList.add(tokens[i]);
         }

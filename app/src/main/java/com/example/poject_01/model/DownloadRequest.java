@@ -88,7 +88,8 @@ public class DownloadRequest {
 
                     surreyLastModified = csvObject.getString("last_modified");
                     if (dataSetCheck == RESTAURANT_URL_CHECK) {
-                        String restaurantLastModified = prefs.getString("restaurantLastModified", "");
+                        String restaurantLastModified = prefs.getString("restaurants_last_modified", "");
+                        Log.d("get url", "ours: " + restaurantLastModified + ", SURREY: " + surreyLastModified);
                         if (!Objects.equals(surreyLastModified, restaurantLastModified)){
                             urlModified = true;
                         }
@@ -97,8 +98,10 @@ public class DownloadRequest {
                         }
                     }
                     else if ( dataSetCheck == INSPECTION_URL_CHECK) {
-                        String inspectionsLastModified = prefs.getString("inspectionsLastModified", "");
+                        String inspectionsLastModified = prefs.getString("inspections_last_modified", "");
+                        Log.d("get url", "ours: " + inspectionsLastModified + ", SURREY: " + surreyLastModified);
                         if (!Objects.equals(surreyLastModified, inspectionsLastModified)){
+
                             urlModified = true;
                         }
                         else{

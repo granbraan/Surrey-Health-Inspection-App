@@ -17,7 +17,7 @@ import java.util.List;
   */
  public class RestaurantList implements Iterable<Restaurant>{
     private List<Restaurant> restaurants = new ArrayList<>();
-    private int restaurantListSize=0;
+    private int restaurantListSize = 0;
     private static RestaurantList instance;
 
 

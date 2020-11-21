@@ -279,11 +279,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void addItems() {
-        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
+        for(Restaurant r : restaurantList)
         {
-            Restaurant r = restaurantList.getRestaurantIndex(i);
-            double latitude = restaurantList.getRestaurantIndex(i).getLatitude();
-            double longitude = restaurantList.getRestaurantIndex(i).getLongitude();
+
+            double latitude = r.getLatitude();
+            double longitude = r.getLongitude();
             LatLng latitudeLongitude = new LatLng(latitude,longitude);
             RestaurantCluster cluster;
 
@@ -291,13 +291,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             BitmapDescriptor yellow = BitmapDescriptorFactory.fromResource(R.drawable.yellow);
             BitmapDescriptor green = BitmapDescriptorFactory.fromResource(R.drawable.green);
             BitmapDescriptor imageId;
-            if(restaurantList.getRestaurantIndex(i).numInspections()>0)
+            if(r.numInspections()>0)
             {
-                if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("High"))
+                if(r.getLatestInspection().getHazardRating().equals("High"))
                 {
                     imageId = red;
                 }
-                else if(restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating().equals("Moderate"))
+                else if(r.getLatestInspection().getHazardRating().equals("Moderate"))
                 {
                     imageId = yellow;
                 }
@@ -309,13 +309,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             {
                 imageId = BitmapDescriptorFactory.fromResource(R.drawable.green);
             }
-            if(restaurantList.getRestaurantIndex(i).numInspections() > 0)
-                 cluster = new RestaurantCluster(latitudeLongitude,restaurantList.getRestaurantIndex(i).getName(),
-                    restaurantList.getRestaurantIndex(i).getAddress() +","+ restaurantList.getRestaurantIndex(i).getCity()+
-                            "  HAZARD RATING - "+restaurantList.getRestaurantIndex(i).getLatestInspection().getHazardRating(),imageId);
+            if(r.numInspections() > 0)
+                 cluster = new RestaurantCluster(latitudeLongitude,r.getName(),
+                    r.getAddress() +","+ r.getCity()+
+                            "  HAZARD RATING - "+r.getLatestInspection().getHazardRating(),imageId);
             else
-                cluster = new RestaurantCluster(latitudeLongitude,restaurantList.getRestaurantIndex(i).getName(),
-                        restaurantList.getRestaurantIndex(i).getAddress()+","+restaurantList.getRestaurantIndex(i).getCity()+" \"NO INSPECTIONS YET\" ",imageId);
+                cluster = new RestaurantCluster(latitudeLongitude,r.getName(), r.getAddress()+", "+ r.getCity() + " " + getResources().getString(R.string.no_recent_inspections_main),imageId);
 
             clusterManager.addItem(cluster);
 

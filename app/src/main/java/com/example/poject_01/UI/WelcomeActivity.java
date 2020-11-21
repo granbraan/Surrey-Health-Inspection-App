@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.poject_01.DownloadFragment;
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.DownloadRequest;
@@ -135,7 +134,14 @@ public class WelcomeActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         if (restaurantsRequest.dataModified() || inspectionsRequest.dataModified()){
+                            Log.d("Welcome Activity", "restaurants modified: " + restaurantsRequest.dataModified());
+                            Log.d("Welcme Activity", "inspections modified: " + inspectionsRequest.dataModified());
                             downloadOptionFragment();
+                        }
+                        else{
+                            Intent intent = MapsActivity.getIntent(WelcomeActivity.this);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 });
