@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
             // checking for recent inspections
             if (currentRestaurant.numInspections() > 0){
+                Log.d("MainActivity", "current restaurant: "+ currentRestaurant.getName() + " - num inspections: " + currentRestaurant.numInspections());
                 Inspection latestInspection = currentRestaurant.getLatestInspection();
 
                 // inspection date
@@ -191,6 +192,27 @@ public class MainActivity extends AppCompatActivity {
 
                 // setting hazard colour
                 setHazardColour(restaurantView, latestInspection);
+            }
+            else{
+
+                TextView textDate = restaurantView.findViewById(R.id.textInspectionDate);
+                textDate.setText(getResources().getString(R.string.no_recent_inspections_main));
+
+                // number of violations
+                TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
+                textViolations.setText(getResources().getString(R.string.no_recent_inspections_main));
+
+
+                // setting hazard icon
+                ImageView hazardIcon = restaurantView.findViewById(R.id.iconHazardLevel);
+                hazardIcon.setBackgroundColor(getColor(R.color.white));
+
+
+                // setting hazard colour
+
+                ImageView hazardColour = restaurantView.findViewById(R.id.hazardColour);
+                hazardColour.setBackgroundColor(getColor(R.color.white));
+
             }
 
 

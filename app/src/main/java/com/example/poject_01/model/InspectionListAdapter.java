@@ -121,10 +121,6 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         }
     }
 
-    public static Intent makeLaunchIntent(Context c, int index) {
-        return new Intent(c, InspectionDetailsActivity.class);
-    }
-
     //reorganise the date in expected output
     private String refactorDate(String d) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");

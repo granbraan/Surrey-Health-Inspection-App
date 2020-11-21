@@ -56,7 +56,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
     private void setupRecycleView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
+        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurant.getInspections(), index);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
@@ -101,7 +101,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                 inspectionListTitle.setText(R.string.no_recent_inspections_main);
                 break;
             case 1:
-                inspectionListTitle.setText("There was " + numInspections + " recent inspection: ");
+                inspectionListTitle.setText(getString(R.string.restaurant_details_title) + numInspections + getString(R.string.restaurant_details_title_2));
                 break;
             default:
                 inspectionListTitle.setText("There were " + numInspections + " recent inspections: ");
