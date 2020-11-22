@@ -25,7 +25,6 @@ import com.example.poject_01.model.RestaurantList;
  * Displays information of the restaurant clicked by the user
  */
 public class RestaurantDetailsActivity extends AppCompatActivity {
-
     private int index;
     private Restaurant restaurant;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -62,8 +61,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(divider);
     }
-
-
 
 
     private void displayNameAndLocation() {

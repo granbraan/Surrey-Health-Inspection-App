@@ -1,60 +1,27 @@
 package com.example.poject_01.UI;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-
-
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import android.content.Intent;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.poject_01.R;
-import com.example.poject_01.model.DownloadDataAsyncTask;
-import com.example.poject_01.model.DownloadRequest;
 import com.example.poject_01.model.Inspection;
-import com.example.poject_01.model.Data;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
@@ -73,11 +40,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupToolbar();
         populateListView();
         registerClick();
-        //setupUpdateDialog();
+    }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar2);
+    private void setupToolbar() {
+        toolbar =  findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
         toolbar.setTitle("List of Restaurants");
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -92,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void populateListView() {
@@ -119,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        @SuppressLint("SetTextI18n")
+
         @Override
         public View getView(int position,  View convertView, ViewGroup parent) {
             View restaurantView = convertView;
@@ -205,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // setting hazard icon
                 ImageView hazardIcon = restaurantView.findViewById(R.id.iconHazardLevel);
-                hazardIcon.setBackgroundColor(getColor(R.color.white));
+                hazardIcon.setImageResource(R.drawable.white_background);
 
 
                 // setting hazard colour
@@ -214,8 +182,6 @@ public class MainActivity extends AppCompatActivity {
                 hazardColour.setBackgroundColor(getColor(R.color.white));
 
             }
-
-
 
             return restaurantView;
         }
@@ -247,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @SuppressLint("SetTextI18n")
+
     private void setNumViolations(View restaurantView, Inspection latestInspection) {
         TextView textViolations = restaurantView.findViewById(R.id.textNumIssues);
         int violations = latestInspection.getNumViolations();
@@ -289,11 +255,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public  static Intent makeIntent(Context context)
-    {
+    public  static Intent makeIntent(Context context) {
         Intent intent =  new Intent(context, MainActivity.class);
         return intent;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
@@ -304,22 +270,17 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT",true);
         startActivity(intent);
     }
 
-    private void setupUpdateDialog() {
-        FragmentManager manager = getSupportFragmentManager();
-        UpdateDialog dialog = new UpdateDialog();
-        dialog.show(manager, "message");
 
-    }
 
     public static Intent getIntent (Context c)
     {
