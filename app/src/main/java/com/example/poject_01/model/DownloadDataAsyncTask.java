@@ -2,18 +2,24 @@ package com.example.poject_01.model;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 
+import com.example.poject_01.R;
 import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
 import com.example.poject_01.UI.WelcomeActivity;
+import com.google.android.gms.tasks.Task;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -39,7 +45,8 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
     private String fileName;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
-
+    private AlertDialog.Builder builder;
+    private Dialog dialog;
 
     public DownloadDataAsyncTask(Context context, String fileName) {
         mContext = context;
@@ -49,7 +56,25 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
+        // Create ProgressBar
+        View v = LayoutInflater.from(mContext).inflate(R.layout.loading_dialog, null);
+        builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("");
+        builder.setCancelable(false);
+        builder.setView(v);
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        });
+         dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.create();
+        dialog.show();
     }
 
     @Override
@@ -138,6 +163,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
 
             }
         }
+        dialog.dismiss();
 
     }
     public void updateInspections() {

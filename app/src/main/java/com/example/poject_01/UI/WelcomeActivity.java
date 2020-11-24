@@ -1,19 +1,21 @@
 package com.example.poject_01.UI;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+
 import android.content.Context;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+
 import com.example.poject_01.R;
 import com.example.poject_01.model.Data;
 import com.example.poject_01.model.DownloadRequest;
-import com.example.poject_01.model.RestaurantList;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,11 +36,9 @@ public class WelcomeActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private String restaurantsURL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
     private String inspectionsURL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
-
     private FragmentManager downloadFrag ;
     private DownloadRequest restaurantsRequest;
     private DownloadRequest inspectionsRequest;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class WelcomeActivity extends AppCompatActivity {
             readWriteInitialData();
 
         }
-        else {                 // reads data from internal storage:
+        else {                   // reads data from internal storage:
             updateRestaurants(); // data/restaurantData/restaurants.csv
             updateInspections(); // data/restaurantData/inspections.csv
         }

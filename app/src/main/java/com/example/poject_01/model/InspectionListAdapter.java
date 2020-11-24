@@ -26,11 +26,12 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * Adapter class to set the contents of recycler view to display each inspection of restaurant
  */
 public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListAdapter.MyViewHolder>{
-
     InspectionList inspectionList; //stores the inspection list of particular restaurant
     Context context;
     int restaurantIndex;
     RestaurantList restaurantList = RestaurantList.getInstance();
+
+
     //Constructor of the class
     public InspectionListAdapter(Context ct, InspectionList listOfInspection, int restIndex) {
         context = ct;
