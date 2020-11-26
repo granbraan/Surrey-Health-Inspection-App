@@ -21,14 +21,12 @@ import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
-import java.util.Map;
-
 /**
  * Displays information of the restaurant clicked by the user
  */
 public class RestaurantDetailsActivity extends AppCompatActivity {
-
-    private int index = 0;
+    private int index;
+    private Restaurant restaurant;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private  boolean flag;
     @Override
@@ -36,50 +34,54 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_single_restaurant);
         extractDataFromIntent();
+        setupBackButton();
+        setupRecycleView();
         displayNameAndLocation();
-
-        //use of recycler view to show list of inspections
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurantList.getRestaurantIndex(index).getInspections(), index);
-        recyclerView.setAdapter(myAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(divider);
-
-        //back button
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
 
     }
 
-    //extract index from main activity
     private void extractDataFromIntent() {
         Intent intent = getIntent();
         index = intent.getIntExtra("index=",0);
+        restaurant = restaurantList.getRestaurantIndex(index);
         flag = intent.getBooleanExtra("flag",false);
 
     }
 
-    @SuppressLint("SetTextI18n")
+    private void setupBackButton() {
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setupRecycleView() {
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurant.getInspections(), index);
+        recyclerView.setAdapter(myAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(divider);
+    }
+
+
     private void displayNameAndLocation() {
         //displays the contents of restaurant whose inspection list is shown
         TextView setName = findViewById(R.id.restaurant_name_dsp);
-        setName.setText(restaurantList.getRestaurantIndex(index).getName());
+        setName.setText(restaurant.getName());
 
         TextView setAddress = findViewById(R.id.address_dsp);
-        setAddress.setText(restaurantList.getRestaurantIndex(index).getAddress() + ", " + restaurantList.getRestaurantIndex(index).getCity());
+        setAddress.setText(restaurant.getAddress() + ", " + restaurant.getCity());
 
         TextView setGps = findViewById(R.id.gps_cords_dsp);
-        String Latitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLatitude());
-        String Longitude = String.valueOf(restaurantList.getRestaurantIndex(index).getLongitude());
+        String Latitude = String.valueOf(restaurant.getLatitude());
+        String Longitude = String.valueOf(restaurant.getLongitude());
         setGps.setText(Latitude+" (Latitude)\n"+ Longitude +" (Longitude)");
         setGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!flag) {
                     Intent intent = MapsActivity.makeLaunchIntent(RestaurantDetailsActivity.this,
-                            restaurantList.getRestaurantIndex(index).getLatitude(),
-                            restaurantList.getRestaurantIndex(index).getLongitude(), true);
+                            restaurant.getLatitude(),
+                            restaurant.getLongitude(), true);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -89,46 +91,51 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             }
         });
 
-        TextView noInspection = findViewById((R.id.no_inspection));
-        if(restaurantList.getRestaurantIndex(index).getInspections().getNum_inspection() == 0)
-        {
-            noInspection.setText(R.string.no_recent_inspections_main);
-        }
-        else
-        {
-            noInspection.setText("");
+        TextView inspectionListTitle = findViewById((R.id.inspectionListTitle));
+        int numInspections = restaurant.numInspections();
+        switch (numInspections){
+            case 0:
+                inspectionListTitle.setText(R.string.no_recent_inspections_main);
+                break;
+            case 1:
+                inspectionListTitle.setText(getString(R.string.restaurant_details_title) + numInspections + getString(R.string.restaurant_details_title_2));
+                break;
+            default:
+                inspectionListTitle.setText("There were " + numInspections + " recent inspections: ");
+                break;
         }
 
+
         ImageView imageView = findViewById(R.id.imageView);
-        Restaurant currentRestaurant = restaurantList.getRestaurantIndex(index);
-        if(currentRestaurant.getName().contains("Church's")) {
+
+        if(restaurant.getName().contains("Church's")) {
             imageView.setImageResource(R.drawable.churchs_chicken_logo);
         }
-        else if(currentRestaurant.getName().contains("A & W") || currentRestaurant.getName().contains("A&W")) {
+        else if(restaurant.getName().contains("A & W") || restaurant.getName().contains("A&W")) {
             imageView.setImageResource(R.drawable.a_and_w_logo);
         }
-        else if(currentRestaurant.getName().contains("Booster")) {
+        else if(restaurant.getName().contains("Booster")) {
             imageView.setImageResource(R.drawable.booster_juice_logo);
         }
-        else if(currentRestaurant.getName().contains("Burger King")) {
+        else if(restaurant.getName().contains("Burger King")) {
             imageView.setImageResource(R.drawable.burger_king_logo);
         }
-        else if(currentRestaurant.getName().contains("Dairy")) {
+        else if(restaurant.getName().contains("Dairy")) {
             imageView.setImageResource(R.drawable.dairy_queen_logo);
         }
-        else if(currentRestaurant.getName().contains("Five Guys")) {
+        else if(restaurant.getName().contains("Five Guys")) {
             imageView.setImageResource(R.drawable.five_guys_burger_and_fries_logo);
         }
-        else if(currentRestaurant.getName().contains("Apna")) {
+        else if(restaurant.getName().contains("Apna")) {
             imageView.setImageResource(R.drawable.apna_chaat_house_logo);
         }
-        else if(currentRestaurant.getName().contains("Kelly's")) {
+        else if(restaurant.getName().contains("Kelly's")) {
             imageView.setImageResource(R.drawable.kellys_pub_logo);
         }
-        else if(currentRestaurant.getName().contains("New York")) {
+        else if(restaurant.getName().contains("New York")) {
             imageView.setImageResource(R.drawable.new_york_fries_logo);
         }
-        else if(currentRestaurant.getName().contains("7-Eleven")) {
+        else if(restaurant.getName().contains("7-Eleven")) {
             imageView.setImageResource(R.drawable.seven_eleven_logo);
         }
         else {

@@ -30,7 +30,6 @@ import static android.content.Context.MODE_PRIVATE;
  * Handles initial dialog and its cases for downloading or not
  */
 public class DownloadFragment extends AppCompatDialogFragment {
-    AlertDialog.Builder builder;
     private SharedPreferences prefs;
     private DownloadRequest restaurantsDownload;
     private DownloadRequest inspectionsDownload;
@@ -53,7 +52,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
                         editor = prefs.edit();
                         restaurantsDownload = ((WelcomeActivity)getActivity()).getRestaurantsRequest();
                         inspectionsDownload = ((WelcomeActivity)getActivity()).getInspectionsRequest();
-                        showUpdateDialog();
                         if (restaurantsDownload.dataModified()){
                             restaurantsDownload.downloadData();
                             int count  = prefs.getInt("url_count", 0);
@@ -68,7 +66,6 @@ public class DownloadFragment extends AppCompatDialogFragment {
                             editor.putInt("url_count", count);
                             editor.commit();
                         }
-                        showUpdateDialog().cancel();
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
@@ -93,28 +90,7 @@ public class DownloadFragment extends AppCompatDialogFragment {
     }
 
 
-    private Dialog showUpdateDialog() {
-        //create view to show
-        View v = LayoutInflater.from(getActivity()).inflate(R.layout.loading_dialog, null);
-        builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("");
-        builder.setCancelable(false);
-        builder.setView(v);
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        break;
-                }
-            }
-        });
-        Dialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.create();
-        dialog.show();
-        return dialog;
-    }
+
 
 
 

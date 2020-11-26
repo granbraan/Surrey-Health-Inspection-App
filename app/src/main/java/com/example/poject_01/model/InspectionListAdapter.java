@@ -26,11 +26,12 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * Adapter class to set the contents of recycler view to display each inspection of restaurant
  */
 public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListAdapter.MyViewHolder>{
-
     InspectionList inspectionList; //stores the inspection list of particular restaurant
     Context context;
     int restaurantIndex;
-    RestaurantList instance = RestaurantList.getInstance();
+    RestaurantList restaurantList = RestaurantList.getInstance();
+
+
     //Constructor of the class
     public InspectionListAdapter(Context ct, InspectionList listOfInspection, int restIndex) {
         context = ct;
@@ -52,29 +53,29 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 //instantiate the contents od recycler view to be displayed on UI
-
+        Inspection inspection = inspectionList.getInspectionIndex(position);
         //date
-        String d = "" + inspectionList.getInspectionIndex(position).getInspectionDate();
+        String d = "" + inspection.getInspectionDate();
         String date = refactorDate(d);
         holder.dateT.setText(String.format("Date - %s", date));
 
         //critical issues
-        holder.critT.setText(context.getString(R.string.num_critical_restaurant)+ " " +inspectionList.getInspectionIndex(position).getNumCritical());
+        holder.critT.setText(context.getString(R.string.num_critical_restaurant)+ " " +inspection.getNumCritical());
 
         //non critical issues
-        holder.nonCritT.setText(context.getString(R.string.num_non_critical_restaurant)+" " + inspectionList.getInspectionIndex(position).getNumNonCritical());
+        holder.nonCritT.setText(context.getString(R.string.num_non_critical_restaurant)+" " + inspection.getNumNonCritical());
 
         //hazard level
-        holder.hazardT.setText(context.getString(R.string.hazard_lvl_restaurant)+ " " +inspectionList.getInspectionIndex(position).getHazardRating());
+        holder.hazardT.setText(context.getString(R.string.hazard_lvl_restaurant)+ " " +inspection.getHazardRating());
 
 
         //image
-        if(inspectionList.getInspectionIndex(position).getHazardRating().equals("Low"))
+        if(inspection.getHazardRating().equals("Low"))
         {
             holder.imageT.setImageResource(R.drawable.low_risk);
             holder.hazardT.setTextColor(Color.GREEN);
         }
-        else if(inspectionList.getInspectionIndex(position).getHazardRating().equals("Moderate"))
+        else if(inspection.getHazardRating().equals("Moderate"))
         {
             holder.imageT.setImageResource(R.drawable.medium_risk);
             holder.hazardT.setTextColor(Color.parseColor("#FF8800"));
@@ -87,8 +88,8 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(instance.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumNonCritical()
-                        + instance.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumCritical()
+                if(restaurantList.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumNonCritical()
+                        + restaurantList.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumCritical()
                         > 0)
                 {
                     Intent intent = new Intent(context, InspectionDetailsActivity.class);
@@ -103,7 +104,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
     //returns the total number of inspections
     @Override
     public int getItemCount() {
-        return inspectionList.getNum_inspection();
+        return inspectionList.getNumInspections();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -119,10 +120,6 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
             imageT = itemView.findViewById(R.id.imageView2);
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
-    }
-
-    public static Intent makeLaunchIntent(Context c, int index) {
-        return new Intent(c, InspectionDetailsActivity.class);
     }
 
     //reorganise the date in expected output

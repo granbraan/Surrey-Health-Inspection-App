@@ -11,20 +11,19 @@ import java.util.List;
  */
 public class InspectionList implements Iterable<Inspection> {
     private List<Inspection> inspections = new ArrayList<>();
-    private static InspectionList instance;
-    private int num_inspection = 0 ;
 
 
     public void addInspection(Inspection i) {
-        inspections.add(i) ;num_inspection++;
+        inspections.add(i) ;
     }
 
     public Inspection getInspectionIndex(int i){
         return inspections.get(i);
     }
 
-    public int getNum_inspection() {
-        return num_inspection;
+    public int getNumInspections() {
+
+        return inspections.size();
     }
 
     public List<Inspection> getInspections() {
@@ -40,11 +39,6 @@ public class InspectionList implements Iterable<Inspection> {
         Collections.sort(inspections);
     }
 
-    public static InspectionList getInstance(){
-        if (instance == null){
-            instance = new InspectionList();
-        }
-        return instance;
-    }
+
 }
 

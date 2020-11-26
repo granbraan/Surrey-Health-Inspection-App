@@ -19,7 +19,7 @@
             android:id="@+id/restaurant_name_dsp"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:text="@string/restaurant_name_dsp"
+            android:text="place holder"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -27,7 +27,7 @@
             android:id="@+id/address_dsp"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:text="@string/address_dsp"
+            android:text="place holder"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -35,7 +35,7 @@
             android:id="@+id/gps_cords_dsp"
             android:layout_width="match_parent"
             android:layout_height="41dp"
-            android:text="@string/gps_cords_dsp"
+            android:text="place holder"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -49,7 +49,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_detail_single_restaurant" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_detail_single_restaurant"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -94,7 +98,7 @@
         app:srcCompat="@drawable/restaurant_image" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/inspectionListTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/inspection_list"
@@ -108,7 +112,7 @@
         android:layout_width="64dp"
         android:layout_height="69dp"
         android:orientation="horizontal"
-        android:translationX="150sp"
+        android:translationX="310sp"
         android:translationY="300sp">
 
         <com.airbnb.lottie.LottieAnimationView
@@ -128,16 +132,6 @@
         android:paddingBottom="140dp"
         android:translationX="20sp"
         android:translationY="370sp" />
-
-    <TextView
-        android:id="@+id/no_inspection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_inspection"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:translationX="230sp"
-        android:translationY="320sp" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

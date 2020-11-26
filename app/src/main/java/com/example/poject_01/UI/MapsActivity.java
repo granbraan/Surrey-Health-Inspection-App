@@ -245,16 +245,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setUpCluster() {
-        LatLng indexes = null;
+        LatLng indexes;
         indexes = new LatLng(lat,lng);
         clusterManager = new ClusterManager<>(this,mMap);
         renderer = new RestaurantClusterRenderer(this, mMap,clusterManager, indexes);
         clusterManager.setRenderer(renderer);
         addItems();
-        for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
-        {
-            Restaurant r = restaurantList.getRestaurantIndex(i);
-            LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
+        for( Restaurant r : restaurantList) {
+            LatLng coordinates = new LatLng(r.getLatitude(),r.getLongitude());
             moveCamera(coordinates, 15f);
         }
 
@@ -264,7 +262,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 for(int i = 0; i < restaurantList.getRestaurantListSize(); i++)
                 {
                     Restaurant r = restaurantList.getRestaurantIndex(i);
-                    LatLng coordinates = new LatLng(restaurantList.getRestaurantIndex(i).getLatitude(), restaurantList.getRestaurantIndex(i).getLongitude());
+                    LatLng coordinates = new LatLng(r.getLatitude(), r.getLongitude());
                     moveCamera(coordinates, 15f);
                     if(item.getPosition().equals(coordinates))
                     {
@@ -279,9 +277,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void addItems() {
-        for(Restaurant r : restaurantList)
-        {
-
+        for(Restaurant r : restaurantList) {
             double latitude = r.getLatitude();
             double longitude = r.getLongitude();
             LatLng latitudeLongitude = new LatLng(latitude,longitude);

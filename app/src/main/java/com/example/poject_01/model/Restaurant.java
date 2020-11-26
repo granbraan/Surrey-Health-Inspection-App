@@ -38,11 +38,7 @@ public class Restaurant implements Comparable<Restaurant> {
     }
 
     public int numInspections(){
-        int count = 0;
-        for(Inspection i : inspections) {
-            count += 1;
-        }
-        return(count);
+        return(inspections.getNumInspections());
     }
 
     public InspectionList getInspections() {
