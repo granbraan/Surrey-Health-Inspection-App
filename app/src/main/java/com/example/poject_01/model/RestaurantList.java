@@ -16,12 +16,21 @@ import java.util.List;
   * The list is sorted every time a restaurant is added.
   */
  public class RestaurantList implements Iterable<Restaurant>{
-    private List<Restaurant> restaurants = new ArrayList<>();
-    private int restaurantListSize = 0;
+    private List<Restaurant> restaurants ;
+    private int restaurantListSize ;
     private static RestaurantList instance;
 
+     public RestaurantList(List<Restaurant> restaurants) {
+         this.restaurants = restaurants;
+         this.restaurantListSize = 0;
+     }
 
-    public void addRestaurant(Restaurant r) {
+     public RestaurantList() {
+         this.restaurants = new ArrayList<>();
+         this.restaurantListSize = 0;
+     }
+
+     public void addRestaurant(Restaurant r) {
         restaurants.add(r);
         restaurantListSize++;
         Collections.sort(restaurants);

@@ -4,13 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +27,8 @@ import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -33,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private Intent intent;
     private Toolbar toolbar;
+    private ArrayAdapter<Restaurant> restaurantAdapter;
 
 
 
@@ -43,6 +52,34 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         populateListView();
         registerClick();
+        setupSearchBar();
+
+    }
+
+    private void setupSearchBar() {
+        EditText searchBar = findViewById(R.id.searchMainList);
+        searchBar.addTextChangedListener(getTextWatcher(searchBar));
+    }
+
+    private TextWatcher getTextWatcher(final EditText searchBar) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                restaurantAdapter.getFilter().filter(s.toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        };
     }
 
     private void setupToolbar() {
@@ -64,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void populateListView() {
-        ArrayAdapter<Restaurant> restaurantAdapter = new RestaurantListAdapter();
+        restaurantAdapter = new RestaurantListAdapter(MainActivity.this, restaurantList.getList());
         ListView list = findViewById(R.id.restaurantListView);
         list.setAdapter(restaurantAdapter);
     }
@@ -81,12 +118,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
-        public RestaurantListAdapter() {
-            super(MainActivity.this, R.layout.restaurant_list_view, restaurantList.getList());
+    private class RestaurantListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
+        private List<Restaurant> restaurants;
+        private Context context;
+
+        public RestaurantListAdapter(Context context, List<Restaurant> restaurants) {
+            super(context, R.layout.restaurant_list_view, restaurants);
+            this.restaurants = restaurants;
+            this.context = context;
         }
 
-
+        @Override
+        public int getCount() {
+            return restaurants.size();
+        }
 
         @Override
         public View getView(int position,  View convertView, ViewGroup parent) {
@@ -94,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             if (restaurantView == null){
                 restaurantView = getLayoutInflater().inflate(R.layout.restaurant_list_view, parent, false);
             }
-            Restaurant currentRestaurant = restaurantList.getRestaurantIndex(position);
+            Restaurant currentRestaurant = restaurants.get(position);
 
             if(currentRestaurant.getName().contains("Church's")) {
                 ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
@@ -143,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
             // checking for recent inspections
             if (currentRestaurant.numInspections() > 0){
-                Log.d("MainActivity", "current restaurant: "+ currentRestaurant.getName() + " - num inspections: " + currentRestaurant.numInspections());
+                //Log.d("MainActivity", "current restaurant: "+ currentRestaurant.getName() + " - num inspections: " + currentRestaurant.numInspections());
                 Inspection latestInspection = currentRestaurant.getLatestInspection();
 
                 // inspection date
@@ -186,6 +231,55 @@ public class MainActivity extends AppCompatActivity {
             return restaurantView;
         }
 
+        @Override
+        public Filter getFilter() {
+            Filter filter = new Filter() {
+
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    List<Restaurant> originalRestaurants = restaurantList.getList();
+                    FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
+                    if (constraint == null || constraint.length() == 0) {
+
+                        // set the Original result to return
+                        results.count = originalRestaurants.size();
+                        results.values = originalRestaurants;
+                    } else {
+                        List<Restaurant> FilteredArrList = new ArrayList<>();
+                        constraint = constraint.toString().toUpperCase();
+                        for (Restaurant r : originalRestaurants) {
+                            String data = r.getName();
+
+                            if (data.toUpperCase().contains(constraint)) {
+                                FilteredArrList.add(r);
+
+                            }
+                        }
+                        // set the Filtered result to return
+                        results.count = FilteredArrList.size();
+                        results.values = FilteredArrList;
+                    }
+                    return results;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    Log.d("publish results", constraint +"");
+                    if (results.count == 0){
+                        notifyDataSetInvalidated();
+                    }
+                    else{
+                        restaurants = (List<Restaurant>) results.values;
+                        Log.d("publish results", restaurants.size() +"");
+                        notifyDataSetChanged();  // notifies the data with new filtered values
+                    }
+
+
+                }
+            };
+            return filter;
+        }
+
     }
 
 
@@ -197,8 +291,7 @@ public class MainActivity extends AppCompatActivity {
         LocalDate inspectionDate = LocalDate.parse(d, formatter);
         long difference = DAYS.between(inspectionDate, currentDate);
 
-        Log.d("MainActivity", "current date - "+ currentDate);
-        Log.d("MainActivity", "inspection date - "+ inspectionDate);
+
 
         if (difference <= 30){
             return( difference + " " + getString(R.string.days_ago_main_date));
@@ -255,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public  static Intent makeIntent(Context context) {
+    public  static Intent getLaunchIntent(Context context) {
         Intent intent =  new Intent(context, MainActivity.class);
         return intent;
     }
@@ -282,11 +375,5 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public static Intent getIntent (Context c)
-    {
-        Intent intent = new Intent(c,MainActivity.class);
-        return intent;
-
-    }
 
 }
