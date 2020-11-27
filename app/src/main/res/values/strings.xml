@@ -37,7 +37,7 @@
     <string name="do_you_want_to_download_new_data">Do you want to download new data?</string>
     <string name="restaurant_details_title">\"There was \"</string>
     <string name="restaurant_details_title_2">\" recent inspection: \"</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
 
 
 </resources>
