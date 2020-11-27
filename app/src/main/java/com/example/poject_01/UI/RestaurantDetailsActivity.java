@@ -74,7 +74,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         TextView setGps = findViewById(R.id.gps_cords_dsp);
         String Latitude = String.valueOf(restaurant.getLatitude());
         String Longitude = String.valueOf(restaurant.getLongitude());
-        setGps.setText(Latitude+" (Latitude)\n"+ Longitude +" (Longitude)");
+        setGps.setText(Latitude+getString(R.string.latitude)+ Longitude +getString(R.string.longitude));
         setGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,11 +97,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             case 0:
                 inspectionListTitle.setText(R.string.no_recent_inspections_main);
                 break;
-            case 1:
-                inspectionListTitle.setText(getString(R.string.restaurant_details_title) + numInspections + getString(R.string.restaurant_details_title_2));
-                break;
             default:
-                inspectionListTitle.setText("There were " + numInspections + " recent inspections: ");
+                inspectionListTitle.setText(getString(R.string.restaurant_details_title)+ " "+numInspections + " "+getString(R.string.restaurant_details_title_2));
                 break;
         }
 

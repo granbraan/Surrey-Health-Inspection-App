@@ -79,8 +79,8 @@
                 app:layout_constraintVertical_bias="0.652" />
 
             <LinearLayout
-                android:layout_width="106dp"
-                android:layout_height="89dp"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
                 android:orientation="horizontal"
                 android:translationX="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"

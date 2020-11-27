@@ -20,6 +20,7 @@ import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -199,15 +200,41 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MainActivity", "current date - "+ currentDate);
         Log.d("MainActivity", "inspection date - "+ inspectionDate);
+        int monthDisplay;
+        if(inspectionDate.getMonth().equals(Month.JANUARY))
+            monthDisplay = R.string.january;
+        else if(inspectionDate.getMonth().equals(Month.FEBRUARY))
+            monthDisplay = R.string.february;
+        else if(inspectionDate.getMonth().equals(Month.MARCH))
+            monthDisplay = R.string.march;
+        else if(inspectionDate.getMonth().equals(Month.APRIL))
+            monthDisplay = R.string.april;
+        else if(inspectionDate.getMonth().equals(Month.MAY))
+            monthDisplay = R.string.may;
+        else if(inspectionDate.getMonth().equals(Month.JUNE))
+            monthDisplay = R.string.june;
+        else if(inspectionDate.getMonth().equals(Month.JULY))
+            monthDisplay = R.string.july;
+        else if(inspectionDate.getMonth().equals(Month.AUGUST))
+            monthDisplay = R.string.august;
+        else if(inspectionDate.getMonth().equals(Month.SEPTEMBER))
+            monthDisplay = R.string.september;
+        else if(inspectionDate.getMonth().equals(Month.OCTOBER))
+            monthDisplay = R.string.october;
+        else if(inspectionDate.getMonth().equals(Month.NOVEMBER))
+            monthDisplay = R.string.november;
+        else
+            monthDisplay = R.string.december;
+
 
         if (difference <= 30){
             return( difference + " " + getString(R.string.days_ago_main_date));
         }
         else if(difference <= 365){
-            return("" + inspectionDate.getMonth() + " " + inspectionDate.getDayOfMonth() );
+            return("" + getString(monthDisplay) + " " + inspectionDate.getDayOfMonth() );
         }
         else {
-            return("" + inspectionDate.getYear() + " "+ inspectionDate.getMonth() );
+            return("" + inspectionDate.getYear() + " "+ getString(monthDisplay) );
         }
 
     }

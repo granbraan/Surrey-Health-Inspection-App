@@ -35,8 +35,8 @@
     <string name="update_alert_yes">Yes</string>
     <string name="update_alert_no">No</string>
     <string name="do_you_want_to_download_new_data">Do you want to download new data?</string>
-    <string name="restaurant_details_title">\"There was \"</string>
-    <string name="restaurant_details_title_2">\" recent inspection: \"</string>
+    <string name="restaurant_details_title">There was </string>
+    <string name="restaurant_details_title_2"> recent inspection: </string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="vio101">Plans/construction/alterations not in accordance with the Regulation [s. 3; s. 4]</string>
@@ -83,8 +83,31 @@
     <string name="critical">Critical: </string>
     <string name="non_critical">Non Critical: </string>
     <string name="list_of_rest">List of Restaurants</string>
-    <string name="hazard_rating">  HAZARD RATING - </string>
+    <string name="hazard_rating">,  HAZARD RATING - </string>
     <string name="restaurant_name_">Restaurant Name</string>
+
+    <string name="list_view">List view</string>
+    <string name="map_view">Map view</string>
+    <string name="comma">\", \"</string>
+    <string name="low">Low</string>
+    <string name="high">High</string>
+    <string name="moderate">Moderate</string>
+
+    <string name="january">JANUARY</string>
+    <string name="february">FEBRUARY</string>
+    <string name="march">MARCH</string>
+    <string name="april">APRIL</string>
+    <string name="may">MAY</string>
+    <string name="june">JUNE</string>
+    <string name="july">JULY</string>
+    <string name="august">AUGUST</string>
+    <string name="september">SEPTEMBER</string>
+    <string name="october">OCTOBER</string>
+    <string name="november">NOVEMBER</string>
+    <string name="december">DECEMBER</string>
+
+    <string name="latitude">\" (Latitude)\n\"</string>
+    <string name="longitude">\" (Longitude)\"</string>
 
 
 </resources>
