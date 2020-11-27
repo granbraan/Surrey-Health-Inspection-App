@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -59,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
     private void setupSearchBar() {
         EditText searchBar = findViewById(R.id.searchMainList);
         searchBar.addTextChangedListener(getTextWatcher(searchBar));
+        setupSearchClear(searchBar);
+    }
+
+    private void setupSearchClear(EditText searchBar) {
+        Button clearSearch = findViewById(R.id.clearSearchMain);
+        clearSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBar.setText("");
+            }
+        });
     }
 
     private TextWatcher getTextWatcher(final EditText searchBar) {
@@ -70,14 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                restaurantAdapter.getFilter().filter(s.toString());
+
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
-
+                restaurantAdapter.getFilter().filter(s.toString());
             }
         };
     }
@@ -258,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
                         // set the Filtered result to return
                         results.count = FilteredArrList.size();
                         results.values = FilteredArrList;
+                        Log.d("publish results", FilteredArrList.size() +" cheee");
                     }
                     return results;
                 }
@@ -266,11 +279,13 @@ public class MainActivity extends AppCompatActivity {
                 protected void publishResults(CharSequence constraint, FilterResults results) {
                     Log.d("publish results", constraint +"");
                     if (results.count == 0){
-                        notifyDataSetInvalidated();
+                        restaurants = (List<Restaurant>) results.values;
+
+                        notifyDataSetChanged();  // notifies the data with new filtered values
                     }
                     else{
                         restaurants = (List<Restaurant>) results.values;
-                        Log.d("publish results", restaurants.size() +"");
+
                         notifyDataSetChanged();  // notifies the data with new filtered values
                     }
 
