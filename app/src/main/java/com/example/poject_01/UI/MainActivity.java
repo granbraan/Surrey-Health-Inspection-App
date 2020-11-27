@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupToolbar() {
         toolbar =  findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
-        toolbar.setTitle("List of Restaurants");
+        toolbar.setTitle(R.string.list_of_rest);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

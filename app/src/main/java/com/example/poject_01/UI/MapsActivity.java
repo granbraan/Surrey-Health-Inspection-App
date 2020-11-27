@@ -105,7 +105,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setupToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar_map);
         toolbar.inflateMenu(R.menu.toggle_button);
-        toolbar.setTitle("Maps");
+        toolbar.setTitle(R.string.title_activity_maps);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -308,7 +308,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             if(r.numInspections() > 0)
                  cluster = new RestaurantCluster(latitudeLongitude,r.getName(),
                     r.getAddress() +","+ r.getCity()+
-                            "  HAZARD RATING - "+r.getLatestInspection().getHazardRating(),imageId);
+                            getString(R.string.hazard_rating)+r.getLatestInspection().getHazardRating(),imageId);
             else
                 cluster = new RestaurantCluster(latitudeLongitude,r.getName(), r.getAddress()+", "+ r.getCity() + " " + getResources().getString(R.string.no_recent_inspections_main),imageId);
 
