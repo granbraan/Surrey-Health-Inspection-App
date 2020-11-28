@@ -9,8 +9,6 @@
     <string name="previous">Previous</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_blank_fragment" >Hello blank fragment</string>
-
-
     <string name="restaurant_name">Restaurant name -</string>
     <string name="gps_cords">GPS cords -</string>
     <string name="address">Address -</string>
@@ -28,8 +26,6 @@
     <string name="hazard_lvl_restaurant">Hazard level =</string>
     <string name="google_maps_API_key">AIzaSyAnGniTvBrdUSk2FuIqRSJSP29NTCzC6n8</string>
     <string name="title_activity_maps">Map</string>
-
-
     <string name="updating">Updating…</string>
     <string name="update_alert_title">Update Available</string>
     <string name="update_alert_yes">Yes</string>
@@ -38,7 +34,6 @@
     <string name="restaurant_details_title">There was </string>
     <string name="restaurant_details_title_2"> recent inspection: </string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
     <string name="vio101">Plans/construction/alterations not in accordance with the Regulation [s. 3; s. 4]</string>
     <string name="vio102">Operation of an unapproved food premises [s. 6(1)]</string>
     <string name="vio103">Failure to hold a valid permit while operating a food service establishment [s. 8(1)]</string>
@@ -75,8 +70,6 @@
     <string name="vio404">Employee smoking in food preparation/processing/storage areas [s. 21(2)]</string>
     <string name="vio501">Operator does not have FOODSAFE Level 1 or Equivalent [s. 10(1)]</string>
     <string name="vio502">In operator’s absence no staff on duty has FOODSAFE Level 1 or equivalent [s. 10(2)]</string>
-
-
     <string name="list_of_restaurants">List of Restaurants</string>
     <string name="inspection_details_activity">Inspection Details</string>
     <string name="rest_details_activity">Restaurant Details</string>
@@ -85,14 +78,12 @@
     <string name="list_of_rest">List of Restaurants</string>
     <string name="hazard_rating">,  HAZARD RATING - </string>
     <string name="restaurant_name_">Restaurant Name</string>
-
     <string name="list_view">List view</string>
     <string name="map_view">Map view</string>
     <string name="comma">\", \"</string>
     <string name="low">Low</string>
     <string name="high">High</string>
     <string name="moderate">Moderate</string>
-
     <string name="january">JANUARY</string>
     <string name="february">FEBRUARY</string>
     <string name="march">MARCH</string>
@@ -105,12 +96,10 @@
     <string name="october">OCTOBER</string>
     <string name="november">NOVEMBER</string>
     <string name="december">DECEMBER</string>
-
     <string name="latitude">\" (Latitude)\n\"</string>
     <string name="longitude">\" (Longitude)\"</string>
     <string name="routine">Routine</string>
     <string name="follow_up">Follow-up</string>
-
     <string name="critical_violation_list">Critical</string>
     <string name="non_critical_violation_list">Non Critical</string>
 

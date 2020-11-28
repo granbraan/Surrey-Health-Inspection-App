@@ -1,20 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore = " MissingTranslation " >
-
     <string name="app_name">Poject_01</string>
 
-
-
     <!-- Strings used for fragments for navigation -->+
-
     <string name="first_fragment_label">Premier fragment</string>
     <string name = "second_fragment_label">Deuxième fragment</string>
     <string name = "next">Suivant</string>
     <string name = "previous">Précédent</string>
     <string name = "hello_first_fragment">Bonjour premier fragment</string>
     <string name = "hello_blank_fragment">Bonjour fragment vierge</string>
-
-
     <string name = "restaurant_name">Nom du restaurant -</string>
     <string name = "gps_cords">Cordons GPS - </string>
     <string name = "address">Adresse -</string>
@@ -40,8 +34,6 @@
     <string name = "restaurant_details_title">Il y avait</string>
     <string name = "restaurant_details_title_2">inspection récente: </string>
     <string name = "hello_second_fragment">Bonjour seconde fragment. Arg: %1$s</string>
-
-
     <string name = "vio101">Plans / construction / modifications non conformes au règlement [s. 3; s. 4]</string>
     <string name = "vio102">Exploitation d\'un local alimentaire non approuvé [s. 6(1)]</string>
     <string name = "vio103">Défaut de détenir un permis valide lors de l\'exploitation d\'un établissement de restauration [s. 8(1)]</string>
@@ -78,8 +70,6 @@
     <string name = "vio404">Employé qui fume dans les zones de préparation / transformation / stockage des aliments [s. 21(2)]</string>
     <string name = "vio501">L\'opérateur n\'a pas FOODSAFE Niveau 1 ou équivalent [s. 10(1)]</string>
     <string name = "vio502"> En l\'absence de l\'exploitant, aucun membre du personnel de service n\'a le niveau FOODSAFE 1 ou équivalent [s. 10(2)]</string>
-
-
     <string name = "list_of_restaurants">Liste des restaurants</string>
     <string name = "inspection_details_activity">Détails de l\'inspection</string>
     <string name = "rest_details_activity">Détails du restaurant</string>
@@ -94,7 +84,6 @@
     <string name="low">Faible</string>
     <string name="high">Haute</string>
     <string name="moderate">Modérer</string>
-
     <string name = "january">JANVIER</string>
     <string name = "february">FEVRIER</string>
     <string name = "march">MARS</string>
@@ -107,12 +96,10 @@
     <string name = "october">OCTOBRE</string>
     <string name = "november">NOVEMBRE</string>
     <string name = "december">DECEMBRE</string>
-
     <string name = "latitude">\" (Latitude)\n</string>
     <string name = "longitude">\" (Longitude)</string>
     <string name = "routine">Routinière</string>
     <string name = "follow_up">Suivre</string>
-
     <string name="critical_violation_list">Critique</string>
     <string name="non_critical_violation_list">Non Critique</string>
 

@@ -141,10 +141,82 @@ public class InspectionDetailsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
                 String curViolation = curInspection.getViolationList().get(position);
                 String[] violations = curViolation.split(",");
-                String message = violations[2];
+                String message = getViolationDisplayLanguage(violations[0]);
                 Toast.makeText(InspectionDetailsActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private  String getViolationDisplayLanguage(String vioNumber)
+    {
+        int vioDisplay;
+        switch (vioNumber) {
+            case "101":
+                vioDisplay = R.string.vio101;
+                break;
+            case "102":
+                vioDisplay = R.string.vio102;
+                break;
+            case "103":
+                vioDisplay = R.string.vio103;
+                break;
+            case "104":
+                vioDisplay = R.string.vio104;
+                break;
+            case "201":
+                vioDisplay = R.string.vio201;
+                break;
+            case "202":
+                vioDisplay = R.string.vio202;
+                break;
+            case "203":
+                vioDisplay = R.string.vio203;
+                break;
+            case "204":
+                vioDisplay = R.string.vio204;
+                break;
+            case "205":
+                vioDisplay = R.string.vio205;
+                break;
+            case "206":
+                vioDisplay = R.string.vio206;
+                break;
+            case "208":
+                vioDisplay = R.string.vio208;
+                break;
+            case "209":
+                vioDisplay = R.string.vio209;
+                break;
+            case "210":
+                vioDisplay = R.string.vio210;
+                break;
+            case "211":
+                vioDisplay = R.string.vio211;
+                break;
+            case "212":
+                vioDisplay = R.string.vio212;
+                break;
+            case "301":
+                vioDisplay = R.string.vio301;
+                break;
+            case "302":
+                vioDisplay = R.string.vio302;
+                break;
+            case "303":
+                vioDisplay = R.string.vio303;
+                break;
+            case "304":
+                vioDisplay = R.string.vio304;
+                break;
+            case "305":
+                vioDisplay = R.string.vio305;
+                break;
+            default:
+                vioDisplay = R.string.vio306;
+                break;
+        }
+
+        return  getString(vioDisplay);
     }
 
     private void extractDataFromIntent() {
