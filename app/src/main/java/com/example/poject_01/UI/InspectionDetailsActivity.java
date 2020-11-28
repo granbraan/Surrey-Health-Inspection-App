@@ -142,7 +142,7 @@ public class InspectionDetailsActivity extends AppCompatActivity {
                 String curViolation = curInspection.getViolationList().get(position);
                 String[] violations = curViolation.split(",");
                 String message = getViolationDisplayLanguage(violations[0]);
-                Toast.makeText(InspectionDetailsActivity.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(InspectionDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
