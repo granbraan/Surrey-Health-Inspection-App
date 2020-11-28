@@ -50,16 +50,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupSearchBar();
         setupToolbar();
         populateListView();
         registerClick();
-        setupSearchBar();
 
     }
 
     private void setupSearchBar() {
         EditText searchBar = findViewById(R.id.searchMainList);
-        searchBar.addTextChangedListener(getTextWatcher(searchBar));
+        searchBar.addTextChangedListener(getTextWatcher());
         setupSearchClear(searchBar);
     }
 
@@ -73,26 +73,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private TextWatcher getTextWatcher(final EditText searchBar) {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                restaurantAdapter.getFilter().filter(s.toString());
-            }
-        };
-    }
 
     private void setupToolbar() {
         toolbar =  findViewById(R.id.toolbar2);
@@ -129,6 +109,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private TextWatcher getTextWatcher() {
+        return new TextWatcher() {
+            // not used
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+           // filters list view with user inputted string 's'
+            @Override
+            public void afterTextChanged(Editable s) {
+                restaurantAdapter.getFilter().filter(s.toString());
+            }
+        };
+    }
 
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
         private List<Restaurant> restaurants;
@@ -237,16 +237,13 @@ public class MainActivity extends AppCompatActivity {
 
                 ImageView hazardColour = restaurantView.findViewById(R.id.hazardColour);
                 hazardColour.setBackgroundColor(getColor(R.color.white));
-
             }
-
             return restaurantView;
         }
 
         @Override
         public Filter getFilter() {
             Filter filter = new Filter() {
-
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     List<Restaurant> originalRestaurants = restaurantList.getList();
@@ -256,21 +253,36 @@ public class MainActivity extends AppCompatActivity {
                         // set the Original result to return
                         results.count = originalRestaurants.size();
                         results.values = originalRestaurants;
-                    } else {
+                    }
+                    else {
                         List<Restaurant> FilteredArrList = new ArrayList<>();
                         constraint = constraint.toString().toUpperCase();
-                        for (Restaurant r : originalRestaurants) {
-                            String data = r.getName();
+                        if (Objects.equals(constraint, "LOW") || Objects.equals(constraint, "MODERATE") || Objects.equals(constraint, "HIGH")) {
+                            for (Restaurant r : originalRestaurants) {
+                                if (r.numInspections() > 0) {
+                                    String data = r.getLatestInspection().getHazardRating().toUpperCase();
+                                    if (Objects.equals(constraint, data)) {
+                                        FilteredArrList.add(r);
 
-                            if (data.toUpperCase().contains(constraint)) {
-                                FilteredArrList.add(r);
+                                    }
 
+                                }
                             }
+                        }
+                        else {
+                            for (Restaurant r : originalRestaurants) {
+                                String data = r.getName();
+                                if (data.toUpperCase().contains(constraint)) {
+                                    FilteredArrList.add(r);
+
+                                }
+                            }
+
                         }
                         // set the Filtered result to return
                         results.count = FilteredArrList.size();
                         results.values = FilteredArrList;
-                        Log.d("publish results", FilteredArrList.size() +" cheee");
+
                     }
                     return results;
                 }
@@ -278,18 +290,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
                     Log.d("publish results", constraint +"");
-                    if (results.count == 0){
-                        restaurants = (List<Restaurant>) results.values;
-
-                        notifyDataSetChanged();  // notifies the data with new filtered values
-                    }
-                    else{
-                        restaurants = (List<Restaurant>) results.values;
-
-                        notifyDataSetChanged();  // notifies the data with new filtered values
-                    }
-
-
+                    restaurants = (List<Restaurant>) results.values;
+                    notifyDataSetChanged();  // notifies the data with new filtered values
                 }
             };
             return filter;
@@ -305,8 +307,6 @@ public class MainActivity extends AppCompatActivity {
         LocalDate currentDate = LocalDate.now();
         LocalDate inspectionDate = LocalDate.parse(d, formatter);
         long difference = DAYS.between(inspectionDate, currentDate);
-
-
 
         if (difference <= 30){
             return( difference + " " + getString(R.string.days_ago_main_date));

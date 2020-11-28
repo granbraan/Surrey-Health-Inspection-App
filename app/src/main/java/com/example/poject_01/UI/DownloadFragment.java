@@ -80,13 +80,15 @@ public class DownloadFragment extends AppCompatDialogFragment {
 
 
         //build alert dialog
-        return new AlertDialog.Builder(getActivity())
+        AlertDialog alertD =  new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.update_alert_title)
                 .setView(v)
-                .setCancelable(false)
                 .setPositiveButton(R.string.update_alert_yes, listener)
                 .setNegativeButton(R.string.update_alert_no, listener)
                 .create();
+        alertD.setCanceledOnTouchOutside(false);
+        return alertD;
+
     }
 
 
