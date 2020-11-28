@@ -15,7 +15,7 @@
     <string name="gps_cords">GPS cords -</string>
     <string name="address">Address -</string>
     <string name="inspection_list">Inspection List:</string>
-    <string name="date">date</string>
+    <string name="date">Date</string>
     <string name="todo">TODO</string>
     <string name="violations_text_main_1">There were:</string>
     <string name="violations_text_main_2">violations</string>
@@ -108,6 +108,11 @@
 
     <string name="latitude">\" (Latitude)\n\"</string>
     <string name="longitude">\" (Longitude)\"</string>
+    <string name="routine">Routine</string>
+    <string name="follow_up">Follow-up</string>
+
+    <string name="critical_violation_list">Critical</string>
+    <string name="non_critical_violation_list">Non Critical</string>
 
 
 </resources>

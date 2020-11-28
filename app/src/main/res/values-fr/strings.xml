@@ -19,14 +19,14 @@
     <string name = "gps_cords">Cordons GPS - </string>
     <string name = "address">Adresse -</string>
     <string name = "inspection_list">Liste d\'inspection:</string>
-    <string name = "date">date</string>
-    <string name = "todo">TODO</string>
+    <string name = "date">La date</string>
+    <string name = "todo">FAIRE</string>
     <string name = "violations_text_main_1">Il y avait:</string>
-    <string name = "violations_text_main_2">violations</string>
+    <string name = "violations_text_main_2">la violation</string>
     <string name = "days_ago_main_date">il y a quelques jours</string>
-    <string name = "no_recent_inspections_main">AUCUNE INSPECTION RÉCENTE</string>
+    <string name = "no_recent_inspections_main">AUCUNE l\' INSPECTION RÉCENTE</string>
     <string name = "violations_text_main_single_1">Il y avait:</string>
-    <string name = "violations_text_single">violation</string>
+    <string name = "violations_text_single">la violation</string>
     <string name = "num_critical_restaurant">Nombre de problèmes critiques =</string>
     <string name = "num_non_critical_restaurant">Nombre de problèmes non critiques =</string>
     <string name = "hazard_lvl_restaurant">Niveau de danger =</string>
@@ -39,7 +39,7 @@
     <string name = "do_you_want_to_download_new_data">Voulez-vous télécharger de nouvelles données?</string>
     <string name = "restaurant_details_title">Il y avait</string>
     <string name = "restaurant_details_title_2">inspection récente: </string>
-    <string name = "hello_second_fragment">Bonjour second fragment. Arg: %1$s</string>
+    <string name = "hello_second_fragment">Bonjour seconde fragment. Arg: %1$s</string>
 
 
     <string name = "vio101">Plans / construction / modifications non conformes au règlement [s. 3; s. 4]</string>
@@ -83,8 +83,8 @@
     <string name = "list_of_restaurants">Liste des restaurants</string>
     <string name = "inspection_details_activity">Détails de l\'inspection</string>
     <string name = "rest_details_activity">Détails du restaurant</string>
-    <string name = "critical">Critique: </string>
-    <string name = "non_critical">Non Critical :</string>
+    <string name = "critical">Critique : </string>
+    <string name = "non_critical">Non critique :</string>
     <string name = "list_of_rest">Liste des restaurants</string>
     <string name = "hazard_rating">, ÉVALUATION DES DANGERS -</string>
     <string name = "restaurant_name_">Nom du restaurant</string>
@@ -110,6 +110,11 @@
 
     <string name = "latitude">\" (Latitude)\n</string>
     <string name = "longitude">\" (Longitude)</string>
+    <string name = "routine">Routinière</string>
+    <string name = "follow_up">Suivre</string>
+
+    <string name="critical_violation_list">Critique</string>
+    <string name="non_critical_violation_list">Non Critique</string>
 
 
 

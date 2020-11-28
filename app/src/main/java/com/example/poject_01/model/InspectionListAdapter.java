@@ -58,7 +58,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         //date
         String d = "" + inspection.getInspectionDate();
         String date = refactorDate(d);
-        holder.dateT.setText(String.format("Date - %s", date));
+        holder.dateT.setText(String.format( context.getString(R.string.date)+" %s", date));
 
         //critical issues
         holder.critT.setText(context.getString(R.string.num_critical_restaurant)+ " " +inspection.getNumCritical());

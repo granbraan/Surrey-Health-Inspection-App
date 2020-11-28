@@ -24,6 +24,7 @@ import com.example.poject_01.model.InspectionList;
 import com.example.poject_01.model.RestaurantList;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 //image references
 //https://thenounproject.com/term/food-tray/695390/
@@ -114,7 +115,12 @@ public class InspectionDetailsActivity extends AppCompatActivity {
 
             // Violation Type
             TextView criticalText = itemView.findViewById(R.id.violationType);
-            criticalText.setText(violations[1]);
+            int displayViolationType;
+            if(violations[1].equals("Critical"))
+                displayViolationType = R.string.critical_violation_list;
+            else
+                displayViolationType = R.string.non_critical_violation_list;
+            criticalText.setText(getString(displayViolationType));
 
             // Icon for Critical/Non critical
             ImageView criticalIcon = itemView.findViewById(R.id.criticalImage);
@@ -150,7 +156,33 @@ public class InspectionDetailsActivity extends AppCompatActivity {
     private String refactorDate(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate inspectionDate = LocalDate.parse(date, formatter);
-        return (inspectionDate.getMonth() + " " + inspectionDate.getDayOfMonth() + " " + inspectionDate.getYear());
+
+        int monthDisplay;
+        if(inspectionDate.getMonth().equals(Month.JANUARY))
+            monthDisplay = R.string.january;
+        else if(inspectionDate.getMonth().equals(Month.FEBRUARY))
+            monthDisplay = R.string.february;
+        else if(inspectionDate.getMonth().equals(Month.MARCH))
+            monthDisplay = R.string.march;
+        else if(inspectionDate.getMonth().equals(Month.APRIL))
+            monthDisplay = R.string.april;
+        else if(inspectionDate.getMonth().equals(Month.MAY))
+            monthDisplay = R.string.may;
+        else if(inspectionDate.getMonth().equals(Month.JUNE))
+            monthDisplay = R.string.june;
+        else if(inspectionDate.getMonth().equals(Month.JULY))
+            monthDisplay = R.string.july;
+        else if(inspectionDate.getMonth().equals(Month.AUGUST))
+            monthDisplay = R.string.august;
+        else if(inspectionDate.getMonth().equals(Month.SEPTEMBER))
+            monthDisplay = R.string.september;
+        else if(inspectionDate.getMonth().equals(Month.OCTOBER))
+            monthDisplay = R.string.october;
+        else if(inspectionDate.getMonth().equals(Month.NOVEMBER))
+            monthDisplay = R.string.november;
+        else
+            monthDisplay = R.string.december;
+        return (getString(monthDisplay)+ " " + inspectionDate.getDayOfMonth() + " " + inspectionDate.getYear());
     }
 
     private void setText() {
@@ -158,7 +190,16 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         String date = refactorDate(String.valueOf(curInspection.getInspectionDate()));
         String numCritical = getString(R.string.critical) +  curInspection.getNumCritical();
         String numNonCritical = getString(R.string.non_critical) + curInspection.getNumNonCritical();
-        String inspectionType = curInspection.getInspectionType();
+
+        int inspectionTypeDisplay;
+        if(curInspection.getInspectionType().equals("Routine"))
+        {
+            inspectionTypeDisplay = R.string.routine;
+        }
+        else
+            inspectionTypeDisplay = R.string.follow_up;
+
+        String inspectionType = getString(inspectionTypeDisplay);
 
         TextView textDate = findViewById(R.id.inspectionDate);
         textDate.setText(date);
