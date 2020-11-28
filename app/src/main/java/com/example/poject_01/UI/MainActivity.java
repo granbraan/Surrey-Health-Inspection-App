@@ -3,6 +3,8 @@ package com.example.poject_01.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -22,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
+
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Restaurant;
@@ -42,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private Intent intent;
     private Toolbar toolbar;
-    private ArrayAdapter<Restaurant> restaurantAdapter;
+    public ArrayAdapter<Restaurant> restaurantAdapter;
+    private FragmentManager filterFrag ;
 
 
 
@@ -75,18 +80,28 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupToolbar() {
+        filterFrag = getSupportFragmentManager();
         toolbar =  findViewById(R.id.toolbar2);
         toolbar.inflateMenu(R.menu.toggle_button_list);
         toolbar.setTitle("List of Restaurants");
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId()==R.id.switch_map) {
-                    finish();
-                    return  true;
+                switch (item.getItemId()){
+                    case(R.id.switch_map):
+                        finish();
+                        return  true;
+
+                    case(R.id.filter):
+                        ListFilterFragment filter = new ListFilterFragment();
+                        filter.setCancelable(false);
+                        filter.show(filterFrag, "MessageDialog");
+                        return true;
+
+
+                    default:
+                        return false;
                 }
-                else
-                    return false;
             }
         });
     }
