@@ -7,6 +7,6 @@
     <item
         android:id="@+id/switch_map"
         android:orderInCategory="100"
-        android:title="Map view"
+        android:title="@string/map_view"
         app:showAsAction="ifRoom" />
 </menu>

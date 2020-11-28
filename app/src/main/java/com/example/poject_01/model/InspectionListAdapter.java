@@ -19,6 +19,7 @@ import com.example.poject_01.R;
 import com.example.poject_01.UI.InspectionDetailsActivity;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -57,7 +58,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         //date
         String d = "" + inspection.getInspectionDate();
         String date = refactorDate(d);
-        holder.dateT.setText(String.format("Date - %s", date));
+        holder.dateT.setText(String.format( context.getString(R.string.date)+" %s", date));
 
         //critical issues
         holder.critT.setText(context.getString(R.string.num_critical_restaurant)+ " " +inspection.getNumCritical());
@@ -66,7 +67,19 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         holder.nonCritT.setText(context.getString(R.string.num_non_critical_restaurant)+" " + inspection.getNumNonCritical());
 
         //hazard level
-        holder.hazardT.setText(context.getString(R.string.hazard_lvl_restaurant)+ " " +inspection.getHazardRating());
+        int hazardRatingDisplay;
+        if(inspection.getHazardRating().equals("Low"))
+        {
+            hazardRatingDisplay = R.string.low;
+        }
+        else if(inspection.getHazardRating().equals("Moderate"))
+        {
+            hazardRatingDisplay = R.string.moderate;
+        }
+        else
+            hazardRatingDisplay = R.string.high;
+
+        holder.hazardT.setText(context.getString(R.string.hazard_lvl_restaurant)+ " " + context.getString(hazardRatingDisplay));
 
 
         //image
@@ -132,14 +145,39 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         Log.d("MainActivity", "current date - "+ currentDate);
         Log.d("MainActivity", "inspection date - "+ inspectionDate);
         Log.d("MainActivity", "difference = "+ difference);
+        int monthDisplay;
+        if(inspectionDate.getMonth().equals(Month.JANUARY))
+            monthDisplay = R.string.january;
+        else if(inspectionDate.getMonth().equals(Month.FEBRUARY))
+            monthDisplay = R.string.february;
+        else if(inspectionDate.getMonth().equals(Month.MARCH))
+            monthDisplay = R.string.march;
+        else if(inspectionDate.getMonth().equals(Month.APRIL))
+            monthDisplay = R.string.april;
+        else if(inspectionDate.getMonth().equals(Month.MAY))
+            monthDisplay = R.string.may;
+        else if(inspectionDate.getMonth().equals(Month.JUNE))
+            monthDisplay = R.string.june;
+        else if(inspectionDate.getMonth().equals(Month.JULY))
+            monthDisplay = R.string.july;
+        else if(inspectionDate.getMonth().equals(Month.AUGUST))
+            monthDisplay = R.string.august;
+        else if(inspectionDate.getMonth().equals(Month.SEPTEMBER))
+            monthDisplay = R.string.september;
+        else if(inspectionDate.getMonth().equals(Month.OCTOBER))
+            monthDisplay = R.string.october;
+        else if(inspectionDate.getMonth().equals(Month.NOVEMBER))
+            monthDisplay = R.string.november;
+        else
+            monthDisplay = R.string.december;
         if (difference <= 30){
-            return( difference + " days ago");
+            return( difference + " " + context.getString(R.string.days_ago_main_date));
         }
         else if(difference <= 365){
-            return("" + inspectionDate.getMonth() + " " + inspectionDate.getDayOfMonth() );
+            return("" + context.getString(monthDisplay) + " " + inspectionDate.getDayOfMonth() );
         }
         else {
-            return("" + inspectionDate.getYear() + " "+ inspectionDate.getMonth() );
+            return("" + inspectionDate.getYear() + " "+ context.getString(monthDisplay) );
         }
     }
 }

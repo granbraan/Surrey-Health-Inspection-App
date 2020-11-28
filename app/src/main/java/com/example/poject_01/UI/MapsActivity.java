@@ -105,7 +105,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setupToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar_map);
         toolbar.inflateMenu(R.menu.toggle_button);
-        toolbar.setTitle("Maps");
+        toolbar.setTitle(R.string.title_activity_maps);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -305,12 +305,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             {
                 imageId = BitmapDescriptorFactory.fromResource(R.drawable.green);
             }
-            if(r.numInspections() > 0)
-                 cluster = new RestaurantCluster(latitudeLongitude,r.getName(),
-                    r.getAddress() +","+ r.getCity()+
-                            "  HAZARD RATING - "+r.getLatestInspection().getHazardRating(),imageId);
+            if(r.numInspections() > 0) {
+                int hazardRatingDisplay;
+                if(r.getLatestInspection().getHazardRating().equals("Low"))
+                {
+                    hazardRatingDisplay = R.string.low;
+                }
+                else if(r.getLatestInspection().getHazardRating().equals("Moderate"))
+                {
+                    hazardRatingDisplay = R.string.moderate;
+                }
+                else
+                    hazardRatingDisplay = R.string.high;
+                cluster = new RestaurantCluster(latitudeLongitude, r.getName(),
+                        r.getAddress() + "," + r.getCity() +
+                                getString(R.string.hazard_rating) + getString(hazardRatingDisplay), imageId);
+            }
             else
-                cluster = new RestaurantCluster(latitudeLongitude,r.getName(), r.getAddress()+", "+ r.getCity() + " " + getResources().getString(R.string.no_recent_inspections_main),imageId);
+                cluster = new RestaurantCluster(latitudeLongitude,r.getName(), r.getAddress()+getString(R.string.comma)+ r.getCity() + " " + getResources().getString(R.string.no_recent_inspections_main),imageId);
 
             clusterManager.addItem(cluster);
 
