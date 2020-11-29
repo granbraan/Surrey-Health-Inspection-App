@@ -9,11 +9,13 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantCluster;
 import com.example.poject_01.model.RestaurantClusterRenderer;
 import com.example.poject_01.model.RestaurantList;
+import com.example.poject_01.model.Search;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -42,6 +45,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.ClusterManager;
@@ -69,8 +73,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private RestaurantClusterRenderer renderer;
     private boolean check;
     private static Context mContext;
-    private EditText mSearchText;
-
+    private SearchView searchView;
+    private Search search = Search.getInstance();
 
 
     @Override
@@ -98,39 +102,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         currentLocation = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest();
-        mSearchText = findViewById(R.id.inputSearchMap);
+        searchView = findViewById(R.id.searchText);
 
-    }
-    private void searchText() {
-        Log.i("SEARCH TAG", "initializing212121212");
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == event.ACTION_DOWN || event.getAction() == event.KEYCODE_ENTER) {
-                    geoLocate();
-                }
-                return false;
-            }
-        });
-    }
-
-    private void geoLocate() {
-        Log.i("GEOLOCATE", "2132131213");
-        String searchString = mSearchText.getText().toString();
-
-        Geocoder geocoder = new Geocoder(MapsActivity.this);
-        List<Address> list = new ArrayList<>();
-        try {
-            list = geocoder.getFromLocationName(searchString, 1);
-        } catch(IOException e) {
-            Log.i("GEOLOCATE EXCEPTION", "FFFFFFFFFFFFFF");
-        }
-
-        if(list.size() > 0 ) {
-            Address address  = list.get(0);
-            Log.d("GeoLocate", "found location" + address.toString());
-            Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-        }
     }
 
 
@@ -194,8 +167,38 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+        setupSearch();
         mMap.setMyLocationEnabled(true);
-        searchText();
+    }
+
+    private void setupSearch() {
+        searchView.setSubmitButtonEnabled(false);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(TextUtils.isEmpty(query)){
+                    search.setSearch("");
+                }
+                else {
+                    search.setSearch(query);
+                    search.getSearch().toLowerCase();
+                }
+                searchView.clearFocus();
+                setUpCluster();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(TextUtils.isEmpty(newText)) {
+                    search.setSearch("");
+                    setUpCluster();
+                }
+                return true;
+            }
+        });
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -323,7 +326,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void addItems() {
+        mMap.clear();
         for(Restaurant r : restaurantList) {
+            if(!search.filter(r)) {
+                continue;
+            }
             double latitude = r.getLatitude();
             double longitude = r.getLongitude();
             LatLng latitudeLongitude = new LatLng(latitude,longitude);
