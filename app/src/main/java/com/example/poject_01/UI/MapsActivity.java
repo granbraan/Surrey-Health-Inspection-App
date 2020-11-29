@@ -4,11 +4,18 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -39,6 +46,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.ClusterManager;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Handles user location, clusters, and etc needed for Map
  *
@@ -58,6 +69,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private RestaurantClusterRenderer renderer;
     private boolean check;
     private static Context mContext;
+    private EditText mSearchText;
+
 
 
     @Override
@@ -85,9 +98,41 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         currentLocation = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest();
-
+        mSearchText = findViewById(R.id.inputSearchMap);
 
     }
+    private void searchText() {
+        Log.i("SEARCH TAG", "initializing212121212");
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == event.ACTION_DOWN || event.getAction() == event.KEYCODE_ENTER) {
+                    geoLocate();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate() {
+        Log.i("GEOLOCATE", "2132131213");
+        String searchString = mSearchText.getText().toString();
+
+        Geocoder geocoder = new Geocoder(MapsActivity.this);
+        List<Address> list = new ArrayList<>();
+        try {
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch(IOException e) {
+            Log.i("GEOLOCATE EXCEPTION", "FFFFFFFFFFFFFF");
+        }
+
+        if(list.size() > 0 ) {
+            Address address  = list.get(0);
+            Log.d("GeoLocate", "found location" + address.toString());
+            Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     public static Context getContext() {
         return mContext;
@@ -150,6 +195,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
         mMap.setMyLocationEnabled(true);
+        searchText();
     }
 
     LocationCallback locationCallback = new LocationCallback() {
