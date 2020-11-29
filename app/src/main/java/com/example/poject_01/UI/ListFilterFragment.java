@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -62,14 +63,19 @@ public class ListFilterFragment extends AppCompatDialogFragment {
 
     private void getUserInput() {
         EditText editName = getDialog().findViewById(R.id.filterName);
-        EditText editViolations = getActivity().findViewById(R.id.filterViolations);
-        EditText editHazardLvl = getActivity().findViewById(R.id.filter_hazard_lvl);
+        EditText editViolations = getDialog().findViewById(R.id.filterViolations);
+        EditText editHazardLvl = getDialog().findViewById(R.id.filter_hazard_lvl);
+
+
 
         String inputName = editName.getText().toString();
-        //String inputViolations =  editViolations.getText().toString();
-        //String inputHazardLvl = editHazardLvl.getText().toString();
+        String inputViolations =  editViolations.getText().toString();
+        String inputHazardLvl = editHazardLvl.getText().toString();
 
-        ((MainActivity)getActivity()).restaurantAdapter.getFilter().filter(inputName);
+        String filterLump = inputName + "|" + inputViolations +"|"+ inputHazardLvl;
+        Log.d("filter fragment", "filter lump - " + filterLump);
+
+        ((MainActivity)getActivity()).restaurantAdapter.getFilter().filter(filterLump);
 
     }
 

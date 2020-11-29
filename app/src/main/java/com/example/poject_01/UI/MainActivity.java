@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,15 +45,19 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class MainActivity extends AppCompatActivity {
     // all restaurants added to this list, sorted by name - alphabetical order.
     private final RestaurantList restaurantList = RestaurantList.getInstance();
+    private List<Restaurant> restaurants;
     private Intent intent;
     private Toolbar toolbar;
     public ArrayAdapter<Restaurant> restaurantAdapter;
     private FragmentManager filterFrag ;
+    private static MainActivity instance;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = MainActivity.this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupSearchBar();
@@ -116,10 +121,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void registerClick() {
         ListView listView = findViewById(R.id.restaurantListView);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            Log.d("MainActivity", "User clicked restaurant at position: " + position);
-            intent = RestaurantDetailsActivity.makeIntent(MainActivity.this,position,false);
-            startActivity(intent);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("MainActivity", "User clicked restaurant at position: " + position);
+                intent = RestaurantDetailsActivity.makeIntent(MainActivity.this, position, false);
+                MainActivity.this.startActivity(intent);
+            }
         });
 
     }
@@ -146,18 +154,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
-        private List<Restaurant> restaurants;
+
         private Context context;
 
         public RestaurantListAdapter(Context context, List<Restaurant> restaurants) {
             super(context, R.layout.restaurant_list_view, restaurants);
-            this.restaurants = restaurants;
+            MainActivity.this.restaurants = restaurants;
             this.context = context;
         }
 
         @Override
         public int getCount() {
-            return restaurants.size();
+            if (!restaurants.isEmpty()){
+                return restaurants.size();
+            }
+            return 0;
+
         }
 
         @Override
@@ -262,15 +274,41 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     List<Restaurant> originalRestaurants = restaurantList.getList();
+                    List<Restaurant> FilteredArrList = new ArrayList<>();
                     FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
                     if (constraint == null || constraint.length() == 0) {
-
-                        // set the Original result to return
+                        // return original list
                         results.count = originalRestaurants.size();
                         results.values = originalRestaurants;
                     }
+                    // multiple filters are concatenated into one string and separated by the '|' character
+                    else if (constraint.toString().toUpperCase().contains("|")){
+                        List<Restaurant> FilteredArrList2 = new ArrayList<>();
+                        String input = constraint.toString().toUpperCase();
+                        String[] tokens = input.split("\\|");
+                        for (Restaurant r : originalRestaurants) {
+                            String rName = r.getName();
+                            if (rName.toUpperCase().contains(tokens[0])) {
+                                FilteredArrList.add(r);
+
+                            }
+                        }
+                        for (Restaurant r : FilteredArrList) {
+                            Log.d("main", r.toString());
+                            if (r.numInspections() > 0) {
+                                String hazard = r.getLatestInspection().getHazardRating().toUpperCase();
+                                if (Objects.equals(tokens[2], hazard)) {
+                                    FilteredArrList2.add(r);
+
+                                }
+
+                            }
+                        }
+                        results.count = FilteredArrList2.size();
+                        results.values = FilteredArrList2;
+
+                    }
                     else {
-                        List<Restaurant> FilteredArrList = new ArrayList<>();
                         constraint = constraint.toString().toUpperCase();
                         if (Objects.equals(constraint, "LOW") || Objects.equals(constraint, "MODERATE") || Objects.equals(constraint, "HIGH")) {
                             for (Restaurant r : originalRestaurants) {
@@ -383,6 +421,10 @@ public class MainActivity extends AppCompatActivity {
         return intent;
     }
 
+    public List<Restaurant> getFilteredList(){
+        return (restaurants);
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
@@ -402,6 +444,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("EXIT",true);
         startActivity(intent);
     }
+
+    public static MainActivity getInstance(){
+        return instance;
+    }
+
 
 
 
