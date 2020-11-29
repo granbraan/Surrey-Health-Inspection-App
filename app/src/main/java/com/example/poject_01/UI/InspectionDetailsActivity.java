@@ -21,10 +21,12 @@ import android.widget.Toast;
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.InspectionList;
+import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 //image references
 //https://thenounproject.com/term/food-tray/695390/
 //https://thenounproject.com/term/silverfish/1975976/
@@ -38,18 +40,14 @@ import java.time.format.DateTimeFormatter;
 public class InspectionDetailsActivity extends AppCompatActivity {
     private Inspection curInspection;
     private int index;
-    private RestaurantList restaurantList = RestaurantList.getInstance();
+    private Restaurant restaurant;
     private int restaurantIndex;
 
-    public static Intent makeLaunchIntent(Context c, int index) {
-        Intent intent =  new Intent(c, InspectionDetailsActivity.class);
-        intent.putExtra("EXTRA_INDEX",index);
-        return intent;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_inspection_details);
         extractDataFromIntent();
         setText();
@@ -65,7 +63,7 @@ public class InspectionDetailsActivity extends AppCompatActivity {
 
 
     private void populateListView() {
-        curInspection = restaurantList.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(index);
+        curInspection = restaurant.getInspections().getInspectionIndex(index);
         //build adapter
         ArrayAdapter<String> adapter = new myListAdapter();
         ListView list =  findViewById(R.id.inspectionListView);
@@ -145,6 +143,8 @@ public class InspectionDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         index = intent.getIntExtra("EXTRA_INDEX", 0);
         restaurantIndex = intent.getIntExtra("REST_INDEX", 0);
+        restaurant = MainActivity.getInstance().getFilteredList().get(restaurantIndex);
+
     }
 
     private String refactorDate(String date) {
@@ -154,7 +154,7 @@ public class InspectionDetailsActivity extends AppCompatActivity {
     }
 
     private void setText() {
-        curInspection = restaurantList.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(index);
+        curInspection = restaurant.getInspections().getInspectionIndex(index);
         String date = refactorDate(String.valueOf(curInspection.getInspectionDate()));
         String numCritical = "Critical: " +  curInspection.getNumCritical();
         String numNonCritical = "Non Critical: " + curInspection.getNumNonCritical();

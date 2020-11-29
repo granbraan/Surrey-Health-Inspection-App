@@ -17,9 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poject_01.R;
 import com.example.poject_01.UI.InspectionDetailsActivity;
+import com.example.poject_01.UI.MainActivity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 /**
@@ -29,7 +31,8 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
     InspectionList inspectionList; //stores the inspection list of particular restaurant
     Context context;
     int restaurantIndex;
-    RestaurantList restaurantList = RestaurantList.getInstance();
+    private Restaurant restaurant;
+    private List<Restaurant> restaurantList;
 
 
     //Constructor of the class
@@ -37,6 +40,8 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         context = ct;
         inspectionList = listOfInspection;
         restaurantIndex = restIndex;
+        restaurantList = MainActivity.getInstance().getFilteredList();
+        restaurant = restaurantList.get(restIndex);
     }
 
 
@@ -88,10 +93,7 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(restaurantList.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumNonCritical()
-                        + restaurantList.getRestaurantIndex(restaurantIndex).getInspections().getInspectionIndex(position).getNumCritical()
-                        > 0)
-                {
+                if(restaurant.getInspections().getInspectionIndex(position).getNumNonCritical() + restaurant.getInspections().getInspectionIndex(position).getNumCritical() > 0) {
                     Intent intent = new Intent(context, InspectionDetailsActivity.class);
                     intent.putExtra("EXTRA_INDEX",position);
                     intent.putExtra("REST_INDEX",restaurantIndex);

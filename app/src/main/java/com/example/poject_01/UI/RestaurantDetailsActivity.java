@@ -30,7 +30,6 @@ import java.util.List;
 public class RestaurantDetailsActivity extends AppCompatActivity {
     private int index;
     private Restaurant restaurant;
-    private RestaurantList restaurantList = RestaurantList.getInstance();
     private  boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
