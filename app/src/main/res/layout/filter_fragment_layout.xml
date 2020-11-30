@@ -19,13 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/filter_hazard_level"
-        android:layout_width="175dp"
+        android:layout_width="wrap_content"
         android:layout_height="51dp"
-        android:ems="10"
-        android:hint="hazard level"
-        android:inputType="textPersonName"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Hazard Level: "
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/filterName"
         app:layout_constraintTop_toBottomOf="@+id/filterName" />
 
@@ -34,7 +35,7 @@
         android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="@+id/filterViolationsPart1"
         app:layout_constraintStart_toStartOf="@+id/filterName" />
 
@@ -42,8 +43,8 @@
         android:id="@+id/filterFavouriteRadio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="36dp"
         android:text="Favourites"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginStart="3dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toEndOf="@+id/filterViolationsPart1"
         app:layout_constraintTop_toBottomOf="@+id/filter_hazard_level" />
@@ -62,9 +63,9 @@
         android:id="@+id/filterViolationsPart1"
         android:layout_width="48dp"
         android:layout_height="36dp"
-        android:layout_marginTop="20dp"
-        android:text="or"
+        android:layout_marginTop="10dp"
         android:gravity="center"
+        android:text="or"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/filterViolations"
         app:layout_constraintTop_toBottomOf="@+id/filter_hazard_level" />
@@ -73,12 +74,21 @@
         android:id="@+id/filterViolationsP2"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="critical violations"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/violationsDropdown"
         app:layout_constraintTop_toBottomOf="@+id/filter_hazard_level" />
+
+    <Spinner
+        android:id="@+id/spinnerHazard"
+        android:layout_width="wrap_content"
+        android:layout_height="51dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/filter_hazard_level"
+        app:layout_constraintTop_toBottomOf="@+id/filterName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

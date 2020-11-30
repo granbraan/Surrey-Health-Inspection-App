@@ -18,7 +18,8 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.example.poject_01.R;
 
 public class ListFilterFragment extends AppCompatDialogFragment {
-    private Spinner spinner;
+    private Spinner violationsSpinner;
+    private Spinner hazardSpinner;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -28,7 +29,10 @@ public class ListFilterFragment extends AppCompatDialogFragment {
 
         // setup dropdown
         setupDropDown(v);
-
+        hazardSpinner = v.findViewById(R.id.spinnerHazard);
+        String[] items = new String[]{"Low", "Moderate", "High"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(v.getContext(), R.layout.filter_dropdown, items);
+        hazardSpinner.setAdapter(adapter);
         // create button listener
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
@@ -65,21 +69,20 @@ public class ListFilterFragment extends AppCompatDialogFragment {
     }
 
     private void setupDropDown(View v) {
-        spinner = v.findViewById(R.id.violationsDropdown);
+        violationsSpinner = v.findViewById(R.id.violationsDropdown);
         String[] items = new String[]{"Less", "More"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(v.getContext(), R.layout.filter_dropdown, items);
-        spinner.setAdapter(adapter);
+        violationsSpinner.setAdapter(adapter);
     }
 
     private void getUserInput() {
-        EditText editHazardLvl = getDialog().findViewById(R.id.filter_hazard_level);
         EditText editViolations = getDialog().findViewById(R.id.filterViolations);
         EditText editName = getDialog().findViewById(R.id.filterName);
 
         String inputName = editName.getText().toString();
         String inputViolations =  editViolations.getText().toString();
-        String inputHazardLvl = editHazardLvl.getText().toString();
-        String inputBoolean = spinner.getSelectedItem().toString();
+        String inputBoolean = violationsSpinner.getSelectedItem().toString();
+        String inputHazardLvl = hazardSpinner.getSelectedItem().toString();
 
         String filterLump = inputName + "|" + inputHazardLvl +"|"+ inputViolations  +"|"+ inputBoolean;
         Log.d("filter fragment", "filter lump - " + filterLump);
