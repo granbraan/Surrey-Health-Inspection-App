@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("main", r.toString());
                             if (r.numInspections() > 0) {
                                 String hazard = r.getLatestInspection().getHazardRating().toUpperCase();
-                                if (Objects.equals(tokens[2], hazard)) {
+                                if (Objects.equals(tokens[1], hazard)) {
                                     FilteredArrList2.add(r);
 
                                 }

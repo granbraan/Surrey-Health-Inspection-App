@@ -3,12 +3,13 @@ package com.example.poject_01.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,17 +17,19 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.poject_01.R;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class ListFilterFragment extends AppCompatDialogFragment {
+    private Spinner spinner;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        //create the view
+        // create the view
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.filter_fragment_layout,null);
 
-        //create button listener
+        // setup dropdown
+        setupDropDown(v);
+
+        // create button listener
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -49,7 +52,7 @@ public class ListFilterFragment extends AppCompatDialogFragment {
         };
 
 
-        //build alert dialog
+        // build alert dialog
         AlertDialog alertD =  new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setPositiveButton("Save", listener)
@@ -61,18 +64,24 @@ public class ListFilterFragment extends AppCompatDialogFragment {
 
     }
 
+    private void setupDropDown(View v) {
+        spinner = v.findViewById(R.id.violationsDropdown);
+        String[] items = new String[]{"Less", "More"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(v.getContext(), R.layout.filter_dropdown, items);
+        spinner.setAdapter(adapter);
+    }
+
     private void getUserInput() {
-        EditText editName = getDialog().findViewById(R.id.filterName);
+        EditText editHazardLvl = getDialog().findViewById(R.id.filter_hazard_level);
         EditText editViolations = getDialog().findViewById(R.id.filterViolations);
-        EditText editHazardLvl = getDialog().findViewById(R.id.filter_hazard_lvl);
-
-
+        EditText editName = getDialog().findViewById(R.id.filterName);
 
         String inputName = editName.getText().toString();
         String inputViolations =  editViolations.getText().toString();
         String inputHazardLvl = editHazardLvl.getText().toString();
+        String inputBoolean = spinner.getSelectedItem().toString();
 
-        String filterLump = inputName + "|" + inputViolations +"|"+ inputHazardLvl;
+        String filterLump = inputName + "|" + inputHazardLvl +"|"+ inputViolations  +"|"+ inputBoolean;
         Log.d("filter fragment", "filter lump - " + filterLump);
 
         ((MainActivity)getActivity()).restaurantAdapter.getFilter().filter(filterLump);
