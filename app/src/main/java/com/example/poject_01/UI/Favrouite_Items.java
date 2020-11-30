@@ -1,116 +1,75 @@
 package com.example.poject_01.UI;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.content.Intent;
+import android.widget.Toast;
+
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.PersonDBHelper;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
+
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+
 import static java.time.temporal.ChronoUnit.DAYS;
 
-/**
- * Displays a scrollable list of restaurants, sorted alphabetically by name.
- * The list of restaurants and the data relating to each restaurant is read from "data_restaurants.csv" and "data_inspection.csv"
- */
-public class MainActivity extends AppCompatActivity {
-    // all restaurants added to this list, sorted by name - alphabetical order.
-    private final RestaurantList restaurantList = RestaurantList.getInstance();
-    private Intent intent;
-    private Toolbar toolbar;
-    private int index;
-    ImageView add_fav1;
-    private Restaurant restaurant;
-    ListView list;
-    //Button btn_fav;
+public class Favrouite_Items extends AppCompatActivity {
 
+    private final RestaurantList restaurantList = RestaurantList.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setupToolbar();
+        setContentView(R.layout.activity_favrouite__items);
         populateListView();
         registerClick();
 
-        //btn_fav=findViewById(R.id.btn_fav);
-        //btn_fav.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,Favrouite_Items.class)));
-        //Toast.makeText(this, "index"+index, Toast.LENGTH_SHORT).show();
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         populateListView();
     }
-
-    private void setupToolbar() {
-        toolbar =  findViewById(R.id.toolbar2);
-        toolbar.inflateMenu(R.menu.toggle_button_list);
-        toolbar.setTitle(R.string.list_of_rest);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId()==R.id.switch_map) {
-                    finish();
-                    return  true;
-                }
-                else
-                    return false;
-            }
-        });
-    }
-
-
     private void populateListView() {
         ArrayAdapter<Restaurant> restaurantAdapter = new RestaurantListAdapter();
-        ListView list = findViewById(R.id.restaurantListView);
+        ListView list = findViewById(R.id.restaurantListView1);
         list.setAdapter(restaurantAdapter);
     }
-
-
     private void registerClick() {
-        ListView listView = findViewById(R.id.restaurantListView);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
+        ListView listView = findViewById(R.id.restaurantListView1);
+        listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             Log.d("MainActivity", "User clicked restaurant at position: " + position);
-            intent = RestaurantDetailsActivity.makeIntent(MainActivity.this,position,false);
-            startActivity(intent);
+            Toast.makeText(this, "No of Inception:"+restaurantList.getRestaurantIndex(position).numInspections(), Toast.LENGTH_SHORT).show();
         });
 
     }
-
-
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> {
         public RestaurantListAdapter() {
-            super(MainActivity.this, R.layout.restaurant_list_view, restaurantList.getList());
+            super(Favrouite_Items.this, R.layout.restaurant_list_view, restaurantList.getList());
         }
-
-
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public View getView(int position,  View convertView, ViewGroup parent) {
             View restaurantView = convertView;
+
             if (restaurantView == null){
                 restaurantView = getLayoutInflater().inflate(R.layout.restaurant_list_view, parent, false);
                 //LayoutInflater inflater=getLayoutInflater();
@@ -123,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             Restaurant currentRestaurant = restaurantList.getRestaurantIndex(position);
-
             if(currentRestaurant.getName().contains("Church's")) {
                 ImageView imageView = restaurantView.findViewById(R.id.iconRestaurantName);
                 imageView.setImageResource(R.drawable.churchs_chicken_logo);
@@ -171,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
             // checking for recent inspections
             if (currentRestaurant.numInspections() > 0){
-                Log.d("MainActivity", "current restaurant: "+ currentRestaurant.getName() + " - num inspections: " + currentRestaurant.numInspections());
+                Log.d("Favourite Activity", "current restaurant: "+ currentRestaurant.getName() + " - num inspections: " + currentRestaurant.numInspections());
                 Inspection latestInspection = currentRestaurant.getLatestInspection();
 
                 // inspection date
@@ -215,9 +173,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-
     // outputs date according to specifications described in the user story
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String refactorDate(String d) {
@@ -226,43 +181,17 @@ public class MainActivity extends AppCompatActivity {
         LocalDate inspectionDate = LocalDate.parse(d, formatter);
         long difference = DAYS.between(inspectionDate, currentDate);
 
-        Log.d("MainActivity", "current date - "+ currentDate);
-        Log.d("MainActivity", "inspection date - "+ inspectionDate);
-        int monthDisplay;
-        if(inspectionDate.getMonth().equals(Month.JANUARY))
-            monthDisplay = R.string.january;
-        else if(inspectionDate.getMonth().equals(Month.FEBRUARY))
-            monthDisplay = R.string.february;
-        else if(inspectionDate.getMonth().equals(Month.MARCH))
-            monthDisplay = R.string.march;
-        else if(inspectionDate.getMonth().equals(Month.APRIL))
-            monthDisplay = R.string.april;
-        else if(inspectionDate.getMonth().equals(Month.MAY))
-            monthDisplay = R.string.may;
-        else if(inspectionDate.getMonth().equals(Month.JUNE))
-            monthDisplay = R.string.june;
-        else if(inspectionDate.getMonth().equals(Month.JULY))
-            monthDisplay = R.string.july;
-        else if(inspectionDate.getMonth().equals(Month.AUGUST))
-            monthDisplay = R.string.august;
-        else if(inspectionDate.getMonth().equals(Month.SEPTEMBER))
-            monthDisplay = R.string.september;
-        else if(inspectionDate.getMonth().equals(Month.OCTOBER))
-            monthDisplay = R.string.october;
-        else if(inspectionDate.getMonth().equals(Month.NOVEMBER))
-            monthDisplay = R.string.november;
-        else
-            monthDisplay = R.string.december;
-
+        Log.d("FavActivity", "current date - "+ currentDate);
+        Log.d("FavActivity", "inspection date - "+ inspectionDate);
 
         if (difference <= 30){
             return( difference + " " + getString(R.string.days_ago_main_date));
         }
         else if(difference <= 365){
-            return("" + getString(monthDisplay) + " " + inspectionDate.getDayOfMonth() );
+            return("" + inspectionDate.getMonth() + " " + inspectionDate.getDayOfMonth() );
         }
         else {
-            return("" + inspectionDate.getYear() + " "+ getString(monthDisplay) );
+            return("" + inspectionDate.getYear() + " "+ inspectionDate.getMonth() );
         }
 
     }
@@ -311,37 +240,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public  static Intent makeIntent(Context context) {
-        Intent intent =  new Intent(context, MainActivity.class);
+        Intent intent =  new Intent(context, Favrouite_Items.class);
         return intent;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("EXIT",true);
-        startActivity(intent);
-    }
-
-
-
-    public static Intent getIntent (Context c)
-    {
-        Intent intent = new Intent(c,MainActivity.class);
-        return intent;
-
     }
 
 }

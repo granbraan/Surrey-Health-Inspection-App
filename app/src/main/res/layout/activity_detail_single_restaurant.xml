@@ -106,6 +106,17 @@
         android:textSize="18sp"
         android:translationX="20sp"
         android:translationY="320sp" />
+    <ImageView
+        android:translationX="20sp"
+        android:translationY="10sp"
+        android:id="@+id/add_fav"
+        android:layout_width="30sp"
+        android:src="@drawable/fav2"
+        android:layout_height="35sp"
+        android:textSize="12dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="2dp"/>
 
     <LinearLayout
         android:id="@+id/lottie_animation"
@@ -132,6 +143,8 @@
         android:paddingBottom="140dp"
         android:translationX="20sp"
         android:translationY="370sp" />
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

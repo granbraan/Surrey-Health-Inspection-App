@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     android:paddingBottom="25dp">
 
+    <ImageView
+        app:layout_constraintLeft_toRightOf="@id/textRestaurantName"
+        android:translationX="20sp"
+        android:id="@+id/add_fav1"
+        android:layout_width="30sp"
+        android:src="@drawable/fav1"
+        android:visibility="gone"
+        android:layout_height="35sp"
+        android:textSize="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        tools:ignore="MissingConstraints" />
+
     <TextView
         android:id="@+id/textRestaurantName"
         android:layout_width="wrap_content"

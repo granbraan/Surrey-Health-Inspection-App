@@ -3,11 +3,13 @@ package com.example.poject_01.UI;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.InspectionListAdapter;
+import com.example.poject_01.model.PersonDBHelper;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
@@ -29,6 +32,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private Restaurant restaurant;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private  boolean flag;
+    ImageView add_fav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,34 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setupBackButton();
         setupRecycleView();
         displayNameAndLocation();
+        add_fav =findViewById(R.id.add_fav);
+
+        Intent intent1 = getIntent();
+        index = intent1.getIntExtra("index=",0);
+        PersonDBHelper dbHandler1 = new PersonDBHelper(this);
+        Cursor res2=dbHandler1.getSpecificData(restaurantList.getRestaurantIndex(index).getName());
+        if(!(res2.getCount()==0)){
+            add_fav.setImageResource(R.drawable.fav1);
+        }
+
+
+        add_fav.setOnClickListener(view -> {
+            PersonDBHelper dbHandler = new PersonDBHelper(this);
+            Intent intent = getIntent();
+            index = intent.getIntExtra("index=",0);
+            Cursor res=dbHandler.getSpecificData(restaurantList.getRestaurantIndex(index).getName());
+            if(res.getCount()==0){
+                add_fav.setImageResource(R.drawable.fav1);
+                dbHandler.insertProductOrder("user",restaurantList.getRestaurantIndex(index).getName());
+                Toast.makeText(this,"Added in Favourite", Toast.LENGTH_LONG).show();
+                return;
+            }else {
+                add_fav.setImageResource(R.drawable.fav2);
+                dbHandler.deleteOrder(restaurantList.getRestaurantIndex(index).getName(),getApplicationContext());
+                Toast.makeText(this,"Remove From Favourite", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
     }
 
