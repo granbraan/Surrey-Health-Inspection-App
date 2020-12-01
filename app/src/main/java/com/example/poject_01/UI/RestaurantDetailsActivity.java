@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private Restaurant restaurant;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     private  boolean flag;
+    private CheckBox checkbox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,26 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setupBackButton();
         setupRecycleView();
         displayNameAndLocation();
+        checkbox = findViewById(R.id.star);
+        onCheckBoxClicked();
+    }
 
+    private void onCheckBoxClicked() {
+        checkbox = findViewById(R.id.star);
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((CheckBox) v).isChecked()) {
+                    restaurant.setFavourite(true);
+                    if(restaurant.getFavourite()){
+                        Log.i("RESTOOO","TRUEE");
+                    }
+                    else {
+                        Log.i("RESTOOO","fALSEEEE");
+                    }
+                }
+            }
+        });
     }
 
     private void extractDataFromIntent() {
@@ -61,6 +83,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(divider);
     }
+
 
 
     private void displayNameAndLocation() {
@@ -139,7 +162,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             // restaurant icon
             imageView.setImageResource(R.drawable.restaurant_image);
         }
-
     }
 
     @Override
@@ -159,6 +181,17 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         intent.putExtra("index=",ind);
         intent.putExtra("flag",flag);
         return intent;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!restaurant.getFavourite()) {
+            checkbox.setChecked(false);
+        }
+        else {
+            checkbox.setChecked(true);
+        }
     }
 }
 

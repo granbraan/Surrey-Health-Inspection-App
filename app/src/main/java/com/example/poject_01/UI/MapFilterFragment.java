@@ -3,7 +3,9 @@ package com.example.poject_01.UI;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,10 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.poject_01.R;
 
+import java.util.Map;
+
 public class MapFilterFragment extends AppCompatDialogFragment {
+    DialogListener listener2;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -28,6 +33,7 @@ public class MapFilterFragment extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch(which) {
                     case DialogInterface.BUTTON_POSITIVE:
+                        listener2.onOKClicked();
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                     case DialogInterface.BUTTON_NEUTRAL:
@@ -48,18 +54,6 @@ public class MapFilterFragment extends AppCompatDialogFragment {
         return alert;
     }
 
-    private void getUserInput() {
-        EditText name = getDialog().findViewById(R.id.filterName2);
-        String name2 = name.getText().toString();
-
-        EditText violations = getDialog().findViewById(R.id.filterViolations2);
-        String violations2 = name.getText().toString();
-
-        EditText hazard = getDialog().findViewById(R.id.filter_hazard_lvl2);
-        String hazard2 = name.getText().toString();
-
-    }
-
     private void resetUserInput() {
         EditText name = getDialog().findViewById(R.id.filterName2);
         name.setText("");
@@ -71,4 +65,20 @@ public class MapFilterFragment extends AppCompatDialogFragment {
         EditText hazard = getDialog().findViewById(R.id.filter_hazard_lvl2);
         hazard.setText("");
     }
+
+    public interface DialogListener {
+        void onOKClicked();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener2 = (DialogListener)context;
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

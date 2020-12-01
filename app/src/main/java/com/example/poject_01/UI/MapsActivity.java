@@ -66,7 +66,7 @@ import java.util.List;
  * Handles user location, clusters, and etc needed for Map
  *
  */
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback , MapFilterFragment.DialogListener {
 
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -84,13 +84,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private SearchView searchView;
     private Search search = Search.getInstance();
     private String violationCheck = "";
+    private String name2;
+    private String hazard2;
+    private int violations2;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        check =false;
+        check = false;
         mContext = MapsActivity.this;
 
         extractMapsData();
@@ -230,6 +233,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     search.setSearch(query);
                     search.getSearch().toLowerCase();
                 }
+                EditText name = findViewById(R.id.filterName2);
+                EditText violations = findViewById(R.id.filterViolations2);
+                EditText hazard = findViewById(R.id.filter_hazard_lvl2);
+                if(name != null) {
+                    String name2 = name.getText().toString();
+                    search.setSearch(name2);
+                }
+                if(violations != null) {
+                    int violations2 = Integer.parseInt(violations.getText().toString());
+                }
+                if(hazard != null) {
+                    String hazard2 = hazard.getText().toString();
+                    int violations2 = Integer.parseInt(violations.getText().toString());
+                }
                 searchView.clearFocus();
                 setUpCluster();
                 return true;
@@ -277,7 +294,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
-
 
     private void getDeviceLocation() {
 
@@ -373,28 +389,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void addItems() {
         mMap.clear();
         for(Restaurant r : restaurantList) {
-
             if(!search.filter(r)) {
-                String hazard2 = "";
-                int violations2 = 0;
-                EditText name = findViewById(R.id.filterName2);
-                EditText violations = findViewById(R.id.filterViolations2);
-                EditText hazard = findViewById(R.id.filter_hazard_lvl2);
-                /*
-                if(name != null) {
-                    String name2 = name.getText().toString();
-                    search.setSearch(name2);
-                }
-
-                if (violations != null) {
-                    violations2 = Integer.parseInt(violations.getText().toString());
-                }
-
-                if(hazard != null) {
-                    hazard2 = hazard.getText().toString();
-                }
-
-                 */
                 continue;
             }
             double latitude = r.getLatitude();
@@ -465,5 +460,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @Override
+    public void onOKClicked() {
+        EditText name = findViewById(R.id.filterName2);
+        EditText violations = findViewById(R.id.filterViolations2);
+        EditText hazard = findViewById(R.id.filter_hazard_lvl2);
+        if(name != null) {
+            name2 = name.getText().toString();
+        }
 
+        if(hazard != null) {
+            hazard2 = hazard.getText().toString();
+        }
+        if (violations != null) {
+            violations2 = Integer.parseInt(violations.getText().toString());
+        }
+        addItems();
+    }
 }

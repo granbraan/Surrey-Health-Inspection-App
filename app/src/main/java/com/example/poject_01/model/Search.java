@@ -27,8 +27,11 @@ public class Search {
         //restaurant check
         String[] word = search.split(" ");
         for(String s: word) {
-            if(restaurant.getName().toLowerCase().contains(s)) {
-                return true;
+
+            if(hazardCheck(s)) {
+                if(restaurant.getName().toLowerCase().contains(s)) {
+                    return true;
+                }
             }
 
         }
@@ -44,14 +47,20 @@ public class Search {
         this.search = search;
     }
 
-    public boolean numViolations(int violations, String compare) {
+    public boolean numViolations() {
         if(restaurant.getInspections().getNumInspections() == 0) {
             return false;
         }
-        if(compare.equals(">=")) {
+        if(search.contains(">=")) {
+            String string = search.replaceAll(">="," ");
+            string.trim();
+            int violations = Integer.parseInt(string);
             return restaurant.getLatestInspection().getNumCritical() >= violations;
         }
         else {
+            String string = search.replaceAll("<="," ");
+            string.trim();
+            int violations = Integer.parseInt(string);
             return restaurant.getLatestInspection().getNumCritical() <= violations;
         }
     }
