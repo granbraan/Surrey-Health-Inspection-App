@@ -1,6 +1,7 @@
 package com.example.poject_01.UI;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,16 +13,23 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Restaurant;
@@ -75,6 +83,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static Context mContext;
     private SearchView searchView;
     private Search search = Search.getInstance();
+    private String violationCheck = "";
 
 
     @Override
@@ -103,9 +112,38 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         currentLocation = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest();
         searchView = findViewById(R.id.searchText);
-
+        RadioGroup violationButton = findViewById(R.id.radioGroup4);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //inflate menu
+        getMenuInflater().inflate(R.menu.toggle_button, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    public void onRadioButtonClicked(View view) {
+        boolean check = ((RadioButton) view).isChecked();
+        switch(view.getId()) {
+            case R.id.filterFavouriteRadio2:
+                if(check) {
+                    //TODO: add favourite = true
+                }
+                break;
+            case R.id.filterGreaterViolation:
+                if(check) {
+                    violationCheck = ">=";
+                    break;
+                }
+                break;
+            case R.id.filterLesserViolation:
+                if(check) {
+                    violationCheck = "<=";
+                }
+                break;
+        }
+    }
 
     public static Context getContext() {
         return mContext;
@@ -131,6 +169,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if(item.getItemId() == R.id.switch_list) {
                     startActivity(intent);
                     return  true;
+                }
+                if(item.getItemId() == R.id.filter2) {
+                    FragmentManager manager = getSupportFragmentManager();
+                    MapFilterFragment dialog = new MapFilterFragment();
+                    dialog.setCancelable(false);
+                    dialog.show(manager, "Map-Filter Dialog");
+                    return true;
                 }
                 else
                     return false;
@@ -328,7 +373,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void addItems() {
         mMap.clear();
         for(Restaurant r : restaurantList) {
+
             if(!search.filter(r)) {
+                String hazard2 = "";
+                int violations2 = 0;
+                EditText name = findViewById(R.id.filterName2);
+                EditText violations = findViewById(R.id.filterViolations2);
+                EditText hazard = findViewById(R.id.filter_hazard_lvl2);
+                /*
+                if(name != null) {
+                    String name2 = name.getText().toString();
+                    search.setSearch(name2);
+                }
+
+                if (violations != null) {
+                    violations2 = Integer.parseInt(violations.getText().toString());
+                }
+
+                if(hazard != null) {
+                    hazard2 = hazard.getText().toString();
+                }
+
+                 */
                 continue;
             }
             double latitude = r.getLatitude();

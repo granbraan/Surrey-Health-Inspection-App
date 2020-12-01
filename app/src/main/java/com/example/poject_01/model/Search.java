@@ -24,13 +24,16 @@ public class Search {
         if(search == null || search.equals("")) {
             return true;
         }
+        //restaurant check
         String[] word = search.split(" ");
         for(String s: word) {
             if(restaurant.getName().toLowerCase().contains(s)) {
-                return true;
+                return false;
             }
+
         }
-        return false;
+
+        return true;
     }
 
     public String getSearch() {
@@ -40,4 +43,35 @@ public class Search {
     public void setSearch(String search) {
         this.search = search;
     }
+
+    public boolean numViolations(int violations, String compare) {
+        if(restaurant.getInspections().getNumInspections() == 0) {
+            return false;
+        }
+        if(compare.equals(">=")) {
+            return restaurant.getLatestInspection().getNumCritical() >= violations;
+        }
+        else {
+            return restaurant.getLatestInspection().getNumCritical() <= violations;
+        }
+    }
+
+
+
+    public boolean isFavourite() {
+        // TODO: implement favourite
+        return false;
+    }
+
+    public boolean hazardCheck(String hazard) {
+        //hazard check
+        if(hazard.toLowerCase().equals("low")
+                || hazard.toLowerCase().equals("medium")
+                || hazard.toLowerCase().equals("high")) {
+            return restaurant.getInspections().getNumInspections() != 0;
+        }
+        return false;
+    }
+
+
 }
