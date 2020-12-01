@@ -28,12 +28,12 @@ public class Search {
         String[] word = search.split(" ");
         for(String s: word) {
             if(restaurant.getName().toLowerCase().contains(s)) {
-                return false;
+                return true;
             }
 
         }
 
-        return true;
+        return false;
     }
 
     public String getSearch() {
