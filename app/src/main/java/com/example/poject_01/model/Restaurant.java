@@ -16,6 +16,8 @@ public class Restaurant implements Comparable<Restaurant> {
     private double longitude;
     private InspectionList inspections;
     private boolean favourite;
+    private int criticalHazardYear;
+
 
 
     public Restaurant(String trackingNum, String name, String address, String city, String type, double latitude, double longitude, boolean favourite) {
@@ -28,7 +30,17 @@ public class Restaurant implements Comparable<Restaurant> {
         this.type = type;
         this.favourite = favourite;
         this.inspections = new InspectionList();
+        this.criticalHazardYear = -1;
     }
+
+    public int getCriticalHazardYear() {
+        return criticalHazardYear;
+    }
+
+    public void setCriticalHazardYear(int criticalHazardYear) {
+        this.criticalHazardYear = criticalHazardYear;
+    }
+
 
     public boolean getFavourite() {
         return favourite;

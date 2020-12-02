@@ -43,6 +43,7 @@
             app:layout_constraintHorizontal_bias="0.476"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_map" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

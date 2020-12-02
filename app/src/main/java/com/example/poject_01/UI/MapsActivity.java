@@ -168,7 +168,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = MainActivity.makeIntent(MapsActivity.this);
+                Intent intent = MainActivity.getLaunchIntent(MapsActivity.this);
                 if(item.getItemId() == R.id.switch_list) {
                     startActivity(intent);
                     return  true;
