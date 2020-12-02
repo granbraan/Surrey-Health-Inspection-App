@@ -60,9 +60,9 @@ public class ListFilterFragment extends AppCompatDialogFragment {
         // build alert dialog
         AlertDialog alertD =  new AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setPositiveButton("Save", listener)
-                .setNegativeButton("Cancel", listener)
-                .setNeutralButton("Reset", listener)
+                .setPositiveButton(R.string.save_filter, listener)
+                .setNegativeButton(R.string.cancel_filter, listener)
+                .setNeutralButton(R.string.reset_filter, listener)
                 .create();
         alertD.setCanceledOnTouchOutside(false);
         return alertD;
@@ -71,12 +71,12 @@ public class ListFilterFragment extends AppCompatDialogFragment {
 
     private void setupDropDowns(View v) {
         violationsSpinner = v.findViewById(R.id.violationsDropdown);
-        String[] items = new String[]{"" ,"Less", "More"};
+        String[] items = new String[]{getString(R.string.empty_string) ,getString(R.string.less_drop_down), getString(R.string.more_drop_down)};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(v.getContext(), R.layout.filter_dropdown, items);
         violationsSpinner.setAdapter(adapter);
 
         hazardSpinner = v.findViewById(R.id.spinnerHazard);
-        String[] items1 = new String[]{"" , "Low", "Moderate", "High"};
+        String[] items1 = new String[]{getString(R.string.empty_string) , getString(R.string.low), getString(R.string.moderate), getString(R.string.high)};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(v.getContext(), R.layout.filter_dropdown, items1);
         hazardSpinner.setAdapter(adapter1);
     }
