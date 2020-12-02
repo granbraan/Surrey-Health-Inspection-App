@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,13 +22,14 @@ import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
+import java.util.List;
+
 /**
  * Displays information of the restaurant clicked by the user
  */
 public class RestaurantDetailsActivity extends AppCompatActivity {
     private int index;
     private Restaurant restaurant;
-    private final RestaurantList restaurantList = RestaurantList.getInstance();
     private  boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,12 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     }
 
     private void extractDataFromIntent() {
+        //restaurantList = MainActivity.getInstance().getFilteredList();
         Intent intent = getIntent();
+        List<Restaurant> testList = MainActivity.getInstance().getFilteredList();
+        //Log.d("Details", "List =" + testList.toString());
         index = intent.getIntExtra("index=",0);
-        restaurant = restaurantList.getRestaurantIndex(index);
+        restaurant = testList.get(index);
         flag = intent.getBooleanExtra("flag",false);
 
     }
@@ -158,6 +163,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         Intent intent =  new Intent(context, RestaurantDetailsActivity.class);
         intent.putExtra("index=",ind);
         intent.putExtra("flag",flag);
+
         return intent;
     }
 }

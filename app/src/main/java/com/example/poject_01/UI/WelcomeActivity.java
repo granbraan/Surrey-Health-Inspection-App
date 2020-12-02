@@ -151,6 +151,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void downloadOptionFragment(){
         DownloadFragment dialog = new DownloadFragment();
+        dialog.setCancelable(false);
         dialog.show(downloadFrag, "MessageDialog");
     }
 
