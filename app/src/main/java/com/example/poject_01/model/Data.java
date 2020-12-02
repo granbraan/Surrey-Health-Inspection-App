@@ -45,7 +45,7 @@ public class Data {
         String str = tokens[1].replace("\"", "");
 
 
-        Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]));
+        Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]), false);
         restaurantList.addRestaurant(r);
 
         Log.d("MainActivity - Initial  Restaurant Data - Added", r + " to restaurantList"  +"\n");
