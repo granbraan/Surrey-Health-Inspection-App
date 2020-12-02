@@ -58,6 +58,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                         Log.i("RESTOOO","fALSEEEE");
                     }
                 }
+                else {
+                    restaurant.setFavourite(false);
+                }
             }
         });
     }
