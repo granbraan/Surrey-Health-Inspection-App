@@ -66,7 +66,7 @@ import java.util.List;
  * Handles user location, clusters, and etc needed for Map
  *
  */
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback , MapFilterFragment.DialogListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback  {
 
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -460,21 +460,4 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    @Override
-    public void onOKClicked() {
-        EditText name = findViewById(R.id.filterName2);
-        EditText violations = findViewById(R.id.filterViolations2);
-        EditText hazard = findViewById(R.id.filter_hazard_lvl2);
-        if(name != null) {
-            name2 = name.getText().toString();
-        }
-
-        if(hazard != null) {
-            hazard2 = hazard.getText().toString();
-        }
-        if (violations != null) {
-            violations2 = Integer.parseInt(violations.getText().toString());
-        }
-        addItems();
-    }
 }

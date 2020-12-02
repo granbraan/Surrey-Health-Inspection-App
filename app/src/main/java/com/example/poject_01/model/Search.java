@@ -6,7 +6,9 @@ package com.example.poject_01.model;
 public class Search {
     private static Search instance;
     private String search;
+    private String input;
     private Restaurant restaurant;
+    private boolean check;
 
     private Search() {
 
@@ -25,18 +27,19 @@ public class Search {
             return true;
         }
         //restaurant check
-        String[] word = search.split(" ");
-        for(String s: word) {
-
-            if(hazardCheck(s)) {
-                if(restaurant.getName().toLowerCase().contains(s)) {
-                    return true;
-                }
+        String[] words = search.split(",");
+        for(String s: words) {
+            input = s;
+            check = false;
+            if(hazardCheck() || isFavourite() || numViolations()) {
+                continue;
             }
 
+            if(!restaurant.getName().toLowerCase().contains(s)) {
+                return false;
+            }
         }
-
-        return false;
+        return true;
     }
 
     public String getSearch() {
@@ -48,36 +51,48 @@ public class Search {
     }
 
     public boolean numViolations() {
-        if(restaurant.getInspections().getNumInspections() == 0) {
+        if(!hasInspections()) {
             return false;
         }
-        if(search.contains(">=")) {
-            String string = search.replaceAll(">="," ");
-            string.trim();
-            int violations = Integer.parseInt(string);
+
+        int violations;
+        if(input.contains(">=") || input.contains("<=")) {
+            check = true;
+        }
+        if(input.contains(">=")) {
+            String num = input.substring(input.indexOf(">=") + 2, input.length()); // get number
+            violations = Integer.parseInt(num);
             return restaurant.getLatestInspection().getNumCritical() >= violations;
         }
-        else {
-            String string = search.replaceAll("<="," ");
-            string.trim();
-            int violations = Integer.parseInt(string);
+        else if(input.contains("<=")) {
+            String num = input.substring(input.indexOf("<=") + 2, input.length()); // get number
+            violations = Integer.parseInt(num);
             return restaurant.getLatestInspection().getNumCritical() <= violations;
         }
+        return false;
     }
-
-
+    private boolean hasInspections() {
+        return restaurant.numInspections() != 0;
+    }
 
     public boolean isFavourite() {
         // TODO: implement favourite
+        if(input.equals("favourite")) {
+            check = true;
+            return restaurant.getFavourite();
+        }
         return false;
     }
 
-    public boolean hazardCheck(String hazard) {
+    public boolean hazardCheck() {
         //hazard check
-        if(hazard.toLowerCase().equals("low")
-                || hazard.toLowerCase().equals("medium")
-                || hazard.toLowerCase().equals("high")) {
-            return restaurant.getInspections().getNumInspections() != 0;
+        if(input.toLowerCase().equals("low") || input.toLowerCase().equals("moderate") || input.toLowerCase().equals("high")) {
+            if(!hasInspections()) { // no inspections
+                return false;
+            }
+            check = true;
+            String hazard = restaurant.getLatestInspection().getHazardRating().toLowerCase();
+            return hazard.equals(input);
         }
         return false;
     }
