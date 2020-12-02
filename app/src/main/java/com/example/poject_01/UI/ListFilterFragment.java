@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.poject_01.R;
 
+/**
+ * This Activity allows the user to filter the main restaurant list by multiple values.
+ */
 public class ListFilterFragment extends AppCompatDialogFragment {
     private Spinner violationsSpinner;
     private Spinner hazardSpinner;
@@ -28,11 +31,9 @@ public class ListFilterFragment extends AppCompatDialogFragment {
                 .inflate(R.layout.filter_fragment_layout,null);
 
         // setup dropdown
-        setupDropDown(v);
-        hazardSpinner = v.findViewById(R.id.spinnerHazard);
-        String[] items = new String[]{"Low", "Moderate", "High"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(v.getContext(), R.layout.filter_dropdown, items);
-        hazardSpinner.setAdapter(adapter);
+        setupDropDowns(v);
+
+
         // create button listener
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
@@ -68,11 +69,16 @@ public class ListFilterFragment extends AppCompatDialogFragment {
 
     }
 
-    private void setupDropDown(View v) {
+    private void setupDropDowns(View v) {
         violationsSpinner = v.findViewById(R.id.violationsDropdown);
-        String[] items = new String[]{"Less", "More"};
+        String[] items = new String[]{"" ,"Less", "More"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(v.getContext(), R.layout.filter_dropdown, items);
         violationsSpinner.setAdapter(adapter);
+
+        hazardSpinner = v.findViewById(R.id.spinnerHazard);
+        String[] items1 = new String[]{"" , "Low", "Moderate", "High"};
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(v.getContext(), R.layout.filter_dropdown, items1);
+        hazardSpinner.setAdapter(adapter1);
     }
 
     private void getUserInput() {
@@ -83,9 +89,10 @@ public class ListFilterFragment extends AppCompatDialogFragment {
         String inputViolations =  editViolations.getText().toString();
         String inputBoolean = violationsSpinner.getSelectedItem().toString();
         String inputHazardLvl = hazardSpinner.getSelectedItem().toString();
-
         String filterLump = inputName + "|" + inputHazardLvl +"|"+ inputViolations  +"|"+ inputBoolean;
+
         Log.d("filter fragment", "filter lump - " + filterLump);
+        Log.d("filter fragment", "input hazard empty- " + inputHazardLvl.isEmpty());
 
         ((MainActivity)getActivity()).restaurantAdapter.getFilter().filter(filterLump);
 

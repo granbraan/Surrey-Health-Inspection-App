@@ -127,8 +127,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             case 0:
                 inspectionListTitle.setText(R.string.no_recent_inspections_main);
                 break;
-            default:
+            case 1:
                 inspectionListTitle.setText(getString(R.string.restaurant_details_title)+ " "+numInspections + " "+getString(R.string.restaurant_details_title_2));
+            default:
+                inspectionListTitle.setText(getString(R.string.violations_text_main_1)+ " "+numInspections + " recent inspections");
                 break;
         }
 
