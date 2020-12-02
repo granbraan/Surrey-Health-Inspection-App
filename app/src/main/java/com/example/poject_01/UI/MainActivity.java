@@ -125,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Restaurant r = restaurants.get(position);
+                Toast.makeText(MainActivity.this, "" + r.getCriticalHazardYear(), Toast.LENGTH_LONG).show();
                 Log.d("MainActivity", "User clicked restaurant at position: " + position);
                 intent = RestaurantDetailsActivity.makeIntent(MainActivity.this, position, false);
                 MainActivity.this.startActivity(intent);
@@ -277,34 +279,87 @@ public class MainActivity extends AppCompatActivity {
                     List<Restaurant> originalRestaurants = restaurantList.getList();
                     List<Restaurant> FilteredArrList = new ArrayList<>();
                     FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
-                    if (constraint == null || constraint.length() == 0) {
+                    if (constraint == null || constraint.length() == 0 || Objects.equals(constraint, "|||")) {
                         // return original list
                         results.count = originalRestaurants.size();
                         results.values = originalRestaurants;
                     }
+
                     // multiple filters are concatenated into one string and separated by the '|' character
                     else if (constraint.toString().toUpperCase().contains("|")){
                         List<Restaurant> FilteredArrList2 = new ArrayList<>();
-                        String input = constraint.toString().toUpperCase();
-                        String[] tokens = input.split("\\|");
+                        List<Restaurant> FilteredArrList3 = new ArrayList<>();
+                        String inputLump = constraint.toString().toUpperCase();
+                        String[] tokens = inputLump.split("\\|");
+                        String inputName = tokens[0];
+                        String inputHazardLvl;
+                        String inputNumCritical;
+                        String inputNumCriticalBool;
+
+                        switch(tokens.length){
+                            case 1:
+                                inputHazardLvl = "";
+                                inputNumCritical = "";
+                                inputNumCriticalBool = "";
+                                break;
+                            case 2:
+                                inputHazardLvl = tokens[1];
+                                inputNumCritical = "";
+                                inputNumCriticalBool = "";
+                                break;
+                            case 3:
+                                inputHazardLvl = tokens[1];
+                                inputNumCritical = tokens[2];
+                                inputNumCriticalBool = "";
+                                break;
+                            default:
+                                inputHazardLvl = tokens[1];
+                                inputNumCritical = tokens[2];
+                                inputNumCriticalBool = tokens[3];
+                                break;
+                        }
+
+
+                        Log.d("Main Activity", "tokens size - " + tokens.length);
                         for (Restaurant r : originalRestaurants) {
                             String rName = r.getName();
-                            if (rName.toUpperCase().contains(tokens[0])) {
+                            if (rName.toUpperCase().contains(inputName)) {
                                 FilteredArrList.add(r);
-
                             }
                         }
+
+
+
+
+
                         for (Restaurant r : FilteredArrList) {
-                            Log.d("main", r.toString());
                             if (r.numInspections() > 0) {
                                 String hazard = r.getLatestInspection().getHazardRating().toUpperCase();
-                                if (Objects.equals(tokens[1], hazard)) {
+                                if (hazard.contains(inputHazardLvl)) {
                                     FilteredArrList2.add(r);
 
                                 }
 
                             }
+
                         }
+
+
+
+                        /*(Objects.equals(inputNumCriticalBool, "LESS")){
+                            for (Restaurant r : FilteredArrList2) {
+                                Log.d("main", r.toString());
+                                if (r.numInspections() > 0) {
+                                    String hazard = r.getLatestInspection().getHazardRating().toUpperCase();
+                                    if (Objects.equals(tokens[1], hazard)) {
+                                        FilteredArrList3.add(r);
+
+                                    }
+
+                                }
+                            }
+
+                        }*/
                         results.count = FilteredArrList2.size();
                         results.values = FilteredArrList2;
 

@@ -28,15 +28,15 @@ public class Restaurant implements Comparable<Restaurant> {
         this.longitude = longitude;
         this.type = type;
         this.inspections = new InspectionList();
-        this.criticalHazardYear = -1;
+        this.criticalHazardYear = 0;
     }
 
     public int getCriticalHazardYear() {
         return criticalHazardYear;
     }
 
-    public void setCriticalHazardYear(int criticalHazardYear) {
-        this.criticalHazardYear = criticalHazardYear;
+    public void addCriticalHazardYear(int numCritical) {
+        this.criticalHazardYear += numCritical ;
     }
 
 

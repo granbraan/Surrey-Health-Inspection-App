@@ -4,7 +4,11 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * This class Reads data specified by "reader" and populates an instantiated restaurant list "restaurantList"
@@ -78,6 +82,15 @@ public class Data {
         for (Restaurant r : restaurantList) {
             if (Objects.equals(r.getTrackingNum(), trackNum)) {
                 r.addInspection(i);
+                String d = "" + tokens[1];
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                LocalDate currentDate = LocalDate.now();
+                LocalDate inspectionDate = LocalDate.parse(d, formatter);
+                long difference = DAYS.between(inspectionDate, currentDate);
+
+                if(difference <= 365){
+                    r.addCriticalHazardYear(Integer.parseInt(tokens[3]));
+                }
                 Log.d("MainActivity - Initial  Inspection  Data - Added" , i + " to " + r.getName() +"\n");
             }
 
@@ -161,6 +174,15 @@ public class Data {
             }
             if (Objects.equals(r.getTrackingNum(), trackNum)) {
                 r.addInspection(i);
+                String d = "" + tokens[1];
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                LocalDate currentDate = LocalDate.now();
+                LocalDate inspectionDate = LocalDate.parse(d, formatter);
+                long difference = DAYS.between(inspectionDate, currentDate);
+
+                if(difference <= 365){
+                    r.addCriticalHazardYear(Integer.parseInt(tokens[3]));
+                }
 
             }
 
