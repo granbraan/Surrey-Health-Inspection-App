@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="name"
-
+        app:backgroundTint="#FF6200EE"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +27,7 @@
         android:gravity="center"
         android:text="Hazard Level: "
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/filterName"
         app:layout_constraintTop_toBottomOf="@+id/filterName" />
 
@@ -35,7 +36,10 @@
         android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:inputType="phone"
+        app:backgroundTint="#FF6200EE"
+        android:hint="5"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/filterViolationsPart1"
         app:layout_constraintStart_toStartOf="@+id/filterName" />
 
@@ -67,6 +71,7 @@
         android:gravity="center"
         android:text="or"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/filterViolations"
         app:layout_constraintTop_toBottomOf="@+id/filter_hazard_level" />
 
@@ -78,6 +83,7 @@
         android:gravity="center"
         android:text="critical violations"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/violationsDropdown"
         app:layout_constraintTop_toBottomOf="@+id/filter_hazard_level" />
 
