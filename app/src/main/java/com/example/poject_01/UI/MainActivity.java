@@ -125,8 +125,6 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Restaurant r = restaurants.get(position);
-                Toast.makeText(MainActivity.this, "" + r.getCriticalHazardYear(), Toast.LENGTH_LONG).show();
                 Log.d("MainActivity", "User clicked restaurant at position: " + position);
                 intent = RestaurantDetailsActivity.makeIntent(MainActivity.this, position, false);
                 MainActivity.this.startActivity(intent);
@@ -277,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     List<Restaurant> originalRestaurants = restaurantList.getList();
-                    List<Restaurant> FilteredArrList = new ArrayList<>();
+                    List<Restaurant> restaurantsFilteredByName = new ArrayList<>();
                     FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
                     if (constraint == null || constraint.length() == 0 || Objects.equals(constraint, "|||")) {
                         // return original list
@@ -287,8 +285,8 @@ public class MainActivity extends AppCompatActivity {
 
                     // multiple filters are concatenated into one string and separated by the '|' character
                     else if (constraint.toString().toUpperCase().contains("|")){
-                        List<Restaurant> FilteredArrList2 = new ArrayList<>();
-                        List<Restaurant> FilteredArrList3 = new ArrayList<>();
+                        List<Restaurant> restaurantsFilteredByHazard = new ArrayList<>();
+                        List<Restaurant> restaurantsFilteredByNumCritical = new ArrayList<>();
                         String inputLump = constraint.toString().toUpperCase();
                         String[] tokens = inputLump.split("\\|");
                         String inputName = tokens[0];
@@ -324,44 +322,46 @@ public class MainActivity extends AppCompatActivity {
                         for (Restaurant r : originalRestaurants) {
                             String rName = r.getName();
                             if (rName.toUpperCase().contains(inputName)) {
-                                FilteredArrList.add(r);
+                                restaurantsFilteredByName.add(r);
                             }
                         }
 
 
-
-
-
-                        for (Restaurant r : FilteredArrList) {
+                        for (Restaurant r : restaurantsFilteredByName) {
                             if (r.numInspections() > 0) {
                                 String hazard = r.getLatestInspection().getHazardRating().toUpperCase();
                                 if (hazard.contains(inputHazardLvl)) {
-                                    FilteredArrList2.add(r);
+                                    restaurantsFilteredByHazard.add(r);
+                                }
+                            }
+                        }
 
+                        // check if user wants <= (or >=) N critical violations within the last year
+                        if (Objects.equals(inputNumCriticalBool, "LESS")){
+                            for (Restaurant r : restaurantsFilteredByHazard) {
+                                Log.d("main", r.toString());
+                                if (r.getCriticalHazardYear() <= Integer.parseInt(inputNumCritical)){
+                                    restaurantsFilteredByNumCritical.add(r);
                                 }
 
                             }
 
                         }
-
-
-
-                        /*(Objects.equals(inputNumCriticalBool, "LESS")){
-                            for (Restaurant r : FilteredArrList2) {
+                        else if (Objects.equals(inputNumCriticalBool, "MORE")){
+                            for (Restaurant r : restaurantsFilteredByHazard) {
                                 Log.d("main", r.toString());
-                                if (r.numInspections() > 0) {
-                                    String hazard = r.getLatestInspection().getHazardRating().toUpperCase();
-                                    if (Objects.equals(tokens[1], hazard)) {
-                                        FilteredArrList3.add(r);
-
-                                    }
-
+                                if (r.getCriticalHazardYear() >= Integer.parseInt(inputNumCritical)){
+                                    restaurantsFilteredByNumCritical.add(r);
                                 }
-                            }
 
-                        }*/
-                        results.count = FilteredArrList2.size();
-                        results.values = FilteredArrList2;
+                            }
+                        }
+
+                        else {
+                            restaurantsFilteredByNumCritical.addAll(restaurantsFilteredByHazard);
+                        }
+                        results.count = restaurantsFilteredByNumCritical.size();
+                        results.values = restaurantsFilteredByNumCritical;
 
                     }
                     else {
@@ -371,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (r.numInspections() > 0) {
                                     String data = r.getLatestInspection().getHazardRating().toUpperCase();
                                     if (Objects.equals(constraint, data)) {
-                                        FilteredArrList.add(r);
+                                        restaurantsFilteredByName.add(r);
 
                                     }
 
@@ -382,15 +382,15 @@ public class MainActivity extends AppCompatActivity {
                             for (Restaurant r : originalRestaurants) {
                                 String data = r.getName();
                                 if (data.toUpperCase().contains(constraint)) {
-                                    FilteredArrList.add(r);
+                                    restaurantsFilteredByName.add(r);
 
                                 }
                             }
 
                         }
                         // set the Filtered result to return
-                        results.count = FilteredArrList.size();
-                        results.values = FilteredArrList;
+                        results.count = restaurantsFilteredByName.size();
+                        results.values = restaurantsFilteredByName;
 
                     }
                     return results;
