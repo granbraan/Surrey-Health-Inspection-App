@@ -102,6 +102,9 @@
     <string name="follow_up">Follow-up</string>
     <string name="critical_violation_list">Critical</string>
     <string name="non_critical_violation_list">Non Critical</string>
+    <string name="filter">Filter</string>
+    <string name="filterLesser"><![CDATA[<=]]></string>
+    <string name="filterGreater"><![CDATA[>=]]></string>
 
 
 </resources>

@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,14 +23,16 @@ import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
 
+import java.util.List;
+
 /**
  * Displays information of the restaurant clicked by the user
  */
 public class RestaurantDetailsActivity extends AppCompatActivity {
     private int index;
     private Restaurant restaurant;
-    private final RestaurantList restaurantList = RestaurantList.getInstance();
     private  boolean flag;
+    private CheckBox checkbox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +41,38 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setupBackButton();
         setupRecycleView();
         displayNameAndLocation();
+        checkbox = findViewById(R.id.star);
+        onCheckBoxClicked();
+    }
 
+    private void onCheckBoxClicked() {
+        checkbox = findViewById(R.id.star);
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((CheckBox) v).isChecked()) {
+                    restaurant.setFavourite(true);
+                    if(restaurant.getFavourite()){
+                        Log.i("RESTOOO","TRUEE");
+                    }
+                    else {
+                        Log.i("RESTOOO","fALSEEEE");
+                    }
+                }
+                else {
+                    restaurant.setFavourite(false);
+                }
+            }
+        });
     }
 
     private void extractDataFromIntent() {
+        //restaurantList = MainActivity.getInstance().getFilteredList();
         Intent intent = getIntent();
+        List<Restaurant> testList = MainActivity.getInstance().getFilteredList();
+        //Log.d("Details", "List =" + testList.toString());
         index = intent.getIntExtra("index=",0);
-        restaurant = restaurantList.getRestaurantIndex(index);
+        restaurant = testList.get(index);
         flag = intent.getBooleanExtra("flag",false);
 
     }
@@ -61,6 +90,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(divider);
     }
+
 
 
     private void displayNameAndLocation() {
@@ -97,8 +127,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             case 0:
                 inspectionListTitle.setText(R.string.no_recent_inspections_main);
                 break;
-            default:
+            case 1:
                 inspectionListTitle.setText(getString(R.string.restaurant_details_title)+ " "+numInspections + " "+getString(R.string.restaurant_details_title_2));
+            default:
+                inspectionListTitle.setText(getString(R.string.violations_text_main_1)+ " "+numInspections + " recent inspections");
                 break;
         }
 
@@ -139,7 +171,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             // restaurant icon
             imageView.setImageResource(R.drawable.restaurant_image);
         }
-
     }
 
     @Override
@@ -158,7 +189,19 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         Intent intent =  new Intent(context, RestaurantDetailsActivity.class);
         intent.putExtra("index=",ind);
         intent.putExtra("flag",flag);
+
         return intent;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!restaurant.getFavourite()) {
+            checkbox.setChecked(false);
+        }
+        else {
+            checkbox.setChecked(true);
+        }
     }
 }
 

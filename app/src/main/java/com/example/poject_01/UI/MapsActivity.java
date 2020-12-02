@@ -1,24 +1,42 @@
 package com.example.poject_01.UI;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantCluster;
 import com.example.poject_01.model.RestaurantClusterRenderer;
 import com.example.poject_01.model.RestaurantList;
+import com.example.poject_01.model.Search;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -35,15 +53,20 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.ClusterManager;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles user location, clusters, and etc needed for Map
  *
  */
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback  {
 
     private GoogleMap mMap;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
@@ -58,13 +81,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private RestaurantClusterRenderer renderer;
     private boolean check;
     private static Context mContext;
+    private SearchView searchView;
+    private Search search = Search.getInstance();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        check =false;
+        check = false;
         mContext = MapsActivity.this;
 
         extractMapsData();
@@ -85,8 +111,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         currentLocation = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest();
+        searchView = findViewById(R.id.searchText);
+    }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //inflate menu
+        getMenuInflater().inflate(R.menu.toggle_button, menu);
+        return true;
     }
 
     public static Context getContext() {
@@ -109,7 +141,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = MainActivity.makeIntent(MapsActivity.this);
+                Intent intent = MainActivity.getLaunchIntent(MapsActivity.this);
                 if(item.getItemId() == R.id.switch_list) {
                     startActivity(intent);
                     return  true;
@@ -149,7 +181,38 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+        setupSearch();
         mMap.setMyLocationEnabled(true);
+    }
+
+    private void setupSearch() {
+        searchView.setSubmitButtonEnabled(false);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(TextUtils.isEmpty(query)){
+                    search.setSearch("");
+                }
+                else {
+                    search.setSearch(query);
+                    search.getSearch().toLowerCase();
+                }
+                searchView.clearFocus();
+                setUpCluster();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(TextUtils.isEmpty(newText)) {
+                    search.setSearch("");
+                    setUpCluster();
+                }
+                return true;
+            }
+        });
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -183,7 +246,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
-
 
     private void getDeviceLocation() {
 
@@ -277,7 +339,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void addItems() {
+        mMap.clear();
         for(Restaurant r : restaurantList) {
+            if(!search.filter(r)) {
+                continue;
+            }
             double latitude = r.getLatitude();
             double longitude = r.getLongitude();
             LatLng latitudeLongitude = new LatLng(latitude,longitude);
@@ -344,7 +410,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return intent;
 
     }
-
 
 
 }
