@@ -11,11 +11,4 @@
         android:title="@string/list_view"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/filter2"
-        android:title="@string/filter"
-        app:showAsAction="ifRoom" />
-
-
-
 </menu>

@@ -83,10 +83,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static Context mContext;
     private SearchView searchView;
     private Search search = Search.getInstance();
-    private String violationCheck = "";
-    private String name2;
-    private String hazard2;
-    private int violations2;
+
 
 
     @Override
@@ -115,7 +112,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         currentLocation = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest();
         searchView = findViewById(R.id.searchText);
-        RadioGroup violationButton = findViewById(R.id.radioGroup4);
     }
 
     @Override
@@ -123,29 +119,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //inflate menu
         getMenuInflater().inflate(R.menu.toggle_button, menu);
         return true;
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    public void onRadioButtonClicked(View view) {
-        boolean check = ((RadioButton) view).isChecked();
-        switch(view.getId()) {
-            case R.id.filterFavouriteRadio2:
-                if(check) {
-                    //TODO: add favourite = true
-                }
-                break;
-            case R.id.filterGreaterViolation:
-                if(check) {
-                    violationCheck = ">=";
-                    break;
-                }
-                break;
-            case R.id.filterLesserViolation:
-                if(check) {
-                    violationCheck = "<=";
-                }
-                break;
-        }
     }
 
     public static Context getContext() {
@@ -172,13 +145,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if(item.getItemId() == R.id.switch_list) {
                     startActivity(intent);
                     return  true;
-                }
-                if(item.getItemId() == R.id.filter2) {
-                    FragmentManager manager = getSupportFragmentManager();
-                    MapFilterFragment dialog = new MapFilterFragment();
-                    dialog.setCancelable(false);
-                    dialog.show(manager, "Map-Filter Dialog");
-                    return true;
                 }
                 else
                     return false;
@@ -232,20 +198,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 else {
                     search.setSearch(query);
                     search.getSearch().toLowerCase();
-                }
-                EditText name = findViewById(R.id.filterName2);
-                EditText violations = findViewById(R.id.filterViolations2);
-                EditText hazard = findViewById(R.id.filter_hazard_lvl2);
-                if(name != null) {
-                    String name2 = name.getText().toString();
-                    search.setSearch(name2);
-                }
-                if(violations != null) {
-                    int violations2 = Integer.parseInt(violations.getText().toString());
-                }
-                if(hazard != null) {
-                    String hazard2 = hazard.getText().toString();
-                    int violations2 = Integer.parseInt(violations.getText().toString());
                 }
                 searchView.clearFocus();
                 setUpCluster();
