@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.poject_01.R;
 
+/**
+ * This Activity allows the user to filter the main restaurant list by multiple values.
+ */
 public class ListFilterFragment extends AppCompatDialogFragment {
     private Spinner violationsSpinner;
     private Spinner hazardSpinner;
@@ -83,14 +86,11 @@ public class ListFilterFragment extends AppCompatDialogFragment {
         EditText editName = getDialog().findViewById(R.id.filterName);
 
         String inputName = editName.getText().toString();
-        if(inputName.isEmpty()){
-
-        }
         String inputViolations =  editViolations.getText().toString();
         String inputBoolean = violationsSpinner.getSelectedItem().toString();
         String inputHazardLvl = hazardSpinner.getSelectedItem().toString();
-
         String filterLump = inputName + "|" + inputHazardLvl +"|"+ inputViolations  +"|"+ inputBoolean;
+
         Log.d("filter fragment", "filter lump - " + filterLump);
         Log.d("filter fragment", "input hazard empty- " + inputHazardLvl.isEmpty());
 

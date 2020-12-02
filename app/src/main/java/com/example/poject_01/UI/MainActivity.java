@@ -74,6 +74,27 @@ public class MainActivity extends AppCompatActivity {
         setupSearchClear(searchBar);
     }
 
+    private TextWatcher getTextWatcher() {
+        return new TextWatcher() {
+            // not used
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+           // filters list view with user inputted string 's'
+            @Override
+            public void afterTextChanged(Editable s) {
+                restaurantAdapter.getFilter().filter(s.toString());
+            }
+        };
+    }
+
     private void setupSearchClear(EditText searchBar) {
         Button clearSearch = findViewById(R.id.clearSearchMain);
         clearSearch.setOnClickListener(new View.OnClickListener() {
@@ -133,26 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private TextWatcher getTextWatcher() {
-        return new TextWatcher() {
-            // not used
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-            }
-
-           // filters list view with user inputted string 's'
-            @Override
-            public void afterTextChanged(Editable s) {
-                restaurantAdapter.getFilter().filter(s.toString());
-            }
-        };
-    }
 
     private class RestaurantListAdapter extends ArrayAdapter<Restaurant> implements Filterable {
 
@@ -319,6 +320,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                         Log.d("Main Activity", "tokens size - " + tokens.length);
+                        // filter restaurants by name first
                         for (Restaurant r : originalRestaurants) {
                             String rName = r.getName();
                             if (rName.toUpperCase().contains(inputName)) {
@@ -326,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
-
+                        // then filter restaurants by hazard level
                         for (Restaurant r : restaurantsFilteredByName) {
                             if (r.numInspections() > 0) {
                                 String hazard = r.getLatestInspection().getHazardRating().toUpperCase();
@@ -335,6 +337,8 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         }
+
+                        // and finally, filter the restaurants by the number of critical violations within a year
 
                         // check if user wants <= (or >=) N critical violations within the last year
                         if (Objects.equals(inputNumCriticalBool, "LESS")){
@@ -356,10 +360,11 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         }
-
                         else {
                             restaurantsFilteredByNumCritical.addAll(restaurantsFilteredByHazard);
                         }
+
+
                         results.count = restaurantsFilteredByNumCritical.size();
                         results.values = restaurantsFilteredByNumCritical;
 
