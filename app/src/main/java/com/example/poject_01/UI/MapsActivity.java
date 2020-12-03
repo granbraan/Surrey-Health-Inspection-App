@@ -190,7 +190,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setupSearch() {
-        getDataFromSearchList();
         searchView.setSubmitButtonEnabled(false);
         if(search.getListSearch() != null) {
             searchView.clearFocus();
