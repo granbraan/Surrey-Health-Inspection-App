@@ -59,6 +59,8 @@ public class Data {
 
         Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]), false);
         restaurantList.addRestaurant(r);
+
+        // check if restaurant is a favourite
         if( favouriteLump1.contains(r.getTrackingNum())){
             Log.d("data", "favourites: " + favouriteLump1 + " - tracking num: " + r.getTrackingNum());
             r.setFavourite(true);

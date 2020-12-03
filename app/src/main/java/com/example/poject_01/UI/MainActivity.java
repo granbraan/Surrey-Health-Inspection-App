@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
@@ -272,6 +273,9 @@ public class MainActivity extends AppCompatActivity {
             if (currentRestaurant.getFavourite()){
                 Log.d("Adapter", currentRestaurant.toString());
                 restaurantView.setBackgroundColor(getColor(R.color.aqua));
+            }
+            else{
+                restaurantView.setBackgroundColor(getColor(R.color.white));
             }
             return restaurantView;
         }
@@ -553,9 +557,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /*@Override
+    @Override
     protected void onResume() {
         super.onResume();
+        // update list with favourites
         restaurantAdapter.notifyDataSetChanged();
-    }*/
+    }
 }
