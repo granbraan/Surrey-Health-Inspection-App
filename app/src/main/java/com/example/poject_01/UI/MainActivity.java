@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -267,6 +267,16 @@ public class MainActivity extends AppCompatActivity {
                 ImageView hazardColour = restaurantView.findViewById(R.id.hazardColour);
                 hazardColour.setBackgroundColor(getColor(R.color.white));
             }
+
+            // setting favourites icon
+
+            if (currentRestaurant.getFavourite()){
+                Log.d("Adapter", currentRestaurant.toString());
+                restaurantView.setBackgroundColor(getColor(R.color.aqua));
+            }
+            else{
+                restaurantView.setBackgroundColor(getColor(R.color.white));
+            }
             return restaurantView;
         }
 
@@ -380,6 +390,13 @@ public class MainActivity extends AppCompatActivity {
 
                                     }
 
+                                }
+                            }
+                        }
+                        else if ( Objects.equals(constraint, "FAVOURITE") || Objects.equals(constraint, "FAVOURITES") ){
+                            for (Restaurant r : originalRestaurants){
+                                if(r.getFavourite()){
+                                    restaurantsFilteredByName.add(r);
                                 }
                             }
                         }
@@ -515,6 +532,10 @@ public class MainActivity extends AppCompatActivity {
         return (restaurants);
     }
 
+    public void setFilteredList(List<Restaurant> r){
+        this.restaurants = r;
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
@@ -540,7 +561,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // update list with favourites
+        restaurantAdapter.notifyDataSetChanged();
+    }
 }

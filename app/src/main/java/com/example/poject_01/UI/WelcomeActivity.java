@@ -83,8 +83,8 @@ public class WelcomeActivity extends AppCompatActivity {
         InputStream inspectionStream = getResources().openRawResource(R.raw.data_inspections);
         BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(inspectionStream, StandardCharsets.UTF_8));
         // the data is set using private setters in the Data class
-        Data restaurantData = new Data( restaurantReader );
-        Data inspectionData = new Data( inspectionReader);
+        Data restaurantData = new Data( restaurantReader , mContext);
+        Data inspectionData = new Data( inspectionReader,  mContext);
         restaurantData.readRestaurantData();
         inspectionData.readInspectionData();
 
@@ -94,7 +94,7 @@ public class WelcomeActivity extends AppCompatActivity {
             String fileName = this.getFilesDir() + "/"+ "restaurantData" + "/" + "inspections.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data inspectionDataUpdate = new Data( inspectionReader);
+            Data inspectionDataUpdate = new Data( inspectionReader,  mContext);
             inspectionDataUpdate.readUpdatedInspectionData();
 
         } catch (FileNotFoundException e) {
@@ -107,7 +107,7 @@ public class WelcomeActivity extends AppCompatActivity {
             String fileName = this.getFilesDir() + "/"+ "restaurantData" + "/" + "restaurants.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data restaurantDataUpdate = new Data(restaurantReader);
+            Data restaurantDataUpdate = new Data(restaurantReader,  mContext);
             restaurantDataUpdate.readUpdatedRestaurantData();
 
         } catch (FileNotFoundException e) {

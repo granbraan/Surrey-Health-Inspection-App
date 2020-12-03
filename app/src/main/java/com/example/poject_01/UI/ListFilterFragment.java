@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.example.poject_01.R;
 
 /**
- * This Activity allows the user to filter the main restaurant list by multiple values.
+ * This Activity allows the user to filter the main restaurant list using multiple values.
  */
 public class ListFilterFragment extends AppCompatDialogFragment {
     private Spinner violationsSpinner;

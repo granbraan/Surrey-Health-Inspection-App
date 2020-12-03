@@ -34,14 +34,15 @@ public class InspectionListAdapter extends RecyclerView.Adapter <InspectionListA
     int restaurantIndex;
     private Restaurant restaurant;
     private List<Restaurant> restaurantList;
+    private boolean mainCalledCheck;
 
 
     //Constructor of the class
-    public InspectionListAdapter(Context ct, InspectionList listOfInspection, int restIndex) {
+    public InspectionListAdapter(Context ct, InspectionList listOfInspection, int restIndex, List<Restaurant> rList) {
         context = ct;
         inspectionList = listOfInspection;
         restaurantIndex = restIndex;
-        restaurantList = MainActivity.getInstance().getFilteredList();
+        restaurantList = rList;
         restaurant = restaurantList.get(restIndex);
     }
 

@@ -1,8 +1,8 @@
 package com.example.poject_01.UI;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,6 +33,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private Restaurant restaurant;
     private  boolean flag;
     private CheckBox checkbox;
+    private SharedPreferences favouritePrefs;
+    private SharedPreferences.Editor favouriteEditor;
     private final RestaurantList restaurantList = RestaurantList.getInstance();
     int fromActivity;
     @Override
@@ -41,46 +43,60 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_single_restaurant);
         extractDataFromIntent();
         setupBackButton();
-        setupRecycleView();
+
         displayNameAndLocation();
-        checkbox = findViewById(R.id.star);
+        checkbox = findViewById(R.id.starDetails);
         onCheckBoxClicked();
     }
 
     private void onCheckBoxClicked() {
-        checkbox = findViewById(R.id.star);
+        favouritePrefs = this.getSharedPreferences("favourite", MODE_PRIVATE);
+        favouriteEditor = favouritePrefs.edit();
+        String favouriteLump1 = favouritePrefs.getString("tracking_num", "");
+
+
+        if (favouriteLump1.contains(restaurant.getTrackingNum())){
+            checkbox.setChecked(true);
+        }
+
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String favouriteLump = favouritePrefs.getString("tracking_num", "");
+
                 if(((CheckBox) v).isChecked()) {
                     restaurant.setFavourite(true);
-                    if(restaurant.getFavourite()){
-                        Log.i("RESTOOO","TRUEE");
-                    }
-                    else {
-                        Log.i("RESTOOO","fALSEEEE");
-                    }
+                    favouriteLump += restaurant.getTrackingNum();
+
                 }
                 else {
                     restaurant.setFavourite(false);
+                    favouriteLump = favouriteLump.replace(restaurant.getTrackingNum(), "");
                 }
+
+                favouriteEditor.putString("tracking_num", favouriteLump).commit();
+                Log.i("Restaurant Detail", favouriteLump);
             }
         });
     }
 
     private void extractDataFromIntent() {
         Intent intent = getIntent();
-        List<Restaurant> testList = MainActivity.getInstance().getFilteredList();
+
         //Log.d("Details", "List =" + testList.toString());
         fromActivity = intent.getIntExtra("from",1);
         index = intent.getIntExtra("index=",0);
         if(fromActivity == 1) {
             restaurant = restaurantList.getRestaurantIndex(index);
+            setupRecycleView(restaurantList.getList());
         }
         else{
+            List<Restaurant> testList = MainActivity.getInstance().getFilteredList();
             restaurant = testList.get(index);
+            setupRecycleView(testList);
         }
         flag = intent.getBooleanExtra("flag",false);
+
 
     }
 
@@ -89,9 +105,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setupRecycleView() {
+    private void setupRecycleView(List<Restaurant> rList) {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurant.getInspections(), index);
+        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurant.getInspections(), index, rList);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
@@ -201,15 +217,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         return intent;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!restaurant.getFavourite()) {
-            checkbox.setChecked(false);
-        }
-        else {
-            checkbox.setChecked(true);
-        }
-    }
+
 }
 
