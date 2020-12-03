@@ -94,6 +94,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         check = false;
         mContext = MapsActivity.this;
 
+
         extractMapsData();
         setupToolbar();
 
@@ -335,7 +336,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     moveCamera(coordinates, 15f);
                     if(item.getPosition().equals(coordinates))
                     {
-                        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i,true);
+                        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i,true,1);
                         intent = intent.putExtra("index", 1);
                         startActivity(intent);
                     }

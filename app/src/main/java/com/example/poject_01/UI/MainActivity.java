@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("MainActivity", "User clicked restaurant at position: " + position);
-                intent = RestaurantDetailsActivity.makeIntent(MainActivity.this, position, false);
+                intent = RestaurantDetailsActivity.makeIntent(MainActivity.this, position, false,2);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -274,6 +275,16 @@ public class MainActivity extends AppCompatActivity {
                 ImageView hazardColour = restaurantView.findViewById(R.id.hazardColour);
                 hazardColour.setBackgroundColor(getColor(R.color.white));
             }
+
+            // setting favourites icon
+
+            if (currentRestaurant.getFavourite()){
+                Log.d("Adapter", currentRestaurant.toString());
+                restaurantView.setBackgroundColor(getColor(R.color.aqua));
+            }
+            else{
+                restaurantView.setBackgroundColor(getColor(R.color.white));
+            }
             return restaurantView;
         }
 
@@ -387,6 +398,13 @@ public class MainActivity extends AppCompatActivity {
 
                                     }
 
+                                }
+                            }
+                        }
+                        else if ( Objects.equals(constraint, "FAVOURITE") || Objects.equals(constraint, "FAVOURITES") ){
+                            for (Restaurant r : originalRestaurants){
+                                if(r.getFavourite()){
+                                    restaurantsFilteredByName.add(r);
                                 }
                             }
                         }
@@ -522,6 +540,10 @@ public class MainActivity extends AppCompatActivity {
         return (restaurants);
     }
 
+    public void setFilteredList(List<Restaurant> r){
+        this.restaurants = r;
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
@@ -563,4 +585,10 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // update list with favourites
+        restaurantAdapter.notifyDataSetChanged();
+    }
 }
