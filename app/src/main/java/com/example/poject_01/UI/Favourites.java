@@ -91,7 +91,7 @@ public class Favourites extends AppCompatActivity {
             }
 
             Restaurant currentRestaurant = restaurants.get(position);
-            TextView textName = findViewById(R.id.fav_rest_name);
+            TextView textName = restaurantView.findViewById(R.id.fav_rest_name);
             textName.setText(currentRestaurant.getName());
             if(currentRestaurant.numInspections()>0)
             {
@@ -99,11 +99,11 @@ public class Favourites extends AppCompatActivity {
 
                 //date
                 String date = ""+latestInspection.getInspectionDate();
-                TextView textDate =findViewById(R.id.fav_inspection_date);
+                TextView textDate = restaurantView.findViewById(R.id.fav_inspection_date);
                 textDate.setText("" + refactorDate(date));
 
                 //
-                TextView hazardLevel = findViewById(R.id.fav_insp_hzrd);
+                TextView hazardLevel = restaurantView.findViewById(R.id.fav_insp_hzrd);
                 hazardLevel.setText(context.getString(R.string.hazard_lvl_restaurant)+ " "+latestInspection.getHazardRating());
                 if(latestInspection.getHazardRating().equals("Low"))
                 {
