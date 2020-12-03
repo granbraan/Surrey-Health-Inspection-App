@@ -187,7 +187,6 @@ public class Favourites extends AppCompatActivity {
                 Intent intent = MapsActivity.getIntent(Favourites.this);
                 if(item.getItemId() == R.id.fav_button) {
                     startActivity(intent);
-                    finish();
                     return  true;
                 }
                 else
