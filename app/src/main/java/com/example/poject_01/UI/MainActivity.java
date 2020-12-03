@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("MainActivity", "User clicked restaurant at position: " + position);
-                intent = RestaurantDetailsActivity.makeIntent(MainActivity.this, position, false);
+                intent = RestaurantDetailsActivity.makeIntent(MainActivity.this, position, false,2);
                 MainActivity.this.startActivity(intent);
             }
         });
