@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.DAYS;
-
+//when update happens, this activity is called to list the favourite restaurants
 public class Favourites extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -185,7 +185,7 @@ public class Favourites extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = MapsActivity.getIntent(Favourites.this);
-                if(item.getItemId() == R.id.switch_list) {
+                if(item.getItemId() == R.id.fav_button) {
                     startActivity(intent);
                     return  true;
                 }

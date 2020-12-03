@@ -22,6 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Poject_01">
         <activity android:name=".UI.Favourites"
+            android:label="@string/favourites"
             android:theme="@style/Theme.Poject_01.NoActionBar">
             ></activity>
         <activity
