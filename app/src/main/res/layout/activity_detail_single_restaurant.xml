@@ -134,7 +134,7 @@
         android:translationY="370sp" />
 
     <CheckBox
-        android:id="@+id/star"
+        android:id="@+id/starDetails"
         style="?android:attr/starStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

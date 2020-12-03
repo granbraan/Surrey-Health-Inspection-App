@@ -1,6 +1,5 @@
 package com.example.poject_01.UI;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.poject_01.R;
 import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.Restaurant;
-import com.example.poject_01.model.RestaurantList;
 
 import java.util.List;
 
@@ -44,7 +42,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setupBackButton();
         setupRecycleView();
         displayNameAndLocation();
-        checkbox = findViewById(R.id.star);
+        checkbox = findViewById(R.id.starDetails);
         onCheckBoxClicked();
     }
 

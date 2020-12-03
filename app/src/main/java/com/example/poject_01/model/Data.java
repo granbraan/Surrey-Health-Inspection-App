@@ -51,7 +51,7 @@ public class Data {
 
 
     private void setRestaurantData(String[] tokens) {
-        favouritePrefs =context.getSharedPreferences("favourite",context.MODE_PRIVATE);
+        favouritePrefs = context.getSharedPreferences("favourite",context.MODE_PRIVATE);
         favouriteEditor = favouritePrefs.edit();
         String favouriteLump1 = favouritePrefs.getString("tracking_num", "");
 
@@ -60,7 +60,11 @@ public class Data {
         Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]), false);
         restaurantList.addRestaurant(r);
         if( favouriteLump1.contains(r.getTrackingNum())){
+            Log.d("data", "favourites: " + favouriteLump1 + " - tracking num: " + r.getTrackingNum());
             r.setFavourite(true);
+        }
+        else{
+            r.setFavourite(false);
         }
         Log.d("MainActivity - Initial  Restaurant Data - Added", r + " to restaurantList"  +"\n");
     }
