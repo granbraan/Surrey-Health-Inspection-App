@@ -39,7 +39,7 @@
         android:layout_height="51dp"
         android:layout_marginTop="60dp"
         android:ems="10"
-        android:hint="Search: name, hazard level, "
+        android:hint="@string/search_name_hazard_level"
         android:inputType="textPersonName"
         app:backgroundTint="#FF6200EE"
         app:layout_constraintStart_toStartOf="@+id/restaurantListView"
