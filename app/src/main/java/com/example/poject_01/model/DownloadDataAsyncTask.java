@@ -171,7 +171,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             String fileName = mContext.getFilesDir() + "/"+ "restaurantData" + "/" + "inspections.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader inspectionReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data inspectionDataUpdate = new Data( inspectionReader);
+            Data inspectionDataUpdate = new Data( inspectionReader, mContext);
             inspectionDataUpdate.readUpdatedInspectionData();
 
         } catch (FileNotFoundException e) {
@@ -184,7 +184,7 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             String fileName = mContext.getFilesDir() + "/"+ "restaurantData" + "/" + "restaurants.csv";
             InputStream fis = new FileInputStream(new File(fileName));
             BufferedReader restaurantReader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            Data restaurantDataUpdate = new Data(restaurantReader);
+            Data restaurantDataUpdate = new Data(restaurantReader, mContext);
             restaurantDataUpdate.readUpdatedRestaurantData();
 
         } catch (FileNotFoundException e) {

@@ -51,32 +51,29 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private void onCheckBoxClicked() {
         favouritePrefs = this.getSharedPreferences("favourite", MODE_PRIVATE);
         favouriteEditor = favouritePrefs.edit();
-        String favouriteLump1 = favouritePrefs.getString("name", "");
-        favouriteLump1.contains(restaurant.getName());
+        String favouriteLump1 = favouritePrefs.getString("tracking_num", "");
 
 
+        if (favouriteLump1.contains(restaurant.getTrackingNum())){
+            checkbox.setChecked(true);
+        }
 
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String favouriteLump = favouritePrefs.getString("name", "");
+                String favouriteLump = favouritePrefs.getString("tracking_num", "");
 
                 if(((CheckBox) v).isChecked()) {
                     restaurant.setFavourite(true);
-                    favouriteLump += restaurant.getName();
-                    if(restaurant.getFavourite()){
-                        Log.i("RESTOOO","TRUEE");
-                    }
-                    else {
-                        Log.i("RESTOOO","fALSEEEE");
-                    }
+                    favouriteLump += restaurant.getTrackingNum();
+
                 }
                 else {
                     restaurant.setFavourite(false);
-                    favouriteLump = favouriteLump.replace(restaurant.getName(), "");
+                    favouriteLump = favouriteLump.replace(restaurant.getTrackingNum(), "");
                 }
 
-                favouriteEditor.putString("name", favouriteLump).commit();
+                favouriteEditor.putString("tracking_num", favouriteLump).commit();
                 Log.i("Restaurant Detail", favouriteLump);
             }
         });
@@ -214,15 +211,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         return intent;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!restaurant.getFavourite()) {
-            checkbox.setChecked(false);
-        }
-        else {
-            checkbox.setChecked(true);
-        }
-    }
+
 }
 
