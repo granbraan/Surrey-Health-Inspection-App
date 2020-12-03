@@ -1,6 +1,11 @@
 package com.example.poject_01.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
+
+import com.example.poject_01.UI.MainActivity;
+import com.example.poject_01.UI.RestaurantDetailsActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,10 +22,14 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Data {
     private BufferedReader reader;
     private RestaurantList restaurantList = RestaurantList.getInstance();
+    private SharedPreferences favouritePrefs;
+    private SharedPreferences.Editor favouriteEditor;
+    private Context context;
 
 
-    public Data( BufferedReader reader) {
+    public Data( BufferedReader reader, Context c) {
         this.reader = reader;
+        this.context = c;
     }
 
     public void readRestaurantData(){
@@ -42,12 +51,23 @@ public class Data {
 
 
     private void setRestaurantData(String[] tokens) {
-        String str = tokens[1].replace("\"", "");
+        favouritePrefs = context.getSharedPreferences("favourite",context.MODE_PRIVATE);
+        favouriteEditor = favouritePrefs.edit();
+        String favouriteLump1 = favouritePrefs.getString("tracking_num", "");
 
+        String str = tokens[1].replace("\"", "");
 
         Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]), false);
         restaurantList.addRestaurant(r);
 
+        // check if restaurant is a favourite
+        if( favouriteLump1.contains(r.getTrackingNum())){
+            Log.d("data", "favourites: " + favouriteLump1 + " - tracking num: " + r.getTrackingNum());
+            r.setFavourite(true);
+        }
+        else{
+            r.setFavourite(false);
+        }
         Log.d("MainActivity - Initial  Restaurant Data - Added", r + " to restaurantList"  +"\n");
     }
 
