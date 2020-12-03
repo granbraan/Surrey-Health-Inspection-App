@@ -3,6 +3,7 @@ package com.example.poject_01.UI;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,6 +34,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private Restaurant restaurant;
     private  boolean flag;
     private CheckBox checkbox;
+    private SharedPreferences favouritePrefs;
+    private SharedPreferences.Editor favouriteEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +49,21 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     }
 
     private void onCheckBoxClicked() {
-        checkbox = findViewById(R.id.star);
+        favouritePrefs = this.getSharedPreferences("favourite", MODE_PRIVATE);
+        favouriteEditor = favouritePrefs.edit();
+        String favouriteLump1 = favouritePrefs.getString("name", "");
+        favouriteLump1.contains(restaurant.getName());
+
+
+
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String favouriteLump = favouritePrefs.getString("name", "");
+
                 if(((CheckBox) v).isChecked()) {
                     restaurant.setFavourite(true);
+                    favouriteLump += restaurant.getName();
                     if(restaurant.getFavourite()){
                         Log.i("RESTOOO","TRUEE");
                     }
@@ -61,7 +73,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                 }
                 else {
                     restaurant.setFavourite(false);
+                    favouriteLump = favouriteLump.replace(restaurant.getName(), "");
                 }
+
+                favouriteEditor.putString("name", favouriteLump).commit();
+                Log.i("Restaurant Detail", favouriteLump);
             }
         });
     }
@@ -73,6 +89,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         //Log.d("Details", "List =" + testList.toString());
         index = intent.getIntExtra("index=",0);
         restaurant = testList.get(index);
+
+        // if extra comes from Maps - index restaurantList
+
+        //else if extra comes from MainList - index testList
+
         flag = intent.getBooleanExtra("flag",false);
 
     }

@@ -329,6 +329,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if(item.getPosition().equals(coordinates))
                     {
                         Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i,true);
+
                         startActivity(intent);
                     }
                 }

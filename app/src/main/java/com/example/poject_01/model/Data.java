@@ -1,6 +1,10 @@
 package com.example.poject_01.model;
 
+import android.content.SharedPreferences;
 import android.util.Log;
+
+import com.example.poject_01.UI.MainActivity;
+import com.example.poject_01.UI.RestaurantDetailsActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +21,8 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Data {
     private BufferedReader reader;
     private RestaurantList restaurantList = RestaurantList.getInstance();
+    private SharedPreferences favouritePrefs;
+    private SharedPreferences.Editor favouriteEditor;
 
 
     public Data( BufferedReader reader) {
@@ -42,8 +48,11 @@ public class Data {
 
 
     private void setRestaurantData(String[] tokens) {
+        //favouritePrefs = MainActivity.getInstance().getSharedPreferences("favourite", MODE_PRIVATE);
+        favouriteEditor = favouritePrefs.edit();
+        String favouriteLump1 = favouritePrefs.getString("name", "");
+        //favouriteLump1.contains(restaurant.getName());
         String str = tokens[1].replace("\"", "");
-
 
         Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]), false);
         restaurantList.addRestaurant(r);
