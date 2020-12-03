@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.poject_01.R;
 import com.example.poject_01.model.InspectionListAdapter;
 import com.example.poject_01.model.Restaurant;
+import com.example.poject_01.model.RestaurantList;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_single_restaurant);
         extractDataFromIntent();
         setupBackButton();
-        setupRecycleView();
+
         displayNameAndLocation();
         checkbox = findViewById(R.id.starDetails);
         onCheckBoxClicked();
@@ -81,17 +82,21 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
     private void extractDataFromIntent() {
         Intent intent = getIntent();
-        List<Restaurant> testList = MainActivity.getInstance().getFilteredList();
+
         //Log.d("Details", "List =" + testList.toString());
         fromActivity = intent.getIntExtra("from",1);
         index = intent.getIntExtra("index=",0);
         if(fromActivity == 1) {
             restaurant = restaurantList.getRestaurantIndex(index);
+            setupRecycleView(restaurantList.getList());
         }
         else{
+            List<Restaurant> testList = MainActivity.getInstance().getFilteredList();
             restaurant = testList.get(index);
+            setupRecycleView(testList);
         }
         flag = intent.getBooleanExtra("flag",false);
+
 
     }
 
@@ -100,9 +105,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setupRecycleView() {
+    private void setupRecycleView(List<Restaurant> rList) {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurant.getInspections(), index);
+        InspectionListAdapter myAdapter = new InspectionListAdapter(this, restaurant.getInspections(), index, rList);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemDecoration divider = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);

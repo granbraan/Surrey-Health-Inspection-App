@@ -93,6 +93,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         check = false;
         mContext = MapsActivity.this;
 
+
         extractMapsData();
         setupToolbar();
 

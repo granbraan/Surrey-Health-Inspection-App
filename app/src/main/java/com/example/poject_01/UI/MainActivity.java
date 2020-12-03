@@ -532,6 +532,10 @@ public class MainActivity extends AppCompatActivity {
         return (restaurants);
     }
 
+    public void setFilteredList(List<Restaurant> r){
+        this.restaurants = r;
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
