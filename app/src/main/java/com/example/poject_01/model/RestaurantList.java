@@ -36,7 +36,7 @@ import java.util.List;
         Collections.sort(restaurants);
     }
 
-    public void clear(){
+   public void clear(){
         restaurants.clear();
         restaurantListSize = 0;
     }

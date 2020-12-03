@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.poject_01.R;
+import com.example.poject_01.UI.Favourites;
 import com.example.poject_01.UI.MainActivity;
 import com.example.poject_01.UI.MapsActivity;
 import com.example.poject_01.UI.WelcomeActivity;
@@ -145,8 +146,17 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
             editor.putInt("url_count", 0);
             editor.commit();
             Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
-            mContext.startActivity(intent);
-            ((Activity)mContext).finish();
+            SharedPreferences prefs = mContext.getSharedPreferences("new_favourite", Context.MODE_PRIVATE);
+            String mFavourites = prefs.getString("new", "");
+            if (mFavourites.isEmpty()){
+                mContext.startActivity(intent);
+                ((Activity)mContext).finish();
+            }
+            else{
+                Intent favIntent = Favourites.makeIntent(WelcomeActivity.getContext());
+                mContext.startActivity(favIntent);
+                ((Activity)mContext).finish();
+            }
 
         }
         else if ( count == 2) {
@@ -158,8 +168,19 @@ public class DownloadDataAsyncTask extends AsyncTask<String, Integer, String> {
                 editor.putInt("url_count", 0);
                 editor.commit();
                 Intent intent = MapsActivity.getIntent(WelcomeActivity.getContext());
-                mContext.startActivity(intent);
-                ((Activity)mContext).finish();
+
+                SharedPreferences prefs = mContext.getSharedPreferences("new_favourite", Context.MODE_PRIVATE);
+                String mFavourites = prefs.getString("new", "");
+                if (mFavourites.isEmpty()){
+                    mContext.startActivity(intent);
+                    ((Activity)mContext).finish();
+                }
+                else{
+                    Intent favIntent = Favourites.makeIntent(WelcomeActivity.getContext());
+                    mContext.startActivity(favIntent);
+                    ((Activity)mContext).finish();
+                }
+
 
             }
         }
