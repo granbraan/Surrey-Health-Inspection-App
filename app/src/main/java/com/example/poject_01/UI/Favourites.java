@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -34,22 +36,42 @@ public class Favourites extends AppCompatActivity {
 
     private Toolbar toolbar;
     public ArrayAdapter<Restaurant> favouritesAdapter;
-    private List<Restaurant> restaurants;
+    private RestaurantList restaurantList = RestaurantList.getInstance();
     private RestaurantList favouriteList;
+    private List <Restaurant> restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
         setUpToolBar();
+        getPrefs();
         populateListView();
     }
 
+    private void getPrefs() {
+        favouriteList = new RestaurantList();
+        SharedPreferences prefs = this.getSharedPreferences("new_favourite", MODE_PRIVATE);
+        SharedPreferences.Editor prefEdit = prefs.edit();
+        String favLump = prefs.getString("new", "");
+        for (Restaurant r : restaurantList){
+            if (favLump.contains(r.getTrackingNum())){
+                favouriteList.addRestaurant(r);
+            }
+        }
+
+        prefEdit.putString("new", "").commit();
+    }
+
     private void populateListView() {
-        favouritesAdapter = new FavouriteListAdapter(Favourites.this, (List<Restaurant>) favouriteList);
+        favouritesAdapter = new FavouriteListAdapter(Favourites.this, favouriteList.getList());
         ListView list = findViewById(R.id.fav_list);
         list.setAdapter(favouritesAdapter);
     }
+
+
+
+
     private class FavouriteListAdapter extends ArrayAdapter<Restaurant>{
         private Context context;
 

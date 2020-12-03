@@ -23,7 +23,7 @@ public class Data {
     private BufferedReader reader;
     private RestaurantList restaurantList = RestaurantList.getInstance();
     private SharedPreferences favouritePrefs;
-    private SharedPreferences.Editor favouriteEditor;
+
     private Context context;
 
 
@@ -52,7 +52,6 @@ public class Data {
 
     private void setRestaurantData(String[] tokens) {
         favouritePrefs = context.getSharedPreferences("favourite",context.MODE_PRIVATE);
-        favouriteEditor = favouritePrefs.edit();
         String favouriteLump1 = favouritePrefs.getString("tracking_num", "");
 
         String str = tokens[1].replace("\"", "");
@@ -141,7 +140,7 @@ public class Data {
     private void setUpdatedRestaurantData(String[] tokens) {
         boolean rFlag = false;
         favouritePrefs = context.getSharedPreferences("favourite",context.MODE_PRIVATE);
-        favouriteEditor = favouritePrefs.edit();
+
         String favouriteLump1 = favouritePrefs.getString("tracking_num", "");
 
         String str = tokens[1].replace("\"", "");
@@ -249,6 +248,9 @@ public class Data {
                         }
                     }
                     if (!iFlag){
+
+                        SharedPreferences updateFavs = context.getSharedPreferences("new_favourite", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor updateEditor = updateFavs.edit();
                         r.addInspection(i);
                         String d = "" + tokens[1];
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -258,6 +260,12 @@ public class Data {
 
                         if(difference <= 365){
                             r.addCriticalHazardYear(Integer.parseInt(tokens[3]));
+                        }
+
+                        if (r.getFavourite()){
+                            String favTrackingNum = updateFavs.getString("new" , "");
+                            favTrackingNum += r.getTrackingNum();
+                            updateEditor.putString("new", favTrackingNum).commit();
                         }
                     }
                 }
