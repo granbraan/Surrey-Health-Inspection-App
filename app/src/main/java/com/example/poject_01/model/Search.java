@@ -29,10 +29,13 @@ public class Search {
         //restaurant check
         String[] words = search.split(",");
         for(String s: words) {
-            input = s;
+            input = s.toLowerCase();
             check = false;
             if(hazardCheck() || isFavourite() || numViolations()) {
                 continue;
+            }
+            if(check) {
+                return false;
             }
 
             if(!restaurant.getName().toLowerCase().contains(s)) {
@@ -62,12 +65,12 @@ public class Search {
         if(input.contains(">=")) {
             String num = input.substring(input.indexOf(">=") + 2, input.length()); // get number
             violations = Integer.parseInt(num);
-            return restaurant.getLatestInspection().getNumCritical() >= violations;
+            return restaurant.getCriticalHazardYear() >= violations;
         }
         else if(input.contains("<=")) {
             String num = input.substring(input.indexOf("<=") + 2, input.length()); // get number
             violations = Integer.parseInt(num);
-            return restaurant.getLatestInspection().getNumCritical() <= violations;
+            return restaurant.getCriticalHazardYear() <= violations;
         }
         return false;
     }
