@@ -43,6 +43,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         displayNameAndLocation();
         checkbox = findViewById(R.id.star);
         onCheckBoxClicked();
+        if(restaurant.getFavourite()) {
+            checkbox.setChecked(true);
+        }
     }
 
     private void onCheckBoxClicked() {

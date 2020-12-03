@@ -9,9 +9,18 @@ public class Search {
     private String input;
     private Restaurant restaurant;
     private boolean check;
+    private String listSearch;
 
     private Search() {
 
+    }
+
+    public String getListSearch() {
+        return listSearch;
+    }
+
+    public void setListSearch(String listSearch) {
+        this.listSearch = listSearch;
     }
 
     public static Search getInstance() {
@@ -34,6 +43,7 @@ public class Search {
             if(hazardCheck() || isFavourite() || numViolations()) {
                 continue;
             }
+            //if filters above are not valid no need to check rest of the array
             if(check) {
                 return false;
             }
@@ -57,17 +67,15 @@ public class Search {
         if(!hasInspections()) {
             return false;
         }
-
         int violations;
-        if(input.contains(">=") || input.contains("<=")) {
-            check = true;
-        }
         if(input.contains(">=")) {
+            check = true;
             String num = input.substring(input.indexOf(">=") + 2, input.length()); // get number
             violations = Integer.parseInt(num);
             return restaurant.getCriticalHazardYear() >= violations;
         }
         else if(input.contains("<=")) {
+            check = true;
             String num = input.substring(input.indexOf("<=") + 2, input.length()); // get number
             violations = Integer.parseInt(num);
             return restaurant.getCriticalHazardYear() <= violations;

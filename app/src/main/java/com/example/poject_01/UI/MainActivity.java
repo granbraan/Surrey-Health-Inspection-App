@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ import com.example.poject_01.R;
 import com.example.poject_01.model.Inspection;
 import com.example.poject_01.model.Restaurant;
 import com.example.poject_01.model.RestaurantList;
+import com.example.poject_01.model.Search;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayAdapter<Restaurant> restaurantAdapter;
     private FragmentManager filterFrag ;
     private static MainActivity instance;
+    private Search search = Search.getInstance();
 
 
 
@@ -65,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         populateListView();
         registerClick();
+        getDataFromSearchMaps();
+        storeSearchBarText();
 
     }
 
@@ -91,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 restaurantAdapter.getFilter().filter(s.toString());
+                search.setListSearch(s.toString());
             }
         };
     }
@@ -539,8 +546,21 @@ public class MainActivity extends AppCompatActivity {
         return instance;
     }
 
+    private void getDataFromSearchMaps() {
+        Search search = Search.getInstance();
+        EditText editText = findViewById(R.id.searchMainList);
+        SharedPreferences sharedPreferences = getSharedPreferences("searchData",MODE_PRIVATE);
+        String value = sharedPreferences.getString("value",search.getSearch());
+        editText.setText(value);
+    }
 
+    private void storeSearchBarText() {
+        EditText editText = findViewById(R.id.searchMainList);
 
-
+        SharedPreferences prefs = getSharedPreferences("searchBarText",MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("value", search.getListSearch());
+        editor.apply();
+    }
 
 }
