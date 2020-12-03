@@ -3,6 +3,7 @@ package com.example.poject_01.UI;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -92,6 +93,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         currentLocation = LocationServices.getFusedLocationProviderClient(this);
         createLocationRequest();
         searchView = findViewById(R.id.searchText);
+        storeSearchBarText();
+        getDataFromSearchList();
     }
 
     @Override
@@ -123,6 +126,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = MainActivity.getLaunchIntent(MapsActivity.this);
                 if(item.getItemId() == R.id.switch_list) {
+                    storeSearchBarText();
                     startActivity(intent);
                     return  true;
                 }
@@ -167,8 +171,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void setupSearch() {
         searchView.setSubmitButtonEnabled(false);
-
-
+        if(search.getListSearch() != null) {
+            searchView.clearFocus();
+            search.setSearch(search.getListSearch());
+            setUpCluster();
+        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -309,6 +316,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if(item.getPosition().equals(coordinates))
                     {
                         Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i,true,1);
+                        intent = intent.putExtra("index", 1);
                         startActivity(intent);
                     }
                 }
@@ -393,5 +401,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    private void storeSearchBarText() {
+        String text = search.getSearch();
+        SharedPreferences prefs = getSharedPreferences("searchBarText",MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("value", text);
+        editor.apply();
+    }
 
+    private void getDataFromSearchList() {
+        SharedPreferences sharedPreferences = getSharedPreferences("searchData",MODE_PRIVATE);
+        String value = sharedPreferences.getString("value","");
+        EditText editText = findViewById(R.id.searchMainList);
+        searchView.setQuery(search.getListSearch(),true);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataFromSearchList();
+    }
 }
