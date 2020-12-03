@@ -119,7 +119,7 @@ public class Data {
 
 
     public void readUpdatedRestaurantData(){
-        restaurantList.clear();
+        //restaurantList.clear();
         // setting up reader
 
         String line;
@@ -128,7 +128,7 @@ public class Data {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-                setRestaurantData(tokens);
+                setUpdatedRestaurantData(tokens);
             }
             reader.close();
         }
@@ -136,6 +136,44 @@ public class Data {
             Log.wtf("MainActivity - Updated Inspection  Data", "error reading file on line: " + e);
             e.printStackTrace();
         }
+    }
+
+    private void setUpdatedRestaurantData(String[] tokens) {
+        boolean rFlag = false;
+        favouritePrefs = context.getSharedPreferences("favourite",context.MODE_PRIVATE);
+        favouriteEditor = favouritePrefs.edit();
+        String favouriteLump1 = favouritePrefs.getString("tracking_num", "");
+
+        String str = tokens[1].replace("\"", "");
+        if (restaurantList.getList().isEmpty()){
+            rFlag = false;
+        }
+        else{
+            for (Restaurant r : restaurantList){
+                if (Objects.equals(tokens[0], r.getTrackingNum())){
+                    rFlag = true;
+                    break;
+                }
+
+            }
+
+        }
+
+        if (!rFlag){
+            Restaurant r = new Restaurant(tokens[0],str,tokens[2],tokens[3],tokens[4],Double.parseDouble(tokens[5]),Double.parseDouble(tokens[6]), false);
+            restaurantList.addRestaurant(r);
+
+            // check if restaurant is a favourite
+            if( favouriteLump1.contains(r.getTrackingNum())){
+                Log.d("data", "favourites: " + favouriteLump1 + " - tracking num: " + r.getTrackingNum());
+                r.setFavourite(true);
+            }
+            else{
+                r.setFavourite(false);
+            }
+            Log.d("MainActivity - Initial  Restaurant Data - Added", r + " to restaurantList"  +"\n");
+        }
+
     }
 
 
@@ -188,21 +226,42 @@ public class Data {
         // store inspection into restaurant with matching tracking number
         Inspection i = new Inspection(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), hazard, violations);
         for (Restaurant r : restaurantList) {
-            if (Objects.equals(r.getName(), "Hillside Lodge Food Service")){
-                Log.d("MainActivity - Updated Inspection  Data - Added",  i + " to " + r.getName() +"\n");
-                //Log.d("MainActivity - Updated Inspection  Data",  +"\n");
-            }
-            if (Objects.equals(r.getTrackingNum(), trackNum)) {
-                r.addInspection(i);
-                String d = "" + tokens[1];
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-                LocalDate currentDate = LocalDate.now();
-                LocalDate inspectionDate = LocalDate.parse(d, formatter);
-                long difference = DAYS.between(inspectionDate, currentDate);
 
-                if(difference <= 365){
-                    r.addCriticalHazardYear(Integer.parseInt(tokens[3]));
+            if (Objects.equals(r.getTrackingNum(), trackNum)) {
+                if (r.getInspections().getNumInspections() == 0){
+                    r.addInspection(i);
+                    String d = "" + tokens[1];
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                    LocalDate currentDate = LocalDate.now();
+                    LocalDate inspectionDate = LocalDate.parse(d, formatter);
+                    long difference = DAYS.between(inspectionDate, currentDate);
+
+                    if(difference <= 365){
+                        r.addCriticalHazardYear(Integer.parseInt(tokens[3]));
+                    }
                 }
+                else {
+                    boolean iFlag = false;
+                    for(int j =0; j<r.getInspections().getNumInspections(); j++){
+                        if (r.getInspections().getInspectionIndex(j).equals(i)){
+                            iFlag = true;
+                            break;
+                        }
+                    }
+                    if (!iFlag){
+                        r.addInspection(i);
+                        String d = "" + tokens[1];
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                        LocalDate currentDate = LocalDate.now();
+                        LocalDate inspectionDate = LocalDate.parse(d, formatter);
+                        long difference = DAYS.between(inspectionDate, currentDate);
+
+                        if(difference <= 365){
+                            r.addCriticalHazardYear(Integer.parseInt(tokens[3]));
+                        }
+                    }
+                }
+
 
             }
 

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class holds all data relating to one inspection.
@@ -60,6 +61,26 @@ public class Inspection implements Comparable<Inspection> {
 
     public int getNumNonCritical() {
         return numNonCritical;
+    }
+
+    public boolean equals(Inspection testInspection){
+        int check = 0;
+        if (testInspection.getInspectionDate() == this.inspectionDate){
+            check+=1;
+        }
+        if (testInspection.getNumViolations() == this.getNumViolations()){
+            check+=1;
+        }
+        if (Objects.equals(testInspection.getHazardRating(), this.hazardRating)){
+            check+=1;
+        }
+
+        if (check == 3){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 
