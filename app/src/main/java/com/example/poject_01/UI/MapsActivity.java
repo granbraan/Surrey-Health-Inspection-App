@@ -328,8 +328,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     moveCamera(coordinates, 15f);
                     if(item.getPosition().equals(coordinates))
                     {
-                        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i,true);
-
+                        Intent intent = RestaurantDetailsActivity.makeIntent(MapsActivity.this, i,true,1);
                         startActivity(intent);
                     }
                 }

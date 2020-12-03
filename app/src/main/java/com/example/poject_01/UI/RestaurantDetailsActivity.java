@@ -34,6 +34,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private CheckBox checkbox;
     private SharedPreferences favouritePrefs;
     private SharedPreferences.Editor favouriteEditor;
+    private final RestaurantList restaurantList = RestaurantList.getInstance();
+    int fromActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,17 +80,17 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     }
 
     private void extractDataFromIntent() {
-        //restaurantList = MainActivity.getInstance().getFilteredList();
         Intent intent = getIntent();
         List<Restaurant> testList = MainActivity.getInstance().getFilteredList();
         //Log.d("Details", "List =" + testList.toString());
+        fromActivity = intent.getIntExtra("from",1);
         index = intent.getIntExtra("index=",0);
-        restaurant = testList.get(index);
-
-        // if extra comes from Maps - index restaurantList
-
-        //else if extra comes from MainList - index testList
-
+        if(fromActivity == 1) {
+            restaurant = restaurantList.getRestaurantIndex(index);
+        }
+        else{
+            restaurant = testList.get(index);
+        }
         flag = intent.getBooleanExtra("flag",false);
 
     }
@@ -200,11 +202,12 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public  static Intent makeIntent(Context context, int ind,boolean flag)
+    public  static Intent makeIntent(Context context, int ind,boolean flag,int from)
     {
         Intent intent =  new Intent(context, RestaurantDetailsActivity.class);
         intent.putExtra("index=",ind);
         intent.putExtra("flag",flag);
+        intent.putExtra("from",from);
 
         return intent;
     }

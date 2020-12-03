@@ -103,6 +103,22 @@
     <string name="critical_violation_list">Critique</string>
     <string name="non_critical_violation_list">Non Critique</string>
 
+    <string name="filter">filtrer</string>
+    <string name="filterLesser"><![CDATA[<=]]></string>
+    <string name="filterGreater"><![CDATA[>=]]></string>
+    <string name="map_search_text"><![CDATA[Entrez le restaurant, l\'évaluation des risques,> = N violations, favori]]></string>
+    <string name="search_name_hazard_level">Recherche: nom, niveau de danger,</string>
+    <string name = "save_filter">Enregistrer</string>
+    <string name = "cancel_filter">Annuler</string>
+    <string name = "reset_filter">Réinitialiser</string>
+    <string name = "hazard_level">Niveau de danger:</string>
+    <string name = "favourites">Favoris</string>
+    <string name = "or">ou</string>
+    <string name = "critical_violations">violations critiques</string>
+    <string name="name">nom</string>
+    <string name="empty_string" />
+    <string name="less_drop_down">Moins</string>
+    <string name="more_drop_down">encore de</string>
 
 
 </resources>
